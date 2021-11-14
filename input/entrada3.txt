@@ -1,0 +1,13 @@
+inteiro a = leia("Coloque um inteiro:");
+se(a<=9){
+    escreva("Isso é uma unidade");
+} 
+senao se(<100){
+    escreva("Isso é uma dezena")
+} 
+senao se(a<=){
+    escreva("Isso é uma centena")
+} 
+senao{
+    escreva("Isso é acima de centena);
+}

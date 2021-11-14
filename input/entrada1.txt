@@ -1,0 +1,65 @@
+constantes{
+    inteiro a[2][2][2] = {2,2},{2},{3,2,1};
+    real madrid = "falso";                          % Tipos diferentes
+    booleano t = a(a,a>4,a&&e,true,2+2);            % Funcao inexistente
+}
+variaveis{
+    inteiro a,b,c;                                  % Variavel "a" já declarada
+    real sociedad = - 1.1;
+    real valladolid = 11.1;
+    cadeia a = False;                               % Variavel "a" já declarada
+}
+
+funcao vazio soma (inteiro e){
+	c = e + f;                                      % Variavel "f" não declarada
+	escreva(c);
+}
+
+funcao inteiro soma (inteiro e){
+	c = e + f;                                      % Variavel "f" não declarada
+	escreva(c);
+    se(a>b){                                        % "a" e "b" dão de tamanhos diferentes
+        retorno a;
+    }
+    retorno c;
+    leia(c);                                        % Warning/Aviso conteúdo nunca atingido
+}
+
+algoritmo{
+    escreva(a);
+    leia(a.a[2]);                                   % Variavel inexistente
+    constantes{
+        inteiro g[2][2][2] = {2,2},{2},{3,2,1};
+        cadeia k = "falso";
+        booleano h = soma(c);    
+    }
+    variaveis{
+        inteiro u,by,c_;
+        inteiro cj = 1;
+        real NArockstar = 11.1;
+        cadeia p = "teste";
+    }
+    
+    % OPA eae véi blz?
+    {# jajajaja #}
+    a = 's';                                        % Conversao impropria
+    a(a,v,g);                                       % Funcao inexistente
+    se(a==a){                                       % Pode?
+        escreva(a);
+    }
+    se(b==b){
+        escreva(b);
+    } senao {
+        escreva(a);
+    }
+    enquanto(2>(2>(2>2))){                          % Passa ou fala que dá sempre falso?
+        escreva(c);
+    }
+    para(i=2+2; a==b; i++){                         % há algo de errado aqui?
+        escreva(d);
+    }
+    registro a {                                    % Variavel já existe
+        inteiro a;
+        real mallorca = 1.1;
+    }
+}

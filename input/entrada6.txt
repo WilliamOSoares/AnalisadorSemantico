@@ -1,0 +1,23 @@
+registro a{
+    inteiro a[x][y][z] = {2,2},{2},{3,2,1};
+    real madrid = "falso";
+    booleano b = a(a,a>4,a&&e,true,2+2);
+}
+
+registro a{
+    inteiro a[2][2][2] = {2,2},{2},{3,2,1};
+    real madrid = "falso";
+    booleano b = a(a,a>4,a&&e,true,2+2);
+}
+
+algoritmo{
+    r = a.a[y][2][2];
+    t = a.a[x][2][c];
+    c = a.a[3+3][c][2];
+    g = a.madrid = a.a;
+    registro a{
+        inteiro a[8][2][10000] = {2,2},{2},{3,2,1};
+        real madrid = "falso";
+        booleano b = a(a,a>4,a&&e,true,2+2);
+    }
+}

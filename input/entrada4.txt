@@ -1,0 +1,93 @@
+funcao inteiro minha_funcao(inteiro a, inteiro b) {
+    retorno a+b;
+}
+
+algoritmo {
+    constantes {
+        inteiro idade = 100;
+        cadeia nome = "mariana";
+        char sexo = 'F';
+        inteiro pontos[2] = {1,2};
+        real pontos[2] = {1.3,2.2};
+        char pontos[2] = {'o','k'};
+        cadeia pontos[2] = {"ola","mundo"};
+        inteiro i,j,k;
+    }
+    variaveis {
+        inteiro i,j,k;
+        inteiro idade = 20;
+        cadeia nome = "mariana";
+        char sexo = 'F';
+        inteiro pontos[2] = {10, 20};
+        real pontos[2] = {1.3,2.2};
+        char pontos[2] = {'o','k'};
+        cadeia pontos[2] = {"ola","mundo"};
+        inteiro a = 2+2;
+        booleano ans = verdadeiro;
+        booleano z = a && b;
+        booleano x = a || b;
+        booleano y = 4 > 2;
+        booleano c = (4+3-1*2/4) == (4+3-1*2/4);
+    }
+
+    escreva("Hello world!");
+    leia(nome);
+    escreva("nome: ", nome);
+    leia(reg.nome);
+    escreva(reg.nome);
+    leia(vetor[0]);
+    leia(vetor[0][0]);
+    leia(vetor[0][0][0]);
+    escreva(vetor[0]);
+    escreva(vetor[0][0][0]);
+    leia(reg.filhos[0]);
+    escreva(reg.filhos[0]);
+
+    registro reg {
+        inteiro a = 10;
+        booleano ans = verdadeiro;
+    }
+
+    se (4+3-1*2/4 >= a) {
+        escreva("yes1");
+    } 
+    se (ans){
+        ans = false;
+    } senao {
+        se (a == 2) {
+            escreva("yes2");
+        }
+    }
+
+    se (a && b){
+        escreva("yes1");
+    } senao {
+        se (a == 2 || b == 2) {
+            escreva("yes2");
+        }
+    }
+
+    para(i=0; i<10; i++){
+        escreva("loop crescente");
+    }
+    para(i=10; i>=0; i--){
+        escreva("loop decrescente");
+    }
+    para(i=a;i;i=falso){
+        escreva("loop com booleano");
+    }
+
+    enquanto(verdadeiro){
+        escreva("loop infinito");
+    }
+    enquanto((4+3-1*2/4)){
+        escreva("loop infinito");
+    }
+    a = 2+2;
+    b = a+2;
+    c = a+b;
+    d = a + b + c; 
+
+    var = minha_funcao(a,b);
+    retorno 0;
+}
