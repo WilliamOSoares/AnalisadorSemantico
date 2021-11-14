@@ -1,0 +1,5 @@
+10 SemanticoError Variavel ja instanciada:a
+16 SemanticoError Variavel ja instanciada:a
+29 SyntaxError Declaracoes Fora de Escopo:  leia ( c ) ;
+30 SyntaxError Declaracoes Fora de Escopo:  }
+66 SemanticoError Variavel ja instanciada:a

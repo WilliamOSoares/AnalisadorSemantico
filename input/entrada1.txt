@@ -11,6 +11,10 @@ variaveis{
 }
 
 funcao vazio soma (inteiro e){
+    variaveis{
+        inteiro l,s,x;          
+        cadeia a = False;                               
+    }
 	c = e + f;                                      % Variavel "f" não declarada
 	escreva(c);
 }

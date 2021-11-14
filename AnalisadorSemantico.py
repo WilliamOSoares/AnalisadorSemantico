@@ -687,7 +687,8 @@ def mantemToken():
 ########################################### Analise Sintatica ###############################################
 
 def START():
-    global tuplas, buffer, linha
+    global tuplas, buffer, linha, escopo
+    escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -771,7 +772,8 @@ def START():
         return 0
 
 def A():
-    global tuplas, buffer, linha
+    global tuplas, buffer, linha, escopo
+    escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -843,7 +845,8 @@ def A():
         mantemToken()
         return 0
 def B():
-    global tuplas, buffer, linha
+    global tuplas, buffer, linha, escopo
+    escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -915,7 +918,8 @@ def B():
         mantemToken()
         return 0
 def C():
-    global tuplas, buffer, linha
+    global tuplas, buffer, linha, escopo
+    escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -2234,7 +2238,8 @@ def VARFINAL():
     if(tuplas[2]== "," and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
-        ########## VERIFICA SEMANTICA ###########        
+        ########## VERIFICA SEMANTICA ###########  
+        print(linha)      
         frase = "IDE"+str(len(tabela))
         aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
         if(len(tabela)==0):
@@ -2253,6 +2258,7 @@ def VARFINAL():
                 i=i+1
             if(indicador):
                 output(int(linha), "SemanticoError", "Variavel ja instanciada:"+ide)
+                mantemToken()
             else:
                 tabela.append(aux)
         #verificações
@@ -2261,6 +2267,7 @@ def VARFINAL():
         buffer = buffer + " " + tuplas[2]
         proxToken()
         ########## VERIFICA SEMANTICA ###########        
+        print(linha)
         frase = "IDE"+str(len(tabela))
         aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
         if(len(tabela)==0):
@@ -2279,6 +2286,7 @@ def VARFINAL():
                 i=i+1
             if(indicador):
                 output(int(linha), "SemanticoError", "Variavel ja instanciada:"+ide)
+                mantemToken()
             else:
                 tabela.append(aux)
         #verificações
