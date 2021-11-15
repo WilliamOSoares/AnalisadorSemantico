@@ -47,7 +47,7 @@ algoritmo{
     % OPA eae véi blz?
     {# jajajaja #}
     a = 's';                                        % Conversao impropria
-    a(a,v,g);                                       % Funcao inexistente
+    a(5g);                                       % Funcao inexistente
     se(a==a){                                       % Pode?
         escreva(a);
     }

@@ -12,6 +12,7 @@ skip = False #Usado para pular linha
 endRead = False #Acaba a leitura de arquivos
 pre = ["algoritmo","variaveis","constantes","registro","funcao","retorno","vazio","se","senao","enquanto","para","leia","escreva","inteiro","real","booleano","char","cadeia","verdadeiro","falso"]
 erros = []
+errosSeman = []
 siglaErro = ["SIB","SII","CMF","NMF","CaMF","CoMF","OpMF","SyntaxError", "SemanticoError"]
 dados = []
 tuplas = []
@@ -37,10 +38,9 @@ def input():
 
 # Escreve uma nova linha no arquivo de saída
 def output(linha, code, buffer):
-    global countArq, erros, siglaErro, dados, tuplas
+    global countArq, erros, siglaErro, dados, tuplas, errosSeman
     f = open("output/saida%d.txt" %countArq,"a")
     if(code == "ERRO"): 
-        #f.write("\n")
         if erros:
             for x in erros:
                 f.write(x)
@@ -63,11 +63,13 @@ def output(linha, code, buffer):
             if(x==code):
                 flagER = True
         if(flagER):
-            erros.append(linhaSaida)
-            tuplas = []
+            if("SemanticoError"==code):
+                errosSeman.append(linhaSaida)
+                tuplas = []
+            else:        
+                erros.append(linhaSaida)
+                tuplas = []
         else:
-            #f.write(linhaSaida)
-            #f.write("\n")
             dados.append(tuplas)
             tuplas = []
     f.close()
@@ -687,7 +689,7 @@ def mantemToken():
 ########################################### Analise Sintatica ###############################################
 
 def START():
-    global tuplas, buffer, linha, escopo
+    global tuplas, buffer, linha, escopo, tipo, ide
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -727,10 +729,12 @@ def START():
         A()
     elif(tuplas[2] == "registro"):
         buffer = buffer + " " + tuplas[2]
+        tipo = tuplas[2]
         linha = tuplas[0]
         proxToken()
         if(tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            ide = tuplas[2]
             proxToken()
             i = REGISTRO()
             if(i==1):
@@ -772,7 +776,7 @@ def START():
         return 0
 
 def A():
-    global tuplas, buffer, linha, escopo
+    global tuplas, buffer, linha, escopo, tipo, ide
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -802,9 +806,11 @@ def A():
     elif(tuplas[2] == "registro"):
         buffer = buffer + " " + tuplas[2]
         linha = tuplas[0]
+        tipo = tuplas[2]
         proxToken()
         if(tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            ide = tuplas[2]
             proxToken()
             i = REGISTRO()
             if(i==1):
@@ -845,7 +851,7 @@ def A():
         mantemToken()
         return 0
 def B():
-    global tuplas, buffer, linha, escopo
+    global tuplas, buffer, linha, escopo, tipo, ide
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -874,10 +880,12 @@ def B():
         C()
     elif(tuplas[2] == "registro"):
         buffer = buffer + " " + tuplas[2]
+        tipo = tuplas[2]
         linha = tuplas[0]
         proxToken()
         if(tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            ide = tuplas[2]
             proxToken()
             i = REGISTRO()
             if(i==1):
@@ -918,7 +926,7 @@ def B():
         mantemToken()
         return 0
 def C():
-    global tuplas, buffer, linha, escopo
+    global tuplas, buffer, linha, escopo, tipo, ide
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -937,9 +945,11 @@ def C():
     elif(tuplas[2] == "registro"):
         buffer = buffer + " " + tuplas[2]
         linha = tuplas[0]
+        tipo = tuplas[2]
         proxToken()
         if(tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            ide = tuplas[2]
             proxToken()
             i = REGISTRO()
             if(i==1):
@@ -1006,7 +1016,7 @@ def ALGORITMO():
     return 0
         
 def CONTEUDO():
-    global tuplas, iterador, dados, buffer, linha
+    global tuplas, iterador, dados, buffer, linha, tipo, ide
     if(tuplas[2] == "}"):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -1264,10 +1274,12 @@ def CONTEUDO():
             return CONTEUDO()        
     elif(tuplas[2] == "registro"): 
         buffer = buffer + " " + tuplas[2]
+        tipo = tuplas[2]
         linha = tuplas[0]
         proxToken()            
         if(tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            ide = tuplas[2]
             proxToken()
             i = REGISTRO()
             if(i == 1):
@@ -1768,9 +1780,33 @@ def PARAFIM():
 ############################################## Registro ######################################
 
 def REGISTRO():
-    global tuplas, buffer, iterador, linha
+    global tuplas, buffer, iterador, linha, ide, tipo, escopo, regra, tabela
     if(tuplas[2]=="{"):
         buffer = buffer + " " + tuplas[2]
+        ########## VERIFICA SEMANTICA ###########        
+        #print(linha)
+        frase = "IDE"+str(len(tabela))
+        aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
+        if(len(tabela)==0):
+            tabela.append(aux)
+        else:
+            indicador = False
+            i = 0
+            for chave in range(len(tabela)):
+                g = "IDE"+str(i)
+                #print(g)
+                #print(tabela[chave].get(g,"não foi"))
+                #print(aux.get(frase,"Não foi"))
+                if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
+                    indicador = True
+                    #print("são iguais") #dizer erro semantico                
+                i=i+1
+            if(indicador):
+                output(int(linha), "SemanticoError", "Variavel ja instanciada:"+ide)
+                mantemToken()
+            else:
+                tabela.append(aux)
+        #verificações
         proxToken()
         i = VAR()
         if(i == 1):    
@@ -2239,7 +2275,7 @@ def VARFINAL():
         buffer = buffer + " " + tuplas[2]
         proxToken()
         ########## VERIFICA SEMANTICA ###########  
-        print(linha)      
+        #print(linha)      
         frase = "IDE"+str(len(tabela))
         aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
         if(len(tabela)==0):
@@ -2249,12 +2285,12 @@ def VARFINAL():
             i = 0
             for chave in range(len(tabela)):
                 g = "IDE"+str(i)
-                print(g)
-                print(tabela[chave].get(g,"não foi"))
-                print(aux.get(frase,"Não foi"))
+                #print(g)
+                #print(tabela[chave].get(g,"não foi"))
+                #print(aux.get(frase,"Não foi"))
                 if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
                     indicador = True
-                    print("são iguais") #dizer erro semantico                
+                    #print("são iguais") #dizer erro semantico                
                 i=i+1
             if(indicador):
                 output(int(linha), "SemanticoError", "Variavel ja instanciada:"+ide)
@@ -2267,7 +2303,7 @@ def VARFINAL():
         buffer = buffer + " " + tuplas[2]
         proxToken()
         ########## VERIFICA SEMANTICA ###########        
-        print(linha)
+        #print(linha)
         frase = "IDE"+str(len(tabela))
         aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
         if(len(tabela)==0):
@@ -2277,12 +2313,12 @@ def VARFINAL():
             i = 0
             for chave in range(len(tabela)):
                 g = "IDE"+str(i)
-                print(g)
-                print(tabela[chave].get(g,"não foi"))
-                print(aux.get(frase,"Não foi"))
+                #print(g)
+                #print(tabela[chave].get(g,"não foi"))
+                #print(aux.get(frase,"Não foi"))
                 if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
                     indicador = True
-                    print("são iguais") #dizer erro semantico                
+                    #print("são iguais") #dizer erro semantico                
                 i=i+1
             if(indicador):
                 output(int(linha), "SemanticoError", "Variavel ja instanciada:"+ide)
@@ -2880,6 +2916,8 @@ else:
             buffer=""
             print(tabela)
             tabela.clear()
+            erros = errosSeman
+            output(0,"ERRO","")
         countArq+=1
         erros.clear()
         dados.clear()

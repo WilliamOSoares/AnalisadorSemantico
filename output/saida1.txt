@@ -1,5 +1,7 @@
-10 SemanticoError Variavel ja instanciada:a
-16 SemanticoError Variavel ja instanciada:a
+50 NMF 5g
 29 SyntaxError Declaracoes Fora de Escopo:  leia ( c ) ;
 30 SyntaxError Declaracoes Fora de Escopo:  }
+10 SemanticoError Variavel ja instanciada:a
+16 SemanticoError Variavel ja instanciada:a
+65 SemanticoError Variavel ja instanciada:a
 66 SemanticoError Variavel ja instanciada:a
