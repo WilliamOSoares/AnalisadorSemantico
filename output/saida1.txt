@@ -1,7 +1,13 @@
-50 NMF 5g
-29 SyntaxError Declaracoes Fora de Escopo:  leia ( c ) ;
-30 SyntaxError Declaracoes Fora de Escopo:  }
-10 SemanticoError Variavel ja instanciada:a
-16 SemanticoError Variavel ja instanciada:a
-65 SemanticoError Variavel ja instanciada:a
-66 SemanticoError Variavel ja instanciada:a
+56 NMF 5g
+35 SyntaxError Declaracoes Fora de Escopo:  leia ( c ) ;
+36 SyntaxError Declaracoes Fora de Escopo:  }
+03 SemanticoError Tipos diferentes
+07 SemanticoError Variavel ja instanciada: a
+09 SemanticoError Variavel nao instanciada: x
+11 SemanticoError Tipo diferente: real
+12 SemanticoError Variavel ja instanciada: a
+18 SemanticoError Variavel ja instanciada: a
+24 SemanticoError Conteudo vazio
+33 SemanticoError Conteudo vazio
+71 SemanticoError Variavel ja instanciada: a
+72 SemanticoError Variavel ja instanciada: a

@@ -1,12 +1,14 @@
 constantes{
     inteiro a[2][2][2] = {2,2},{2},{3,2,1};
-    real madrid = "falso";                          % Tipos diferentes
+    real madrid = "teste";                          % Tipos diferentes
     booleano t = a(a,a>4,a&&e,true,2+2);            % Funcao inexistente
 }
 variaveis{
     inteiro a,b,c;                                  % Variavel "a" já declarada
-    real sociedad = - 1.1;
-    real valladolid = 11.1;
+    real sociedad[a] = {-1.1,4};                    % Nada de erro
+    inteiro rockstar[x] = {1,2};                    % Variavel não existe
+    real valladolid = 11.1;    
+    inteiro rockstarNorth[valladolid][a] = {1,2},{2.2};      % tipo diferentes
     cadeia a = False;                               % Variavel "a" já declarada
 }
 
@@ -19,12 +21,16 @@ funcao vazio soma (inteiro e){
 	escreva(c);
 }
 
+funcao inteiro teste (inteiro e){
+}
+
 funcao inteiro soma (inteiro e){
 	c = e + f;                                      % Variavel "f" não declarada
 	escreva(c);
     se(a>b){                                        % "a" e "b" dão de tamanhos diferentes
         retorno a;
     }
+    se(a>b){}                                       % Conteudo Vazio
     retorno c;
     leia(c);                                        % Warning/Aviso conteúdo nunca atingido
 }
@@ -35,7 +41,7 @@ algoritmo{
     constantes{
         inteiro g[2][2][2] = {2,2},{2},{3,2,1};
         cadeia k = "falso";
-        booleano h = soma(c);    
+        booleano h = a;    
     }
     variaveis{
         inteiro u,by,c_;

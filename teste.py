@@ -35,7 +35,7 @@ for chave in range(len(tabela)):
     if(tabela[chave].get(g,"não foi")== aux.get("IDE4","Não foi")):
         print("são iguais") #dizer erro semantico
     print(g)
-    print(tabela[chave].get(g,"não foi"))
+    print(tabela[chave].get("TIPO","não foi"))
     print(aux.get("IDE4","Não foi"))
     i=i+1
 '''
