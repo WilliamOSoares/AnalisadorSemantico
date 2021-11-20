@@ -1,12 +1,12 @@
 constantes{
-    inteiro a[2][2][2] = {2,2},{2},{3,2,1};
+    inteiro a[2][2][2] = {a(),2},{2},{3,2,1};
     real madrid = "teste";                          % Tipos diferentes
     booleano t = a(a,a>4,a&&e,true,2+2);            % Funcao inexistente
 }
 variaveis{
     inteiro a,b,c;                                  % Variavel "a" já declarada
     real sociedad[a] = {-1.1,4};                    % Nada de erro
-    inteiro rockstar[x] = {1,2};                    % Variavel não existe
+    inteiro rockstar[8.4] = {1,2};                    % Variavel não existe
     real valladolid = 11.1;    
     inteiro rockstarNorth[valladolid][a] = {1,2},{2.2};      % tipo diferentes
     cadeia a = False;                               % Variavel "a" já declarada
