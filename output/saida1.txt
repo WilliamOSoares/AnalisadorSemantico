@@ -1,20 +1,19 @@
-56 NMF 5g
-35 SyntaxError Declaracoes Fora de Escopo:  leia ( c ) ;
-36 SyntaxError Declaracoes Fora de Escopo:  }
+57 NMF 5g
+36 SyntaxError Declaracoes Fora de Escopo:  leia ( c ) ;
+37 SyntaxError Declaracoes Fora de Escopo:  }
 02 SemanticoError O valor deve ser explicito e com um so fator
 03 SemanticoError Tipos diferentes
 04 SemanticoError O valor deve ser explicito e com um so fator
-07 SemanticoError Variavel ja instanciada: a
+07 SemanticoError Identificador ja instanciado: a
 09 SemanticoError Tipo diferente: real
 11 SemanticoError Tipo diferente: real
-12 SemanticoError Variavel nao instanciada: False
-12 SemanticoError Variavel ja instanciada: a
-18 SemanticoError Variavel nao instanciada: False
-18 SemanticoError Variavel ja instanciada: a
-24 SemanticoError Conteudo vazio
-33 SemanticoError Conteudo vazio
-42 SemanticoError O valor deve ser explicito e com um so fator
-44 SemanticoError Tipos diferentes
-71 SemanticoError Variavel ja instanciada: a
-72 SemanticoError Variavel ja instanciada: a
-73 SemanticoError Tipos diferentes
+12 SemanticoError Identificador nao instanciado: False
+12 SemanticoError Identificador ja instanciado: a
+20 SemanticoError Identificador nao instanciado: j
+21 SemanticoError Tipos diferentes
+25 SemanticoError Conteudo vazio
+34 SemanticoError Conteudo vazio
+45 SemanticoError Tipos diferentes
+56 SemanticoError Tipos diferentes
+72 SemanticoError Identificador ja instanciado: a
+73 SemanticoError Identificador ja instanciado: a
