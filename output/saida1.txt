@@ -15,6 +15,7 @@
 21 SemanticoError Identificador nao instanciado: j
 22 SemanticoError Tipos diferentes
 23 SemanticoError Impossivel mudar valor de constantes: madrid
+25 SemanticoError Impossivel declarar uma matriz 3D do tipo cadeia
 28 SemanticoError Conteudo vazio
 37 SemanticoError Conteudo vazio
 48 SemanticoError Tipos diferentes

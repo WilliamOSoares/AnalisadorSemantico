@@ -22,7 +22,7 @@ aux = {"IDE0": "alfabeto", "TIPO": "CAD", "ESCOPO": "algoritmo", "LINHA": "15", 
 tabela.append(aux)
 aux = {"IDE1": "moab", "TIPO": "CAD", "ESCOPO": "algoritmo", "LINHA": "17", "INST": "VAR"}
 tabela.append(aux)
-aux = {"IDE2": "puta", "TIPO": "CAD", "ESCOPO": "algoritmo", "LINHA": "18", "INST": "VAR"}
+aux = {"IDE2": "puta", "TIPO": "CAD", "ESCOPO": "funcao", "LINHA": "18", "INST": "VAR"}
 tabela.append(aux)
 print(tabela)
 print(tabela[1])
@@ -38,6 +38,17 @@ for chave in range(len(tabela)):
     print(tabela[chave].get("TIPO","não foi"))
     print(aux.get("IDE4","Não foi"))
     i=i+1
+x=0
+a = ["inteiro","x","inteiro","y"]
+for chave in range(len(tabela)):
+    y = "IDE"+str(x)
+    if(tabela[chave].get("ESCOPO","não foi")=="funcao"):
+        tabela[chave].update({"atributos":a})
+    x=x+1 
+print(tabela)
+a = tabela[chave].get("atributos","não foi")
+print(a)
+print(len(a)/2)
 '''
 for i in y:
     g = "IDE"+str(i)

@@ -24,6 +24,7 @@ tipo = ""
 escopo = ""
 regra = ""
 tabela = []
+paran = []
 expressao = False #Se for True é uma expressão lógica ou relacional, se false é aritmetica
 fator = True #Se for False é dois fatores em expressão (a||b) e (2+2), se True é um fator (a)
 vetorial = False #Se for True é vetor/matriz, se False não é
@@ -695,7 +696,7 @@ def mantemToken():
 ########################################### Analise Sintatica ###############################################
 
 def START():
-    global tuplas, buffer, linha, escopo, tipo, ide
+    global tuplas, buffer, linha, escopo, tipo, ide, tabela
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -706,6 +707,12 @@ def START():
         linha = tuplas[0]
         proxToken()        
         i = FUNCAO()
+        x=0
+        for chave in range(len(tabela)):
+            y = "IDE"+str(x)
+            if(tabela[chave].get("ESCOPO","não foi")=="funcao"):
+                tabela[chave].update({y:'0zero'})
+            x=x+1             
         if(i==1):
             output(int(tuplas[0]), "SyntaxError", buffer)
             mantemToken()
@@ -793,6 +800,12 @@ def A():
         linha = tuplas[0]
         proxToken()
         i = FUNCAO()
+        x=0
+        for chave in range(len(tabela)):
+            y = "IDE"+str(x)
+            if(tabela[chave].get("ESCOPO","não foi")=="funcao"):
+                tabela[chave].update({y:'0zero'})
+            x=x+1  
         if(i==1):
             output(int(tuplas[0]), "SyntaxError", buffer)
             mantemToken()
@@ -868,6 +881,12 @@ def B():
         linha = tuplas[0]
         proxToken()
         i = FUNCAO()
+        x=0
+        for chave in range(len(tabela)):
+            y = "IDE"+str(x)
+            if(tabela[chave].get("ESCOPO","não foi")=="funcao"):
+                tabela[chave].update({y:'0zero'})
+            x=x+1  
         if(i==1):
             output(int(tuplas[0]), "SyntaxError", buffer)
             mantemToken()
@@ -943,6 +962,12 @@ def C():
         linha = tuplas[0]
         proxToken()
         i = FUNCAO()
+        x=0
+        for chave in range(len(tabela)):
+            y = "IDE"+str(x)
+            if(tabela[chave].get("ESCOPO","não foi")=="funcao"):
+                tabela[chave].update({y:'0zero'})
+            x=x+1  
         if(i==1):
             output(int(tuplas[0]), "SyntaxError", buffer)
             mantemToken()
@@ -2168,22 +2193,25 @@ def ACESSOVARCONTB():
 ###################################### Função, Chamada de função e retorno ####################################  
 
 def FUNCAO ():
-    global tuplas, buffer, linha, dados, escopo
-    escopo = "funcao"
+    global tuplas, buffer, linha, dados, escopo, tipo, ide, tabela, iterador
     if(tuplas[2]=="vazio" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
+        tipo = tuplas[2]
         proxToken() 
         if(tuplas[1]=="IDE" and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            ide = tuplas[2]
             proxToken()  
             return FUNCAOINIT()
     else:
         i = TIPOA()
         if(i==0): 
+            tipo = dados[iterador-2][2]
             i = TIPOCONT()
             if(i==0): 
                 if(tuplas[1]=="IDE" and linha == tuplas[0]):
                     buffer = buffer + " " + tuplas[2]
+                    ide = tuplas[2]
                     proxToken()  
                     return FUNCAOINIT()
                 else:
@@ -2192,7 +2220,7 @@ def FUNCAO ():
         return i
 
 def FUNCAOINIT():
-    global tuplas, buffer, linha
+    global tuplas, buffer, linha, escopo, paran, tipo, ide, tabela, escopo
     if(tuplas[2]=="(" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()  
@@ -2201,6 +2229,12 @@ def FUNCAOINIT():
             if(tuplas[2] == '{'):
                 buffer = ""
                 proxToken()
+                print(tipo)
+                print(ide)
+                print(paran)
+                paran = []
+                # Fazer a comparação de função aqui com a tabela
+                escopo = "funcao"
                 return CONTEUDO()
             else:
                 return 1               
@@ -2250,11 +2284,13 @@ def VETORMAISUM():
         return 0
 
 def PARANINIT():
-    global tuplas, buffer, linha, dados
+    global tuplas, buffer, linha, dados, paran, iterador
     i = TIPOA()
     if(i==0): 
+        paran.append(dados[iterador-2][2])
         if(tuplas[1]=="IDE" and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            paran.append(tuplas[2])
             proxToken()  
             if(tuplas[2]=="," and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
@@ -2720,11 +2756,10 @@ def TIPO():
         return 1
 
 def TIPOA():
-    global tuplas, buffer, linha, tipo
+    global tuplas, buffer, linha
     if(tuplas[2]== "inteiro" or tuplas[2]=="real" or tuplas[2]=="booleano" or tuplas[2]=="cadeia" or tuplas[2]=="char" or tuplas[2]=="registro" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
-        tipo = tuplas[2]
         return 0
     else:    
         return 1
