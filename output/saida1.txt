@@ -1,6 +1,6 @@
-57 NMF 5g
-36 SyntaxError Declaracoes Fora de Escopo:  leia ( c ) ;
-37 SyntaxError Declaracoes Fora de Escopo:  }
+60 NMF 5g
+39 SyntaxError Declaracoes Fora de Escopo:  leia ( c ) ;
+40 SyntaxError Declaracoes Fora de Escopo:  }
 02 SemanticoError O valor deve ser explicito e com um so fator
 03 SemanticoError Tipos diferentes
 04 SemanticoError O valor deve ser explicito e com um so fator
@@ -9,11 +9,16 @@
 11 SemanticoError Tipo diferente: real
 12 SemanticoError Identificador nao instanciado: False
 12 SemanticoError Identificador ja instanciado: a
-20 SemanticoError Identificador nao instanciado: j
-21 SemanticoError Tipos diferentes
-25 SemanticoError Conteudo vazio
-34 SemanticoError Conteudo vazio
-45 SemanticoError Tipos diferentes
-56 SemanticoError Tipos diferentes
-72 SemanticoError Identificador ja instanciado: a
-73 SemanticoError Identificador ja instanciado: a
+13 SemanticoError Impossivel declarar uma matriz 3D do tipo cadeia
+13 SemanticoError Tipos diferentes
+13 SemanticoError Tipos diferentes
+21 SemanticoError Identificador nao instanciado: j
+22 SemanticoError Tipos diferentes
+23 SemanticoError Impossivel mudar valor de constantes: madrid
+28 SemanticoError Conteudo vazio
+37 SemanticoError Conteudo vazio
+48 SemanticoError Tipos diferentes
+59 SemanticoError Impossivel mudar valor de constantes: a
+60 SemanticoError Impossivel mudar valor de constantes: a
+75 SemanticoError Identificador ja instanciado: a
+76 SemanticoError Identificador ja instanciado: a

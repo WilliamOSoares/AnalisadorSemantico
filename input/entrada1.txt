@@ -10,6 +10,7 @@ variaveis{
     real valladolid = 11.1;    
     inteiro rockstarNorth[valladolid][a] = {1,2},{2.2};      % tipo diferentes
     cadeia a = False;                               % Variavel "a" já declarada
+    cadeia tl[2][2][2] = {1,2,3},{1,2,3},{"aoba", "opa"};   % Cadeia 3D
 }
 
 funcao vazio soma (inteiro e){
@@ -19,7 +20,9 @@ funcao vazio soma (inteiro e){
 	c = e + f;                                      % Variavel "f" não declarada
     c = j;                                          % j não existe
     c = "ah";                                       % Tipos diferentes
+    madrid = 2.1;                                   % Mudando valor de constante
 	escreva(c);
+    tl[0][1][2] = "erro";                           % Acesso 3D
 }
 
 funcao inteiro teste (inteiro e){
