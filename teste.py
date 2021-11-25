@@ -46,9 +46,9 @@ for chave in range(len(tabela)):
         tabela[chave].update({"atributos":a})
     x=x+1 
 print(tabela)
-a = tabela[chave].get("atributos","não foi")
-print(a)
-print(len(a)/2)
+g = tabela[chave].get("atributos","não foi")
+print(g)
+print(len(g)/2)
 '''
 for i in y:
     g = "IDE"+str(i)

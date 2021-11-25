@@ -1413,7 +1413,6 @@ def CONTEUDO():
                     if(i==0): 
                         if(tuplas[2]==";" and linha == tuplas[0]):
                             buffer = ""
-                            print(linha)
                             if(atribu):
                                 if(not(vetorial) and chamada==""):
                                     if(fator): #and not(tipo == dados[iterador-2][1])):
@@ -1558,6 +1557,7 @@ def CONTEUDO():
             if(i==0): 
                 if(tuplas[2]==";" and linha == tuplas[0]):
                     buffer = ""
+                    chamada=""
                     proxToken() 
                     return CONTEUDO() 
                 else:
@@ -1613,7 +1613,6 @@ def CONTEUDO():
                 if(i==0): 
                     if(tuplas[2]==";" and linha == tuplas[0]):
                         buffer = ""
-                        print(linha)
                         if(atribu):
                             if(not(vetorial) and chamada==""):
                                 if(fator): #and not(tipo == dados[iterador-2][1])):
@@ -2220,7 +2219,7 @@ def FUNCAO ():
         return i
 
 def FUNCAOINIT():
-    global tuplas, buffer, linha, escopo, paran, tipo, ide, tabela, escopo
+    global tuplas, buffer, linha, escopo, paran, tipo, ide, tabela, escopo #Falta mais coisa
     if(tuplas[2]=="(" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()  
@@ -2228,11 +2227,41 @@ def FUNCAOINIT():
         if(i==0): 
             if(tuplas[2] == '{'):
                 buffer = ""
+                # Fazer a adição da função na tabela
                 proxToken()
-                print(tipo)
-                print(ide)
-                print(paran)
-                paran = []
+                ########## VERIFICA SEMANTICA ###########  
+                frase = "IDE"+str(len(tabela))
+                aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": "funcao"}
+                if(len(paran)>0):
+                    aux.update({"ATRIBUTOS":paran})
+                if(len(tabela)==0):
+                    tabela.append(aux)
+                else:
+                    indicador = False
+                    i = 0
+                    for chave in range(len(tabela)):
+                        g = "IDE"+str(i)
+                        if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
+                            g = tabela[chave].get("ATRIBUTOS","não foi")
+                            if(len(g)==len(paran)):
+                                indicadorb = True
+                                for chave in range(len(g)):
+                                    if(chave==0):
+                                        if(not(g[chave]==paran[chave])):
+                                            indicadorb = False
+                                    elif(chave/2==0):
+                                        if(not(g[chave]==paran[chave])):
+                                            indicadorb = False
+                                if(indicadorb):
+                                    indicador = True             
+                        i=i+1
+                    if(indicador):
+                        output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
+                        mantemToken()
+                    else:
+                        tabela.append(aux)
+                #verificações
+                paran = []                
                 # Fazer a comparação de função aqui com a tabela
                 escopo = "funcao"
                 return CONTEUDO()
@@ -2307,9 +2336,10 @@ def PARANINIT():
     return i
 
 def CHAMADAFUNCAO():
-    global tuplas, buffer, linha 
+    global tuplas, buffer, linha, ide 
     if(tuplas[1]=="IDE" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
+        ide = tuplas[2]
         proxToken()    
         if(tuplas[2]=="(" and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
@@ -2319,17 +2349,30 @@ def CHAMADAFUNCAO():
         return 1
     
 def PARAN():
-    global tuplas, buffer, linha  
+    global tuplas, buffer, linha, ide, tabela, chamada
     if(tuplas[2]==")" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
-        proxToken() 
+        proxToken()
+        indicador = False
+        i = 0
+        for chave in range(len(tabela)):
+            g = "IDE"+str(i)
+            if(tabela[chave].get(g,"não foi")==ide):
+                if(tabela[chave].get("REGRA","não foi")=="funcao"):
+                    print(ide)
+                    indicador = True                                                  
+            i=i+1
+        if(not(indicador)):
+            output(int(linha), "SemanticoError", "Funcao nao instanciada: "+ ide)
+            mantemToken()
         return 0   
     else:
         return PARANCONT()
 
 def PARANCONT():
-    global tuplas, buffer, linha  
+    global tuplas, buffer, linha, tabela, ide, chamada
     i = VALOR()
+    ################## AQUI DEU RUIM ##########################
     if(i==0): 
         if(tuplas[2]=="," and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
@@ -2338,6 +2381,18 @@ def PARANCONT():
         elif(tuplas[2]==")" and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             proxToken() 
+            indicador = False
+            i = 0
+            for chave in range(len(tabela)):
+                g = "IDE"+str(i)
+                if(tabela[chave].get(g,"não foi")==ide):
+                    if(tabela[chave].get("REGRA","não foi")=="funcao"):
+                        print(ide)
+                        indicador = True                                                   
+                i=i+1
+            if(not(indicador)):
+                output(int(linha), "SemanticoError", "Funcao nao instanciada: "+ ide)
+                mantemToken()
             return 0  
         else:
             return 1
@@ -2423,51 +2478,57 @@ def CONST():
         return i
 
 def CONSTCONT(): 
-    global tuplas, buffer
+    global tuplas, buffer, chamada, tabela, ide, tipo, escopo, linha, regra
     if(tuplas[2]== "," and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
         ########## VERIFICA SEMANTICA ###########  
-        frase = "IDE"+str(len(tabela))
-        aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
-        if(len(tabela)==0):
-            tabela.append(aux)
-        else:
-            indicador = False
-            i = 0
-            for chave in range(len(tabela)):
-                g = "IDE"+str(i)
-                if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
-                    indicador = True             
-                i=i+1
-            if(indicador):
-                output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
-                mantemToken()
-            else:
+        if(chamada==""):
+            frase = "IDE"+str(len(tabela))
+            aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
+            if(len(tabela)==0):
                 tabela.append(aux)
+            else:
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
+                        indicador = True             
+                    i=i+1
+                if(indicador):
+                    output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
+                    mantemToken()
+                else:
+                    tabela.append(aux)
+        else:
+            chamada=""
         #verificações
         return CONSTALT()
     elif(tuplas[2]== ";" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
         ########## VERIFICA SEMANTICA ###########  
-        frase = "IDE"+str(len(tabela))
-        aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
-        if(len(tabela)==0):
-            tabela.append(aux)
-        else:
-            indicador = False
-            i = 0
-            for chave in range(len(tabela)):
-                g = "IDE"+str(i)
-                if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
-                    indicador = True          
-                i=i+1
-            if(indicador):
-                output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
-                mantemToken()
-            else:
+        if(chamada==""):
+            frase = "IDE"+str(len(tabela))
+            aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
+            if(len(tabela)==0):
                 tabela.append(aux)
+            else:
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
+                        indicador = True          
+                    i=i+1
+                if(indicador):
+                    output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
+                    mantemToken()
+                else:
+                    tabela.append(aux)
+        else:
+            chamada=""
         #verificações
         return CONSTFIM()
     else:
@@ -2528,7 +2589,6 @@ def CONSTALT():
             elif(not(chamada=="")):
                 output(int(linha), "SemanticoError", "O valor deve ser explicito e com um so fator")
                 mantemToken()
-            chamada=""
             vetorial = False
             fator = True
             return CONSTCONT()
@@ -2677,7 +2737,6 @@ def VARCONT():
                         print("É expressão aritmética ou chamada de função")
             elif(not(chamada=="")):
                 print("analisar a chamada de função")
-            chamada=""
             vetorial = False
             fator = True
             expressao = False
@@ -2686,51 +2745,57 @@ def VARCONT():
             return i
         
 def VARFINAL():
-    global tuplas, buffer, linha, ide, tipo, escopo, regra, tabela
+    global tuplas, buffer, linha, ide, tipo, escopo, regra, tabela, chamada
     if(tuplas[2]== "," and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
         ########## VERIFICA SEMANTICA ###########  
-        frase = "IDE"+str(len(tabela))
-        aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
-        if(len(tabela)==0):
-            tabela.append(aux)
-        else:
-            indicador = False
-            i = 0
-            for chave in range(len(tabela)):
-                g = "IDE"+str(i)
-                if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
-                    indicador = True            
-                i=i+1
-            if(indicador):
-                output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
-                mantemToken()
-            else:
+        if(chamada==""):
+            frase = "IDE"+str(len(tabela))
+            aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
+            if(len(tabela)==0):
                 tabela.append(aux)
+            else:
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
+                        indicador = True            
+                    i=i+1
+                if(indicador):
+                    output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
+                    mantemToken()
+                else:
+                    tabela.append(aux)
+        else:
+            chamada=""
         #verificações
         return VARALT()
     elif(tuplas[2]== ";" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
         ########## VERIFICA SEMANTICA ###########    
-        frase = "IDE"+str(len(tabela))
-        aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
-        if(len(tabela)==0):
-            tabela.append(aux)
-        else:
-            indicador = False
-            i = 0
-            for chave in range(len(tabela)):
-                g = "IDE"+str(i)
-                if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
-                    indicador = True            
-                i=i+1
-            if(indicador):
-                output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
-                mantemToken()
-            else:
+        if(chamada==""):
+            frase = "IDE"+str(len(tabela))
+            aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
+            if(len(tabela)==0):
                 tabela.append(aux)
+            else:
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
+                        indicador = True            
+                    i=i+1
+                if(indicador):
+                    output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
+                    mantemToken()
+                else:
+                    tabela.append(aux)
+        else:
+            chamada=""
         #verificações
         return VARFIM()
     else:
