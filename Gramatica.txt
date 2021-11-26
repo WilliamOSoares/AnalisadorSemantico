@@ -179,18 +179,18 @@
 
 	<REGISTRO> ::= <IDE> { <VAR> 
 
+
 	<ACESSOVAR> ::= . <IDE> [<NRO>] <ACESSOVARCONTB>
 		| . <IDE> [<IDE>] <ACESSOVARCONTB>
+		| . <IDE> <ACESSOVARCONTB>
 		| [<NRO>] <ACESSOVARCONTB>	
 		| [<IDE>] <ACESSOVARCONTB>	
 		| <>
 	<ACESSOVARCONT>::= [<NRO>] <ACESSOVARCONTC>
 		| [<IDE>] <ACESSOVARCONTC>
-		| .<ACESSOVAR>
 		| <>
 	<ACESSOVARCONTB>::= [<NRO>]
 		| [<IDE>]
-		| .<ACESSOVAR>
 		| <>
 
 ############ EXPRESSOES ##############

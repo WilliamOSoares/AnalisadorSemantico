@@ -1,0 +1,41 @@
+%TESTE DE VARIAVEIS QUE NÃO FORAM DECLARADAS E REPETIDAS;
+
+constantes{
+    inteiro a = 2;
+    real b = 1.5;
+    real c = z;                                  % Variavel inexistente z
+}
+variaveis{
+    cadeia d;
+    char e;
+    booleano f = verdadeiro;
+    inteiro a = a;                               % Variavel ja existe
+    inteiro A;                                   % Eh para considerar como repetida?
+}
+algoritmo
+funcao vazio teste (inteiro Teste){
+    Teste = Teste + b;
+    retorno Teste;
+}
+
+registro pessoa{
+    cadeia nome;
+    char genero;
+    inteiro idade;
+    real altura;
+}
+
+algoritmo{
+    pessoa.peso;                                   % Variavel inexistente
+    pessoa.nome = "mob";
+    escreva(a);
+    leia(t);                                    % Variavel inexistente t
+    escreva(d);
+    se(d == "certo"){
+        escreva("acertou");
+    }
+    senao{
+        escreva(y);                             % Variavel inexistente y
+    }
+    leia(a.a[2]);                               % Variavel inexistente
+}

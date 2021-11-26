@@ -28,7 +28,7 @@ funcao vazio soma (inteiro e, inteiro f){
 funcao inteiro teste (inteiro Teste){
 }
 
-funcao inteiro soma (inteiro h, inteiro t){
+funcao vazio soma (inteiro f, inteiro e){
 	c = e + f;                                      % Variavel "f" não declarada
 	escreva(c);
     se(a>b){                                        % "a" e "b" dão de tamanhos diferentes

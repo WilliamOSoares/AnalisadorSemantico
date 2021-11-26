@@ -700,8 +700,13 @@ def START():
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
+        x = tuplas[0]
         proxToken()
-        ALGORITMO()
+        i = ALGORITMO()
+        if(i==1):
+            output(int(x), "SyntaxError", "Declaracoes Fora de Escopo: "+buffer)
+            mantemToken()
+            START()
     elif(tuplas[2] == "funcao"):
         buffer = buffer + " " + tuplas[2]
         linha = tuplas[0]
@@ -793,8 +798,13 @@ def A():
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
+        x = tuplas[0]
         proxToken()
-        ALGORITMO()
+        i = ALGORITMO()
+        if(i==1):
+            output(int(x), "SyntaxError", "Declaracoes Fora de Escopo: "+buffer)
+            mantemToken()
+            A()
     elif(tuplas[2] == "funcao"):
         buffer = buffer + " " + tuplas[2]
         linha = tuplas[0]
@@ -874,8 +884,13 @@ def B():
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
+        x = tuplas[0]
         proxToken()
-        ALGORITMO()
+        i = ALGORITMO()
+        if(i==1):
+            output(int(x), "SyntaxError", "Declaracoes Fora de Escopo: "+buffer)
+            mantemToken()
+            B()
     elif(tuplas[2] == "funcao"):
         buffer = buffer + " " + tuplas[2]
         linha = tuplas[0]
@@ -955,8 +970,13 @@ def C():
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
+        x = tuplas[0]
         proxToken()
-        ALGORITMO()
+        i = ALGORITMO()
+        if(i==1):
+            output(int(x), "SyntaxError", "Declaracoes Fora de Escopo: "+buffer)
+            mantemToken()
+            C()
     elif(tuplas[2] == "funcao"):
         buffer = buffer + " " + tuplas[2]
         linha = tuplas[0]
@@ -1022,16 +1042,19 @@ def C():
         return 0
 
 def ALGORITMO():
-    global tuplas, buffer, escopo
+    global tuplas, buffer, escopo, linha
     escopo = "algoritmo"
     if(tuplas[2]=="{"):
-        buffer = buffer + " " + tuplas[2]
+        #buffer = buffer + " " + tuplas[2]
+        buffer = ""
         proxToken()
         i = CONTEUDO()
         if(i==0):
             buffer=""
             #proxToken()
         linha = tuplas[0]
+    else:
+        return 1
     foraEscopo = False
     while(tuplas[2]!="$"):
         if(not(foraEscopo)):
@@ -1394,14 +1417,15 @@ def CONTEUDO():
                 tipo = tabela[chave].get("TIPO","não foi")  
                 if(tabela[chave].get("REGRA","não foi")== "CONST"):
                     atribu = False
-                    output(int(linha), "SemanticoError", "Impossivel mudar valor de constantes: "+ide)
-                    mantemToken()                          
+                    if(not(dados[iterador][2] == '(') and linha == tuplas[0]):
+                        output(int(linha), "SemanticoError", "Impossivel mudar valor de constantes: "+ide)
+                        mantemToken()                          
             i=i+1
         if(not(indicador)):
             atribu = False
-            output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ide)
+            output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ tuplas[2])
             mantemToken()
-        if(dados[iterador][2] == '[' and linha == tuplas[0]):
+        if(dados[iterador][2] == '[' or dados[iterador][2] == '.' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             proxToken()            
             i = ACESSOVAR()
@@ -2107,7 +2131,7 @@ def REGISTRO():
 ################################################# Acesso Var ######################################
 
 def ACESSOVAR():
-    global tuplas, buffer, linha
+    global tuplas, buffer, linha, tabela
     if(tuplas[2] == '.' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -2119,6 +2143,26 @@ def ACESSOVAR():
                 proxToken()
                 if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
                     buffer = buffer + " " + tuplas[2]
+                    if(tuplas[1] == 'IDE'):
+                        indicador = False
+                        i = 0
+                        for chave in range(len(tabela)):
+                            g = "IDE"+str(i)
+                            if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                                indicador = True
+                                aux = tabela[chave].get("TIPO","não foi")
+                                if(not(aux=="inteiro")):
+                                    output(int(linha), "SemanticoError", "Tipo diferente: "+aux)
+                                    mantemToken()                                         
+                            i=i+1
+                        if(not(indicador)):
+                            output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+                            mantemToken()
+                    else:
+                        x = tuplas[2].find(".")
+                        if(x>=0):
+                            output(int(linha), "SemanticoError", "Tipo diferente: real")
+                            mantemToken()
                     proxToken()
                     if(tuplas[2] == ']' and linha == tuplas[0]):
                         buffer = buffer + " " + tuplas[2]
@@ -2137,6 +2181,26 @@ def ACESSOVAR():
         proxToken()
         if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            if(tuplas[1] == 'IDE'):
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                        indicador = True
+                        aux = tabela[chave].get("TIPO","não foi")
+                        if(not(aux=="inteiro")):
+                            output(int(linha), "SemanticoError", "Tipo diferente: "+aux)
+                            mantemToken()                                         
+                    i=i+1
+                if(not(indicador)):
+                    output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+                    mantemToken()
+            else:
+                x = tuplas[2].find(".")
+                if(x>=0):
+                    output(int(linha), "SemanticoError", "Tipo diferente: real")
+                    mantemToken()
             proxToken()
             if(tuplas[2] == ']' and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
@@ -2150,12 +2214,32 @@ def ACESSOVAR():
     return 0
 
 def ACESSOVARCONT():
-    global tuplas, buffer, linha
+    global tuplas, buffer, linha, tabela
     if(tuplas[2] == '[' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
         if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            if(tuplas[1] == 'IDE'):
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                        indicador = True
+                        aux = tabela[chave].get("TIPO","não foi")
+                        if(not(aux=="inteiro")):
+                            output(int(linha), "SemanticoError", "Tipo diferente: "+aux)
+                            mantemToken()                                         
+                    i=i+1
+                if(not(indicador)):
+                    output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+                    mantemToken()
+            else:
+                x = tuplas[2].find(".")
+                if(x>=0):
+                    output(int(linha), "SemanticoError", "Tipo diferente: real")
+                    mantemToken()
             proxToken()
             if(tuplas[2] == ']' and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
@@ -2175,6 +2259,26 @@ def ACESSOVARCONTB():
         proxToken()
         if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            if(tuplas[1] == 'IDE'):
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                        indicador = True
+                        aux = tabela[chave].get("TIPO","não foi")
+                        if(not(aux=="inteiro")):
+                            output(int(linha), "SemanticoError", "Tipo diferente: "+aux)
+                            mantemToken()                                         
+                    i=i+1
+                if(not(indicador)):
+                    output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+                    mantemToken()
+            else:
+                x = tuplas[2].find(".")
+                if(x>=0):
+                    output(int(linha), "SemanticoError", "Tipo diferente: real")
+                    mantemToken()
             proxToken()
             if(tuplas[2] == ']' and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
@@ -2242,18 +2346,21 @@ def FUNCAOINIT():
                     for chave in range(len(tabela)):
                         g = "IDE"+str(i)
                         if(tabela[chave].get(g,"não foi")== aux.get(frase,"Não foi")):
-                            g = tabela[chave].get("ATRIBUTOS","não foi")
-                            if(len(g)==len(paran)):
-                                indicadorb = True
-                                for chave in range(len(g)):
-                                    if(chave==0):
-                                        if(not(g[chave]==paran[chave])):
-                                            indicadorb = False
-                                    elif(chave/2==0):
-                                        if(not(g[chave]==paran[chave])):
-                                            indicadorb = False
-                                if(indicadorb):
-                                    indicador = True             
+                            if(tabela[chave].get("TIPO","não foi")== aux.get("TIPO","Não foi")):
+                                g = tabela[chave].get("ATRIBUTOS","não foi")
+                                if(len(g)==len(paran)):
+                                    indicadorb = True
+                                    for chave in range(len(g)):
+                                        if(chave==0):
+                                            if(not(g[chave]==paran[chave])):
+                                                indicadorb = False
+                                        elif(chave%2==0):
+                                            if(not(g[chave]==paran[chave])):
+                                                indicadorb = False
+                                    if(indicadorb):
+                                        indicador = True   
+                            else:
+                                indicador = True          
                         i=i+1
                     if(indicador):
                         output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
@@ -3511,15 +3618,32 @@ else:
             linha = tuplas[0]
             START()
             flagSintax = False
-            output(0,"ERRO","")
+            if(not(len(erros)==0)):
+                output(0,"ERRO","")
             erros.clear()
             buffer=""
-            print(tabela)
-            tabela.clear()
+            #print(tabela)
             erros = errosSeman
-            output(0,"ERRO","")
+            if(not(len(erros)==0)):
+                output(0,"ERRO","")
+        tabela.clear()
+        paran.clear()
         countArq+=1
-        erros.clear()
+        erros=[]
         dados.clear()
         tuplas.clear()
         iterador=0
+        errosSeman.clear()
+        iterador = 0
+        linha = "01"
+        looping = False
+        ide = "" 
+        tipo = ""
+        escopo = ""
+        regra = ""
+        expressao = False 
+        fator = True 
+        vetorial = False 
+        chamada = "" 
+        atribu = True 
+        veterror = True 

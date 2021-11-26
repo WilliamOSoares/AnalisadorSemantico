@@ -1,0 +1,6 @@
+15 SyntaxError Declaracoes Fora de Escopo:  algoritmo
+29 SyntaxError  pessoa . peso
+06 SemanticoError Identificador nao instanciado: z
+12 SemanticoError Identificador ja instanciado: a
+17 SemanticoError Identificador nao instanciado: Teste
+30 SemanticoError Tipos diferentes
