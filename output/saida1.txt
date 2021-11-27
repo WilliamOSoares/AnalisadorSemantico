@@ -18,9 +18,11 @@
 22 SemanticoError Tipos diferentes
 23 SemanticoError Impossivel mudar valor de constantes: madrid
 25 SemanticoError Impossivel declarar uma matriz 3D do tipo cadeia
+28 SemanticoError Identificador do parametro ja existe: valladolid
 28 SemanticoError Conteudo vazio
 31 SemanticoError Identificador ja instanciado: soma
 37 SemanticoError Conteudo vazio
+44 SemanticoError Erro de acesso: a.a
 48 SemanticoError Tipos diferentes
 59 SemanticoError Impossivel mudar valor de constantes: a
 60 SemanticoError Funcao nao instanciada: a

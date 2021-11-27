@@ -23,6 +23,7 @@ ide = ""
 tipo = ""
 escopo = ""
 regra = ""
+regis = ""
 tabela = []
 paran = []
 expressao = False #Se for True é uma expressão lógica ou relacional, se false é aritmetica
@@ -2060,12 +2061,12 @@ def PARAFIM():
 ############################################## Registro ######################################
 
 def REGISTRO():
-    global tuplas, buffer, iterador, linha, ide, tipo, escopo, regra, tabela
+    global tuplas, buffer, iterador, linha, ide, tipo, escopo, regra, tabela, regis, dados
     if(tuplas[2]=="{"):
         buffer = buffer + " " + tuplas[2]
         ########## VERIFICA SEMANTICA ###########     
         frase = "IDE"+str(len(tabela))
-        aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
+        aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": "REG"}
         if(len(tabela)==0):
             tabela.append(aux)
         else:
@@ -2082,7 +2083,8 @@ def REGISTRO():
             else:
                 tabela.append(aux)
         #verificações
-        proxToken()
+        regis = dados[iterador-2][2]
+        proxToken()        
         i = VAR()
         if(i == 1):    
             errado = False
@@ -2131,12 +2133,23 @@ def REGISTRO():
 ################################################# Acesso Var ######################################
 
 def ACESSOVAR():
-    global tuplas, buffer, linha, tabela
+    global tuplas, buffer, linha, tabela, dados, iterador
     if(tuplas[2] == '.' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
         if(tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            i=0
+            for chave in range(len(tabela)):
+                g = "IDE"+str(i)
+                if(tabela[chave].get(g,"não foi")==tuplas[2]):
+                    if(not(tabela[chave].get("REGISTRO","não foi")==dados[iterador-3][2])):
+                        aux = dados[iterador-3][2]
+                        aux = aux+dados[iterador-2][2]
+                        aux = aux+tuplas[2]
+                        output(int(linha), "SemanticoError", "Erro de acesso: "+ aux)
+                        mantemToken()
+                i=i+1
             proxToken()
             if(tuplas[2] == '[' and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
@@ -2340,6 +2353,25 @@ def FUNCAOINIT():
                     aux.update({"ATRIBUTOS":paran})
                 if(len(tabela)==0):
                     tabela.append(aux)
+                    x = len(tabela)
+                    for chave in range(len(paran)):
+                        frase="IDE"+str(x)
+                        if(not(chave==0)):
+                            if(chave%2>0):
+                                entrada=True
+                                i=0
+                                for y in range(len(tabela)):
+                                    g = "IDE"+str(i)
+                                    if(tabela[y].get(g,"não foi")==paran[chave]):
+                                        entrada = False
+                                    i=i+1
+                                if(entrada):
+                                    aux = {frase: paran[chave], "TIPO":  paran[chave-1], "ESCOPO": "funcao", "LINHA": linha, "REGRA": "VAR"}
+                                    tabela.append(aux)
+                                    x=x+1
+                                else:
+                                    output(int(linha), "SemanticoError", "Identificador do parametro ja existe: "+ paran[chave])
+                                    mantemToken()
                 else:
                     indicador = False
                     i = 0
@@ -2367,6 +2399,25 @@ def FUNCAOINIT():
                         mantemToken()
                     else:
                         tabela.append(aux)
+                        x = len(tabela)
+                        for chave in range(len(paran)):
+                            frase="IDE"+str(x)
+                            if(not(chave==0)):
+                                if(chave%2>0):
+                                    entrada=True
+                                    i=0
+                                    for y in range(len(tabela)):
+                                        g = "IDE"+str(i)
+                                        if(tabela[y].get(g,"não foi")== paran[chave]):
+                                            entrada = False
+                                        i=i+1
+                                    if(entrada):
+                                        aux = {frase: paran[chave], "TIPO":  paran[chave-1], "ESCOPO": "funcao", "LINHA": linha, "REGRA": "VAR"}
+                                        tabela.append(aux)
+                                        x=x+1
+                                    else:
+                                        output(int(linha), "SemanticoError", "Identificador do parametro ja existe: "+ paran[chave])
+                                        mantemToken()
                 #verificações
                 paran = []                
                 # Fazer a comparação de função aqui com a tabela
@@ -2852,14 +2903,17 @@ def VARCONT():
             return i
         
 def VARFINAL():
-    global tuplas, buffer, linha, ide, tipo, escopo, regra, tabela, chamada
+    global tuplas, buffer, linha, ide, tipo, escopo, regra, tabela, chamada, regis
     if(tuplas[2]== "," and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
         ########## VERIFICA SEMANTICA ###########  
         if(chamada==""):
             frase = "IDE"+str(len(tabela))
-            aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
+            if(regis==""):
+                aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
+            else:
+                aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra, "REGISTRO": regis}
             if(len(tabela)==0):
                 tabela.append(aux)
             else:
@@ -2885,7 +2939,10 @@ def VARFINAL():
         ########## VERIFICA SEMANTICA ###########    
         if(chamada==""):
             frase = "IDE"+str(len(tabela))
-            aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
+            if(regis==""):
+                aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra}
+            else:
+                aux = {frase: ide, "TIPO": tipo, "ESCOPO": escopo, "LINHA": linha, "REGRA": regra, "REGISTRO": regis}
             if(len(tabela)==0):
                 tabela.append(aux)
             else:
@@ -3622,7 +3679,7 @@ else:
                 output(0,"ERRO","")
             erros.clear()
             buffer=""
-            #print(tabela)
+            print(tabela)
             erros = errosSeman
             if(not(len(erros)==0)):
                 output(0,"ERRO","")
@@ -3641,6 +3698,7 @@ else:
         tipo = ""
         escopo = ""
         regra = ""
+        regis = ""
         expressao = False 
         fator = True 
         vetorial = False 

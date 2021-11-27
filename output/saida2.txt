@@ -2,5 +2,5 @@
 29 SyntaxError  pessoa . peso
 06 SemanticoError Identificador nao instanciado: z
 12 SemanticoError Identificador ja instanciado: a
-17 SemanticoError Identificador nao instanciado: Teste
 30 SemanticoError Tipos diferentes
+40 SemanticoError Erro de acesso: a.a

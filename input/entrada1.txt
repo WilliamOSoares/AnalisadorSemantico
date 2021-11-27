@@ -25,7 +25,7 @@ funcao vazio soma (inteiro e, inteiro f){
     tl[0][1][2] = "erro";                           % Acesso 3D
 }
 
-funcao inteiro teste (inteiro Teste){
+funcao inteiro teste (inteiro valladolid){
 }
 
 funcao vazio soma (inteiro f, inteiro e){

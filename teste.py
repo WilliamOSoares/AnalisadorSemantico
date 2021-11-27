@@ -46,9 +46,19 @@ for chave in range(len(tabela)):
         tabela[chave].update({"atributos":a})
     x=x+1 
 print(tabela)
+paran = a
 g = tabela[chave].get("atributos","não foi")
-print(g)
-print(len(g)/2)
+x = (len(tabela))
+for chave in range(len(paran)):
+    frase = "IDE"+str(x)
+    if(not(chave==0)):
+        if(chave%2>0):
+            aux = {frase: paran[chave], "TIPO":  paran[chave-1], "ESCOPO": "funcao", "LINHA": "09", "REGRA": "var"}
+            tabela.append(aux)
+            x=x+1
+print(tabela)
+#print(g)
+#print(len(g)/2)
 '''
 for i in y:
     g = "IDE"+str(i)
