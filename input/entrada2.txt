@@ -18,6 +18,10 @@ funcao vazio teste (inteiro Teste){
     retorno Teste;
 }
 
+funcao inteiro teste2 (real teste3){
+    retorno teste3;
+}
+
 registro pessoa{
     cadeia nome;
     char genero;
@@ -28,6 +32,7 @@ registro pessoa{
 algoritmo{
     pessoa.peso;                                   % Variavel inexistente
     pessoa.nome = "mob";
+    teste2(2>3);
     escreva(a);
     leia(t);                                    % Variavel inexistente t
     escreva(d);

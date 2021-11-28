@@ -20,10 +20,13 @@ iterador = 0
 linha = "01"
 looping = False #Verifica se entrou mais de uma vez, utilizado em expressao
 ide = "" 
+ideExp = ""
 tipo = ""
 escopo = ""
 regra = ""
 regis = ""
+retorno = False
+retornado = False
 tabela = []
 paran = []
 expressao = False #Se for True é uma expressão lógica ou relacional, se false é aritmetica
@@ -697,7 +700,7 @@ def mantemToken():
 ########################################### Analise Sintatica ###############################################
 
 def START():
-    global tuplas, buffer, linha, escopo, tipo, ide, tabela
+    global tuplas, buffer, linha, escopo, tipo, ide, tabela, retorno, retornado
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -723,6 +726,11 @@ def START():
             output(int(tuplas[0]), "SyntaxError", buffer)
             mantemToken()
         buffer = ""
+        if(retorno and not(retornado)):
+            output(int(linha), "SemanticoError", "Funcao sem retorno")
+            mantemToken()
+        retorno = False
+        retornado = False
         START()
     elif(tuplas[2] == "constantes"):
         buffer = buffer + " " + tuplas[2]
@@ -795,7 +803,7 @@ def START():
         return 0
 
 def A():
-    global tuplas, buffer, linha, escopo, tipo, ide
+    global tuplas, buffer, linha, escopo, tipo, ide, retorno, retornado
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -821,6 +829,11 @@ def A():
             output(int(tuplas[0]), "SyntaxError", buffer)
             mantemToken()
         buffer = ""
+        if(retorno and not(retornado)):
+            output(int(linha), "SemanticoError", "Funcao sem retorno")
+            mantemToken()
+        retorno = False
+        retornado = False
         A()
     elif(tuplas[2] == "constantes"):
         buffer = buffer + " " + tuplas[2]
@@ -881,7 +894,7 @@ def A():
         mantemToken()
         return 0
 def B():
-    global tuplas, buffer, linha, escopo, tipo, ide
+    global tuplas, buffer, linha, escopo, tipo, ide, retorno, retornado
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -907,6 +920,11 @@ def B():
             output(int(tuplas[0]), "SyntaxError", buffer)
             mantemToken()
         buffer = ""
+        if(retorno and not(retornado)):
+            output(int(linha), "SemanticoError", "Funcao sem retorno")
+            mantemToken()
+        retorno = False
+        retornado = False
         B()
     elif(tuplas[2] == "variaveis"):
         buffer = buffer + " " + tuplas[2]
@@ -967,7 +985,7 @@ def B():
         mantemToken()
         return 0
 def C():
-    global tuplas, buffer, linha, escopo, tipo, ide
+    global tuplas, buffer, linha, escopo, tipo, ide, retorno, retornado
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -993,6 +1011,11 @@ def C():
             output(int(tuplas[0]), "SyntaxError", buffer)
             mantemToken()
         buffer = ""
+        if(retorno and not(retornado)):
+            output(int(linha), "SemanticoError", "Funcao sem retorno")
+            mantemToken()
+        retorno = False
+        retornado = False
         C()
     elif(tuplas[2] == "registro"):
         buffer = buffer + " " + tuplas[2]
@@ -2133,7 +2156,7 @@ def REGISTRO():
 ################################################# Acesso Var ######################################
 
 def ACESSOVAR():
-    global tuplas, buffer, linha, tabela, dados, iterador
+    global tuplas, buffer, linha, tabela, dados, iterador, tipo
     if(tuplas[2] == '.' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -2149,7 +2172,9 @@ def ACESSOVAR():
                         aux = aux+tuplas[2]
                         output(int(linha), "SemanticoError", "Erro de acesso: "+ aux)
                         mantemToken()
-                i=i+1
+                    else:
+                        tipo = tabela[chave].get("TIPO","não foi")
+                i=i+1            
             proxToken()
             if(tuplas[2] == '[' and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
@@ -2336,7 +2361,7 @@ def FUNCAO ():
         return i
 
 def FUNCAOINIT():
-    global tuplas, buffer, linha, escopo, paran, tipo, ide, tabela, escopo #Falta mais coisa
+    global tuplas, buffer, linha, escopo, paran, tipo, ide, tabela, escopo, retorno, retornado
     if(tuplas[2]=="(" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()  
@@ -2422,6 +2447,12 @@ def FUNCAOINIT():
                 paran = []                
                 # Fazer a comparação de função aqui com a tabela
                 escopo = "funcao"
+                if(not(tipo=="vazio")):
+                    retorno = True
+                    retornado = False
+                else:
+                    retorno = False
+                    retornado = True
                 return CONTEUDO()
             else:
                 return 1               
@@ -2507,7 +2538,7 @@ def CHAMADAFUNCAO():
         return 1
     
 def PARAN():
-    global tuplas, buffer, linha, ide, tabela, chamada
+    global tuplas, buffer, linha, ide, tabela, chamada, paran
     if(tuplas[2]==")" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -2517,7 +2548,9 @@ def PARAN():
             g = "IDE"+str(i)
             if(tabela[chave].get(g,"não foi")==ide):
                 if(tabela[chave].get("REGRA","não foi")=="funcao"):
-                    print(ide)
+                    if(not(tabela[chave].get("ATRIBUTOS","m")=="m")):
+                        output(int(linha), "SemanticoError", "Quantidade de parametros diferentes")
+                        mantemToken()
                     indicador = True                                                  
             i=i+1
         if(not(indicador)):
@@ -2528,9 +2561,50 @@ def PARAN():
         return PARANCONT()
 
 def PARANCONT():
-    global tuplas, buffer, linha, tabela, ide, chamada
+    global tuplas, buffer, linha, tabela, ide, chamada, paran, tabela, expressao, fator, vetorial, ideExp
     i = VALOR()
-    ################## AQUI DEU RUIM ##########################
+    if(not(vetorial) and chamada==""):
+        if(fator): #and not(tipo == dados[iterador-2][1])):
+            aux = dados[iterador-2][1]
+            erronio= False
+            if(aux == "CAD"):
+                paran.append("cadeia")
+            elif(aux == "CAR"):
+                paran.append("char")
+            elif(aux == "NRO"):
+                aux = dados[iterador-2][2]
+                x = aux.find(".")
+                if(x<0):
+                    paran.append("inteiro")
+                else:
+                    paran.append("real")
+            elif(aux == "PRE"):
+                paran.append("booleano")
+            else:
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")==ideExp):
+                        indicador = True
+                        paran.append(tabela[chave].get("TIPO","não foi"))                                                   
+                    i=i+1
+                if(not(indicador) and not(aux=="}")):
+                    output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ aux)
+                    mantemToken()                        
+            if(erronio):
+                output(int(linha), "SemanticoError", "Tipos diferentes")
+                mantemToken()  
+        else:
+            if(expressao):
+                paran.append("booleano") 
+            else:
+                print("É expressão aritmética ou chamada de função")
+    elif(not(chamada=="")):
+        print("analisar a chamada de função")
+    vetorial = False
+    fator = True
+    expressao = False
     if(i==0): 
         if(tuplas[2]=="," and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
@@ -2545,8 +2619,24 @@ def PARANCONT():
                 g = "IDE"+str(i)
                 if(tabela[chave].get(g,"não foi")==ide):
                     if(tabela[chave].get("REGRA","não foi")=="funcao"):
-                        print(ide)
-                        indicador = True                                                   
+                        if(not(tabela[chave].get("ATRIBUTOS","m")=="m")):
+                            aux = tabela[chave].get("ATRIBUTOS","m")
+                            if(len(paran)==len(aux)//2):
+                                Taerrado = False
+                                for x in range(len(paran)):
+                                    if(not(paran[x]==aux[x+x])):
+                                        Taerrado = True
+                                if(Taerrado):
+                                    output(int(linha), "SemanticoError", "Parametros com tipos diferentes")
+                                    mantemToken()
+                            else:
+                                output(int(linha), "SemanticoError", "Quantidade de parametros diferentes")
+                                mantemToken()
+                        indicador = True    
+                    else:
+                        indicador = True                                                
+                else:
+                    indicador = True 
                 i=i+1
             if(not(indicador)):
                 output(int(linha), "SemanticoError", "Funcao nao instanciada: "+ ide)
@@ -2558,11 +2648,81 @@ def PARANCONT():
         return i
 
 def RETORNO():
-    global tuplas, buffer, linha  
+    global tuplas, buffer, linha, retorno, retornado, expressao, fator, vetorial, chamada, linha, tabela, tipo, dados, iterador
     i = VALOR()
     if(i==0): 
         if(tuplas[2]==";" and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            if(retorno):
+                retornado = True
+                i = len(tabela)-1
+                primeiro = True
+                for chave in reversed(range(len(tabela))):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get("REGRA","não foi")=="funcao" and primeiro):
+                        primeiro = False
+                        testando = tabela[chave].get(g,"não foi")                                               
+                        tipo = tabela[chave].get("TIPO","não foi")
+                    i=i-1
+                Nerrou = True
+                if(testando == dados[iterador-2][2]):
+                    output(int(linha), "SemanticoError", "Impossivel retornar identificador da funcao")
+                    mantemToken()  
+                    Nerrou = False
+                if(not(vetorial) and chamada=="" and Nerrou):
+                    if(fator): #and not(tipo == dados[iterador-2][1])):
+                        aux = dados[iterador-2][1]
+                        erronio= False
+                        if(aux == "CAD"):
+                            if(not(tipo == "cadeia")):
+                                erronio = True
+                        elif(aux == "CAR"):
+                            if(not(tipo == "char")):
+                                erronio = True
+                        elif(aux == "NRO"):
+                            aux = dados[iterador-2][2]
+                            x = aux.find(".")
+                            if(x<0):
+                                if(not(tipo == "inteiro")):
+                                    erronio = True
+                            else:
+                                if(not(tipo == "real")):
+                                    erronio = True
+                        elif(aux == "PRE"):
+                            if(not(tipo == "booleano")):
+                                    erronio = True
+                        else:
+                            aux = dados[iterador-2][2]
+                            indicador = False
+                            i = 0
+                            for chave in range(len(tabela)):
+                                g = "IDE"+str(i)
+                                if(tabela[chave].get(g,"não foi")==aux):
+                                    indicador = True
+                                    if(not(tabela[chave].get("TIPO","não foi")==tipo)):
+                                        output(int(linha), "SemanticoError", "Tipos diferentes")
+                                        mantemToken()                                                   
+                                i=i+1
+                            if(not(indicador) and not(aux=="}")):
+                                output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ aux)
+                                mantemToken()                        
+                        if(erronio):
+                            output(int(linha), "SemanticoError", "Tipos diferentes")
+                            mantemToken()  
+                    else:
+                        if(expressao and not(tipo == "booleano")):
+                            output(int(linha), "SemanticoError", "Tipos diferentes")
+                            mantemToken()  
+                        else:
+                            print("É expressão aritmética ou chamada de função")
+                elif(not(chamada=="")):
+                    print("analisar a chamada de função")
+                vetorial = False
+                fator = True
+                expressao = False
+            else:
+                output(int(linha), "SemanticoError", "Funcao vazio com retorno")
+                mantemToken()
             proxToken() 
             return 0 
         else:
@@ -3322,7 +3482,7 @@ def EXPRESSAOCONTB():
         return 0
 
 def EXPRESSAOB():
-    global tuplas, buffer, linha, expressao, fator
+    global tuplas, buffer, linha, expressao, fator, ideExp
     if(tuplas[2]=="verdadeiro" or tuplas[2]=="falso" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -3372,6 +3532,7 @@ def EXPRESSAOB():
             return EXPRESSAOCONTB()
     elif(tuplas[1]=="IDE" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
+        ideExp = tuplas[2]
         proxToken()
         i = ACESSOVAR()
         if(i==0):
@@ -3694,6 +3855,8 @@ else:
         iterador = 0
         linha = "01"
         looping = False
+        retorno = False
+        retornado = False
         ide = "" 
         tipo = ""
         escopo = ""
