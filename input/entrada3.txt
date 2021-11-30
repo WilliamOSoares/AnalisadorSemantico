@@ -1,0 +1,24 @@
+%DECLACAO E ATRIBUICAO COM TIPOS DIFERENTES E TESTES DE MATRIZ E VETOR COM INDICE DIFERENTE
+
+constantes{
+    inteiro cont = 6.5555;     %tipo diferente
+    real salario = 5.5555555;
+    char letra = "c";          %tipo diferente
+}
+
+variaveis{
+    cadeia poli;
+    booleano bandeira = "falso";  %tipo diferente
+    inteiro parcial;
+    inteiro veto[5.55];        %indice difente
+    inteiro vetor[cont];        %indice difente
+}
+
+algoritmo{
+    poli = falso;     %tipo diferente
+    parcial = "5";      %tipo diferente
+    
+    se(poli == "falso"){
+        escreva("deu ruim");
+    }
+}

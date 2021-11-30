@@ -1,0 +1,35 @@
+%TESTE DE FUNCOES
+constantes{
+    inteiro cont = 6.5555;     %tipo diferente
+    real salario = 5.5555555;
+    char letra = "c";          %tipo diferente
+}
+
+variaveis{
+    inteiro inical;
+    inteiro final;
+}
+
+funcao inteiro contar(inteiro init, inteiro fim){
+    inteiro aux = 0;
+    enquanto(init<fim){
+        aux = aux + 1;
+    }
+    retorno aux;
+}
+
+funcao real banana(cadeia acucar, booleano fome){
+    booleano comer = falso;
+    se(fome == verdadeiro){
+        comer = verdadeiro;
+    }
+}
+algoritmo{
+    contar(5,parcial);  
+    contar(5,10);
+    contar(a,b);                  %parametros inexixtentes
+    contar(5,10,5);               %quantidade errada de parametros
+    contar(8);                    %quantidade errada de parametros
+    contar("teste", 9);           %parametros errados
+    cont(15,20);                  %funcao inexixtente
+}
