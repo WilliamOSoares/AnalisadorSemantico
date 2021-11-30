@@ -11,20 +11,49 @@ variaveis{
 }
 
 funcao inteiro contar(inteiro init, inteiro fim){
-    inteiro aux = 0;
+    variaveis{
+        inteiro aux = 0;
+    }
     enquanto(init<fim){
         aux = aux + 1;
     }
     retorno aux;
 }
 
+funcao inteiro diferente(){
+    variaveis{
+        real dif = 5.698;
+    }
+    retorno dif;
+}
+
 funcao real banana(cadeia acucar, booleano fome){
-    booleano comer = falso;
+    variaveis{
+        booleano comer = falso;
+    }
     se(fome == verdadeiro){
         comer = verdadeiro;
     }
 }
+
+funcao vazio somar(inteiro num1, inteiro num2){
+    variaveis{
+        inteiro num3;
+    }
+    num3 = num1 + num2;
+    escreva(num3);
+}
+funcao inteiro somar(inteiro num4, inteiro num5, inteiro num6){
+    variaveis{
+        inteiro num7;
+    }
+    num7 = num4 + num5;
+    num7 = num7 + num6;
+    escreva(num7);
+}
+
 algoritmo{
+    parcial();
     contar(5,parcial);  
     contar(5,10);
     contar(a,b);                  %parametros inexixtentes
@@ -32,4 +61,8 @@ algoritmo{
     contar(8);                    %quantidade errada de parametros
     contar("teste", 9);           %parametros errados
     cont(15,20);                  %funcao inexixtente
+    somar(10,20);
+    somar(50,60,70);
+    somar(falso, 5);              %parametros errados
+    somar(50,final, "parcial");   %parametros errados
 }

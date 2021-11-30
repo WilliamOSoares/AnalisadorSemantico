@@ -1,0 +1,6 @@
+04 SemanticoError Tipos diferentes
+06 SemanticoError Tipos diferentes
+11 SemanticoError Tipos diferentes
+13 SemanticoError Tipo diferente: real
+19 SemanticoError Tipos diferentes
+20 SemanticoError Tipos diferentes

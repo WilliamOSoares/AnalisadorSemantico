@@ -1134,6 +1134,7 @@ def CONTEUDO():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
+                    linha = tuplas[0]
                     return CONTEUDO()
                 else:            
                     errado = True
@@ -1180,6 +1181,7 @@ def CONTEUDO():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
+                    linha = tuplas[0]
                     return CONTEUDO()
                 else:            
                     errado = True
@@ -1247,6 +1249,7 @@ def CONTEUDO():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
+                    linha = tuplas[0]
                     return CONTEUDO()
                 else:            
                     errado = True
@@ -1293,6 +1296,7 @@ def CONTEUDO():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
+                    linha = tuplas[0]
                     return CONTEUDO()
                 else:            
                     errado = True
@@ -1339,6 +1343,7 @@ def CONTEUDO():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
+                    linha = tuplas[0]
                     return CONTEUDO()
                 else:            
                     errado = True
@@ -1405,6 +1410,7 @@ def CONTEUDO():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
+                    linha = tuplas[0]
                     return CONTEUDO()
                 else:            
                     errado = True
@@ -1546,6 +1552,7 @@ def CONTEUDO():
                                     output(int(linha), "SyntaxError", buffer)
                                     mantemToken()
                                     buffer = ""
+                                linha = tuplas[0]
                                 return CONTEUDO()
                             else:            
                                 errado = True
@@ -1588,6 +1595,7 @@ def CONTEUDO():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
+                    linha = tuplas[0]
                     return CONTEUDO()
                 else:            
                     errado = True
@@ -1601,7 +1609,7 @@ def CONTEUDO():
             mantemToken()
             return 0 
         elif(dados[iterador][2] == '(' and linha == tuplas[0]):
-            i = CHAMADAFUNCAO()
+            i = CHAMADAFUNCAO()  
             if(i==0): 
                 if(tuplas[2]==";" and linha == tuplas[0]):
                     buffer = ""
@@ -1639,6 +1647,7 @@ def CONTEUDO():
                             output(int(linha), "SyntaxError", buffer)
                             mantemToken()
                             buffer = ""
+                        linha = tuplas[0]
                         return CONTEUDO()
                     else:            
                         errado = True
@@ -1746,6 +1755,7 @@ def CONTEUDO():
                                 output(int(linha), "SyntaxError", buffer)
                                 mantemToken()
                                 buffer = ""
+                            linha = tuplas[0]
                             return CONTEUDO()
                         else:            
                             errado = True
@@ -1789,6 +1799,7 @@ def CONTEUDO():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
+                    linha = tuplas[0]
                     return CONTEUDO()
                 else:            
                     errado = True
@@ -1827,7 +1838,8 @@ def CONTEUDO():
                     output(int(linha), "SyntaxError", buffer)
                     mantemToken()
                     buffer = ""
-                iterador = iterador-1
+                #iterador = iterador-1
+                linha = tuplas[0]
                 return CONTEUDO()
             else:            
                 errado = True
@@ -2135,7 +2147,8 @@ def REGISTRO():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
-                    iterador = iterador-1
+                    #iterador = iterador-1
+                    linha = tuplas[0]
                     tuplas[1] = "DEL"
                     tuplas[2] = "{"                    
                     return VARIAVEIS()
@@ -2193,7 +2206,7 @@ def ACESSOVAR():
                                     output(int(linha), "SemanticoError", "Tipo diferente: "+aux)
                                     mantemToken()                                         
                             i=i+1
-                        if(not(indicador)):
+                        if(not(indicador)):                            
                             output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
                             mantemToken()
                     else:
@@ -2503,26 +2516,31 @@ def VETORMAISUM():
 
 def PARANINIT():
     global tuplas, buffer, linha, dados, paran, iterador
-    i = TIPOA()
-    if(i==0): 
-        paran.append(dados[iterador-2][2])
-        if(tuplas[1]=="IDE" and linha == tuplas[0]):
-            buffer = buffer + " " + tuplas[2]
-            paran.append(tuplas[2])
-            proxToken()  
-            if(tuplas[2]=="," and linha == tuplas[0]):
+    if(tuplas[2]==")" and linha == tuplas[0]):
+        buffer = buffer + " " + tuplas[2]
+        proxToken()
+        return 0
+    else:    
+        i = TIPOA()
+        if(i==0): 
+            paran.append(dados[iterador-2][2])
+            if(tuplas[1]=="IDE" and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
+                paran.append(tuplas[2])
                 proxToken()  
-                return PARANINIT()
-            elif(tuplas[2]==")" and linha == tuplas[0]):
-                buffer = buffer + " " + tuplas[2]
-                proxToken()  
-                return 0
+                if(tuplas[2]=="," and linha == tuplas[0]):
+                    buffer = buffer + " " + tuplas[2]
+                    proxToken()  
+                    return PARANINIT()
+                elif(tuplas[2]==")" and linha == tuplas[0]):
+                    buffer = buffer + " " + tuplas[2]
+                    proxToken()  
+                    return 0
+                else:
+                    return 1
             else:
                 return 1
-        else:
-            return 1
-    return i
+        return i
 
 def CHAMADAFUNCAO():
     global tuplas, buffer, linha, ide 
@@ -2582,15 +2600,15 @@ def PARANCONT():
                 paran.append("booleano")
             else:
                 indicador = False
-                i = 0
+                y = 0
                 for chave in range(len(tabela)):
-                    g = "IDE"+str(i)
+                    g = "IDE"+str(y)
                     if(tabela[chave].get(g,"não foi")==ideExp):
                         indicador = True
                         paran.append(tabela[chave].get("TIPO","não foi"))                                                   
-                    i=i+1
+                    y=y+1
                 if(not(indicador) and not(aux=="}")):
-                    output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ aux)
+                    output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ ideExp)
                     mantemToken()                        
             if(erronio):
                 output(int(linha), "SemanticoError", "Tipos diferentes")
@@ -2632,6 +2650,7 @@ def PARANCONT():
                             else:
                                 output(int(linha), "SemanticoError", "Quantidade de parametros diferentes")
                                 mantemToken()
+                            paran=[]
                         indicador = True    
                     else:
                         indicador = True                                                
@@ -2642,10 +2661,10 @@ def PARANCONT():
                 output(int(linha), "SemanticoError", "Funcao nao instanciada: "+ ide)
                 mantemToken()
             return 0  
-        else:
+        else:            
             return 1
     else:
-        return i
+        return 1
 
 def RETORNO():
     global tuplas, buffer, linha, retorno, retornado, expressao, fator, vetorial, chamada, linha, tabela, tipo, dados, iterador
@@ -2703,7 +2722,7 @@ def RETORNO():
                                         output(int(linha), "SemanticoError", "Tipos diferentes")
                                         mantemToken()                                                   
                                 i=i+1
-                            if(not(indicador) and not(aux=="}")):
+                            if(not(indicador) and not(aux=="}") and not(aux=="]")):
                                 output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ aux)
                                 mantemToken()                        
                         if(erronio):
@@ -2768,7 +2787,8 @@ def CONSTANTES():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
-                    iterador = iterador-1
+                    #iterador = iterador-1
+                    linha = tuplas[0]
                     tuplas[1] = "DEL"
                     tuplas[2] = "{"
                     return CONSTANTES()
@@ -2895,7 +2915,7 @@ def CONSTALT():
                                     output(int(linha), "SemanticoError", "Tipos diferentes")
                                     mantemToken()                                                   
                             i=i+1
-                        if(not(indicador) and not(aux=="}")):
+                        if(not(indicador) and not(aux=="}") and not(aux=="]")):
                             output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ aux)
                             mantemToken()                        
                     if(erronio):
@@ -2961,7 +2981,8 @@ def VARIAVEIS():
                         output(int(linha), "SyntaxError", buffer)
                         mantemToken()
                         buffer = ""
-                    iterador = iterador-1
+                    #iterador = iterador-1
+                    linha = tuplas[0]
                     tuplas[1] = "DEL"
                     tuplas[2] = "{"                    
                     return VARIAVEIS()
@@ -3041,7 +3062,7 @@ def VARCONT():
                                     output(int(linha), "SemanticoError", "Tipos diferentes")
                                     mantemToken()                                                   
                             i=i+1
-                        if(not(indicador) and not(aux=="}")):
+                        if(not(indicador) and not(aux=="}") and not(aux=="]") and not(aux=="]")):
                             output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ aux)
                             mantemToken()                        
                     if(erronio):

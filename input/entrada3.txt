@@ -12,6 +12,7 @@ variaveis{
     inteiro parcial;
     inteiro veto[5.55];        %indice difente
     inteiro vetor[cont];        %indice difente
+    inteiro w[2];
 }
 
 algoritmo{
