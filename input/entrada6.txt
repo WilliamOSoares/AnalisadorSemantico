@@ -1,0 +1,126 @@
+constantes
+{
+  inteiro  x = 1;
+  cadeia s = "teste";
+  real y = 5.3;
+}
+
+variaveis
+{
+   inteiro a;
+   inteiro b;
+   inteiro c;
+   real w;
+}
+
+algoritmo{
+    se ( a > d[1] ) 
+    {
+    a = b;
+    }
+    se ( (verdadeiro == x) && (falso == y) ) 
+    {
+    a = b;
+    }
+    se ( (a < b) || (c < w) ) 
+    {
+    a = b;
+    }
+    
+    
+    se ( a > )                         %falta varaivel para comparacao
+    
+    a = b;
+    
+    se ( (verdadeiro == x) && )        %falta outro termo para comparacao
+    
+    a = b;
+    
+    se (  || (c < w) )                 %falta outro termo para comparacao
+    
+    a = b;
+    
+
+    
+    se ( a > c ) 
+    {
+        w = 5.4;
+    }
+    senao
+    {
+        w = 2.4;
+    }
+
+    
+    se ( a > c ) 
+    {
+        w = 5.4;
+                                        %falta chave
+    senao
+                                        %falta chave
+        w = 2.4;
+    
+
+
+    se ( a > c ) 
+    {
+        w = 5.4;
+    }
+    senao
+    
+        w = 2.4;
+                                        %falta chave
+
+    
+    se ( a > c ) 
+    {
+    w = 5.4;
+    }
+    senao
+    {
+        se ( a > c ) 
+        {
+        w = 5.4;
+        }
+        senao
+        {
+            w = 2.4;
+        }
+    }
+
+
+    enquanto (a > 7)
+    {
+    a = 2;
+    se ( a > 2 )
+        {
+        w = 5.4;
+    }
+    senao
+    {
+        w = 2.4;
+    }
+    }
+
+
+    enquanto (a > 7                         %falta parentesse
+    {
+    a = 2;
+    se ( a > 2 )
+        {
+        w = 5.4;
+    }
+    senao
+    {
+        w = 2.4;
+    }
+    }
+
+
+    enquanto (a > 7)
+    {
+    a = 2;                                   %Falta uma chave
+    }
+
+
+}

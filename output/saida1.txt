@@ -3,15 +3,19 @@
 02 SemanticoError Funcao nao instanciada: a
 02 SemanticoError O valor deve ser explicito e com um so fator
 03 SemanticoError Tipos diferentes
+04 SemanticoError Identificador nao instanciado: e
+04 SemanticoError Identificador nao instanciado: true
 04 SemanticoError O valor deve ser explicito e com um so fator
 07 SemanticoError Identificador ja instanciado: a
 09 SemanticoError Tipo diferente: real
 11 SemanticoError Tipo diferente: real
 12 SemanticoError Identificador nao instanciado: False
+12 SemanticoError Identificador nao instanciado: False
 12 SemanticoError Identificador ja instanciado: a
 13 SemanticoError Impossivel declarar uma matriz 3D do tipo cadeia
 13 SemanticoError Tipos diferentes
 13 SemanticoError Tipos diferentes
+21 SemanticoError Identificador nao instanciado: j
 21 SemanticoError Identificador nao instanciado: j
 22 SemanticoError Tipos diferentes
 23 SemanticoError Impossivel mudar valor de constantes: madrid
@@ -20,6 +24,8 @@
 28 SemanticoError Conteudo vazio
 28 SemanticoError Funcao sem retorno
 31 SemanticoError Identificador ja instanciado: soma
+32 SemanticoError Identificador nao instanciado: e
+32 SemanticoError Identificador nao instanciado: f
 35 SemanticoError Funcao vazio com retorno
 37 SemanticoError Conteudo vazio
 38 SemanticoError Funcao vazio com retorno

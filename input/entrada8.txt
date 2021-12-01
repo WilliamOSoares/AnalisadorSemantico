@@ -1,0 +1,37 @@
+constantes
+{
+  inteiro  x = 1;
+  cadeia s = "teste";
+  real y = 5.3;
+}
+
+variaveis
+{
+   inteiro a;
+   inteiro b;
+   inteiro c;
+   real w;
+   booleano bandeira;
+   inteiro i;
+}
+
+algoritmo{
+    se(a>b>c){
+        escreva("TNCMOB");
+    }
+    enquanto(bandeira == c && a>c !=bandeira){
+        a = falso + b;
+    }
+    se(a>=w || w>5){
+
+    }
+    para(i=falso;falso==c>5;i=falso)
+        escreva("erro");
+    
+    se(bandeira == w>a && i== falso || a>b>c>8 ){
+        
+    }
+    se(verdadeiro == falso == falso && falso != bandeira == falso){
+        
+    }
+}

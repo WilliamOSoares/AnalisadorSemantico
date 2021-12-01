@@ -1,0 +1,9 @@
+31 SyntaxError  se ( a > )
+35 SyntaxError  se ( ( verdadeiro == x ) && )
+39 SyntaxError  se ( || ( c < w ) )
+59 SyntaxError  senao
+67 SyntaxError  } senao
+106 SyntaxError  enquanto ( a > 7
+107 SyntaxError  {
+17 SemanticoError Identificador nao instanciado: d
+25 SemanticoError Erro na expressao. Ponto do erro:  se ( ( a < b ) || ( c

@@ -1,0 +1,24 @@
+constantes
+{
+  inteiro  x = 1;
+  cadeia s = "teste";
+  real y = 5.3;
+}
+
+variaveis
+{
+   inteiro a;
+   inteiro b;
+   inteiro c;
+   real w;
+}
+
+algoritmo{
+  a = a + b;
+  c = b + 5;
+  w = 2.5 - 3.9;
+  b = x * 5;
+  w = y / w;
+  w = y/w+8.5-9.6587;
+  b = 8*9+9*20;
+}

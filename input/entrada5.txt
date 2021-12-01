@@ -1,0 +1,21 @@
+funcao vazio salario(inteiro a, inteiro b, booleano c){
+    escreva("salario");
+}
+
+funcao vazio salario(real d, real e, cadeia f, char g){
+    escreva("salario 2");
+}
+
+algoritmo{
+    variaveis{
+        inteiro fator1;
+        inteiro fator2;
+        real fator3;
+        real fator4;
+        booleano fator5;
+        cadeia fator6;
+        char fator7;
+    }
+    salario(fator1, fator2, fator5);
+    salario(fator3, fator4, fator6, fator7);
+}

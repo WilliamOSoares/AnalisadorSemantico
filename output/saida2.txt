@@ -1,6 +1,7 @@
 15 SyntaxError Declaracoes Fora de Escopo:  algoritmo
 33 SyntaxError  pessoa . peso
 06 SemanticoError Identificador nao instanciado: z
+06 SemanticoError Identificador nao instanciado: z
 12 SemanticoError Identificador ja instanciado: a
 18 SemanticoError Funcao vazio com retorno
 22 SemanticoError Tipos diferentes
