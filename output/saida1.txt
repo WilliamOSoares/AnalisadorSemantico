@@ -1,6 +1,5 @@
 60 NMF 5g
-39 SyntaxError Declaracoes Fora de Escopo:  leia ( c ) ;
-40 SyntaxError Declaracoes Fora de Escopo:  }
+38 SyntaxError  leia ( c ) ;
 02 SemanticoError Funcao nao instanciada: a
 02 SemanticoError O valor deve ser explicito e com um so fator
 03 SemanticoError Tipos diferentes

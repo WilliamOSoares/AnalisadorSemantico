@@ -215,6 +215,10 @@
 		| <= <EXPRESSAOB>
 		| != <EXPRESSAOB>
 		| == <EXPRESSAOB> 
+		| + <EXPARITMETICAB> <EXPRESSAOB>
+		| - <EXPARITMETICAB> <EXPRESSAOB>
+		| * <EXPARITMETICAB> <EXPRESSAOB>
+		| / <EXPARITMETICAB> <EXPRESSAOB>
 		| <>
 
 	######### Expressao aritmetica ###########			

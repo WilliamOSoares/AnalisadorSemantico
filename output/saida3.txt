@@ -1,6 +1,8 @@
+20 SyntaxError  a k ;
 04 SemanticoError Tipos diferentes
 06 SemanticoError Tipos diferentes
-11 SemanticoError Tipos diferentes
-13 SemanticoError Tipo diferente: real
-19 SemanticoError Tipos diferentes
-20 SemanticoError Tipos diferentes
+15 SemanticoError Tipos diferentes
+17 SemanticoError Tipo diferente: real
+24 SemanticoError Tipos diferentes
+25 SemanticoError Tipos diferentes
+26 SemanticoError Divisao explicita por ZERO

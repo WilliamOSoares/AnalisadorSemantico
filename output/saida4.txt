@@ -1,6 +1,5 @@
 03 SemanticoError Tipos diferentes
 05 SemanticoError Tipos diferentes
-18 SemanticoError Tipos diferentes
 27 SemanticoError Tipos diferentes
 35 SemanticoError Funcao sem retorno
 46 SemanticoError Identificador ja instanciado: somar

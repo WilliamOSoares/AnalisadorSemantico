@@ -6,6 +6,10 @@ constantes{
     char letra = "c";          %tipo diferente
 }
 
+registro a{
+    inteiro b;
+}
+
 variaveis{
     cadeia poli;
     booleano bandeira = "falso";  %tipo diferente
@@ -13,11 +17,13 @@ variaveis{
     inteiro veto[5.55];        %indice difente
     inteiro vetor[cont];        %indice difente
     inteiro w[2];
+    a k;
 }
 
 algoritmo{
     poli = falso;     %tipo diferente
     parcial = "5";      %tipo diferente
+    parcial = 2/0;
     
     se(poli == "falso"){
         escreva("deu ruim");
