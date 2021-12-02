@@ -11,10 +11,11 @@ variaveis
    inteiro b;
    inteiro c;
    real w;
+   booleano t;
 }
 
 algoritmo{
-  a = a + b;
+  t = a + b == (5+5);
   c = b + 5;
   w = 2.5 - 3.9;
   b = x * 5;

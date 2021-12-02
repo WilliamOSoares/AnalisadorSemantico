@@ -20,7 +20,7 @@
 60 SemanticoError Quantidade de parametros diferentes
 61 SemanticoError Quantidade de parametros diferentes
 62 SemanticoError Parametros com tipos diferentes
-64 SemanticoError Quantidade de parametros diferentes
+63 SemanticoError Funcao nao instanciada: cont
 65 SemanticoError Quantidade de parametros diferentes
 66 SemanticoError Parametros com tipos diferentes
 67 SemanticoError Quantidade de parametros diferentes

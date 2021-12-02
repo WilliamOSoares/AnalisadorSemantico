@@ -6,4 +6,4 @@
 106 SyntaxError  enquanto ( a > 7
 107 SyntaxError  {
 17 SemanticoError Identificador nao instanciado: d
-25 SemanticoError Erro na expressao. Ponto do erro:  se ( ( a < b ) || ( c
+25 SemanticoError Erro na expressao. Ponto do erro:  se ( ( a < b ) || ( c < w

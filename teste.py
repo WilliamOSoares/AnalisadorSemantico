@@ -20,7 +20,7 @@ for chave in tabelaSim.keys():
 tabela = []
 aux = {"IDE0": "alfabeto", "TIPO": "CAD", "ESCOPO": "algoritmo", "LINHA": "15", "INST": "VAR"}
 tabela.append(aux)
-aux = {"IDE1": "moab", "TIPO": "CAD", "ESCOPO": "algoritmo", "LINHA": "17", "INST": "VAR"}
+aux = {"IDE1": "moab", "TIPO": "CAD", "ESCOPO": "global", "LINHA": "17", "INST": "VAR"}
 tabela.append(aux)
 aux = {"IDE2": "puta", "TIPO": "CAD", "ESCOPO": "funcao", "LINHA": "18", "INST": "VAR"}
 tabela.append(aux)
@@ -40,14 +40,17 @@ for chave in range(len(tabela)):
     i=i+1
 x=0
 a = ["inteiro","x","inteiro","y"]
-for chave in range(len(tabela)):
+print("Entrou for")
+for chave in range(len(tabela)):    
     y = "IDE"+str(x)
-    if(tabela[chave].get("ESCOPO","não foi")=="funcao"):
+    print(tabela[chave].get(y,"não deu"))
+    if(tabela[chave].get("ESCOPO","não foi")=="global"):
         tabela[chave].update({"atributos":a})
-    x=x+1 
+        chave=len(tabela)
+    x=x+1     
 print(tabela)
 paran = a
-g = tabela[chave].get("atributos","não foi")
+g = tabela[0].get("atributos","não foi")
 x = (len(tabela))
 for chave in range(len(paran)):
     frase = "IDE"+str(x)
@@ -59,6 +62,11 @@ for chave in range(len(paran)):
 print(tabela)
 #print(g)
 #print(len(g)/2)
+bufferExpressao = "(5+5 || b)" 
+if(bufferExpressao.find("+")<0 and bufferExpressao.find("-")<0 and bufferExpressao.find("*")<0 and bufferExpressao.find("/")<0):
+    print("booleano")
+else:
+    print("real")
 '''
 for i in y:
     g = "IDE"+str(i)
