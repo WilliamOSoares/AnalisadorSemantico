@@ -40,6 +40,7 @@ ultipo = "" # Ulitmo tipo da ide utilizada na expressão
 dentroParen = False # se false não tá dentro do parenteses, se for True, te dentro
 verifexpress = True # Se true verifica expressão, se false já tem erro
 bufferExpressao = ""
+tipoChamada = ""
 
 # Abertura do arquivo
 def input():
@@ -80,7 +81,12 @@ def output(linha, code, buffer):
                 flagER = True
         if(flagER):
             if("SemanticoError"==code):
-                errosSeman.append(linhaSaida)
+                repetido=False
+                for z in range(len(errosSeman)):
+                    if(errosSeman[z]==linhaSaida):
+                        repetido=True
+                if(not(repetido)):
+                    errosSeman.append(linhaSaida)
                 tuplas = []
             else:        
                 erros.append(linhaSaida)
@@ -1099,7 +1105,7 @@ def ALGORITMO():
     return 0
         
 def CONTEUDO():
-    global tuplas, iterador, dados, buffer, linha, tipo, ide, tabela, atribu, chamada, vetorial, fator, expressao, verifexpress, ultipo, algeb, dentroParen, bufferExpressao
+    global tuplas, iterador, dados, buffer, linha, tipo, ide, tabela, atribu, chamada, vetorial, fator, expressao, verifexpress, ultipo, algeb, dentroParen, bufferExpressao, tipoChamada
     atribu=True
     vetorial = False 
     expressao = False 
@@ -1540,13 +1546,19 @@ def CONTEUDO():
                                             output(int(linha), "SemanticoError", "Tipos diferentes")
                                             mantemToken()  
                                     else:
-                                        if(expressao and not(tipo == "booleano")):
-                                            output(int(linha), "SemanticoError", "Tipos diferentes")
-                                            mantemToken()  
-                                        else:
-                                            print("É expressão aritmética ou chamada de função")
+                                        if(expressao): #and not(tipo == "booleano")):
+                                            if(buffer.find("||")>0 or buffer.find("&&")>0 or buffer.find("==")>0 or buffer.find("!=")>0 or buffer.find(">=")>0 or buffer.find("<=")>0 or buffer.find("<")>0 or buffer.find(">")>0):
+                                                if(tipo != "booleano"):
+                                                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                                                    mantemToken()  
+                                            else:
+                                                if(not(tipo == "inteiro" or tipo == "real")):
+                                                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                                                    mantemToken()
                                 elif(not(chamada=="")):
-                                    print("analisar a chamada de função")
+                                    if(tipo!=tipoChamada):
+                                        output(int(linha), "SemanticoError", "Tipos diferentes")
+                                        mantemToken()
                                 chamada=""
                                 vetorial = False
                                 fator = True
@@ -1756,7 +1768,9 @@ def CONTEUDO():
                                     #else:
                                         #print("É expressão aritmética ou chamada de função")
                             elif(not(chamada=="")):
-                                print("analisar a chamada de função")
+                                if(tipo!=tipoChamada):
+                                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                                    mantemToken()
                             chamada=""
                             vetorial = False
                             fator = True
@@ -2645,10 +2659,11 @@ def PARANINIT():
         return i
 
 def CHAMADAFUNCAO():
-    global tuplas, buffer, linha, ide 
+    global tuplas, buffer, linha, ide, chamada
     if(tuplas[1]=="IDE" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         ide = tuplas[2]
+        chamada=tuplas[2]
         proxToken()    
         if(tuplas[2]=="(" and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
@@ -2658,7 +2673,7 @@ def CHAMADAFUNCAO():
         return 1
     
 def PARAN():
-    global tuplas, buffer, linha, ide, tabela, chamada, paran
+    global tuplas, buffer, linha, ide, tabela, chamada, paran, tipoChamada
     if(tuplas[2]==")" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -2673,6 +2688,8 @@ def PARAN():
                     if(not(tabela[chave].get("ATRIBUTOS","m")=="m") and not(acertou)):
                         achouErro = True
                     else:
+                        if(not(acertou)):
+                            tipoChamada = tabela[chave].get("TIPO","não foi")
                         acertou = True
                         achouErro = False
                     indicador = True                                                  
@@ -2688,9 +2705,9 @@ def PARAN():
         return PARANCONT()
 
 def PARANCONT():
-    global tuplas, buffer, linha, tabela, ide, chamada, paran, tabela, expressao, fator, vetorial, ideExp, dados, iterador
-    #chamadaAux = chamada
-    #chamada = ""
+    global tuplas, buffer, linha, tabela, ide, chamada, paran, tabela, expressao, fator, vetorial, ideExp, dados, iterador, tipoChamada
+    chamadaAux = chamada
+    chamada = ""
     i = VALOR()
     if(not(vetorial) and chamada==""):
         if(fator): #and not(tipo == dados[iterador-2][1])):
@@ -2725,16 +2742,21 @@ def PARANCONT():
                 output(int(linha), "SemanticoError", "Tipos diferentes")
                 mantemToken()  
         else:
-            if(expressao):
-                paran.append("booleano") 
-            else:
-                print("É expressão aritmética ou chamada de função")
+            if(expressao): #and not(tipo == "booleano")):
+                if(buffer.find("||")>0 or buffer.find("&&")>0 or buffer.find("==")>0 or buffer.find("!=")>0 or buffer.find(">=")>0 or buffer.find("<=")>0 or buffer.find("<")>0 or buffer.find(">")>0):
+                    paran.append("booleano") 
+                else:
+                    if(buffer.find(".")>0):
+                        paran.append("real")
+                    else:
+                        paran.append("inteiro")
     elif(not(chamada=="")):
-        print("analisar a chamada de função")
+        output(int(linha), "SemanticoError", "Chamada de funcao dentro de chamada de funcao")
+        mantemToken()
     vetorial = False
     fator = True
     expressao = False
-    #chamada = chamadaAux
+    chamada = chamadaAux
     if(i==0): 
         if(tuplas[2]=="," and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
@@ -2762,6 +2784,8 @@ def PARANCONT():
                                 if(Taerrado):
                                     achouMaisUmErro = True
                                 else:
+                                    if(not(acertou)):
+                                        tipoChamada = tabela[chave].get("TIPO","não foi")
                                     acertou=True
                                     achouErro=False
                                     achouMaisUmErro = False
@@ -2788,7 +2812,7 @@ def PARANCONT():
         return 1
 
 def RETORNO():
-    global tuplas, buffer, linha, retorno, retornado, expressao, fator, vetorial, chamada, linha, tabela, tipo, dados, iterador
+    global tuplas, buffer, linha, retorno, retornado, expressao, fator, vetorial, chamada, linha, tabela, tipo, dados, iterador, tipoChamada
     i = VALOR()
     if(i==0): 
         if(tuplas[2]==";" and linha == tuplas[0]):
@@ -2863,7 +2887,9 @@ def RETORNO():
                         #else:
                         #   print("É expressão aritmética ou chamada de função")
                 elif(not(chamada=="")):
-                    print("analisar a chamada de função")
+                    if(tipo!=tipoChamada):
+                        output(int(linha), "SemanticoError", "Tipos diferentes")
+                        mantemToken()
                 vetorial = False
                 fator = True
                 expressao = False
@@ -3149,7 +3175,7 @@ def VARALT():
         return 1 
 
 def VARCONT():
-    global tuplas, buffer, expressao, fator, vetorial, chamada,linha, ultipo
+    global tuplas, buffer, expressao, fator, vetorial, chamada,linha, ultipo, tipoChamada, errosSeman
     fator = True
     if(tuplas[2]== "," or tuplas[2]== ";"): #Conjunto first
         return VARFINAL()        
@@ -3190,22 +3216,26 @@ def VARCONT():
                                     output(int(linha), "SemanticoError", "Tipos diferentes")
                                     mantemToken()                                                   
                             i=i+1
-                        if(not(indicador) and not(aux=="}") and not(aux=="]") and not(aux=="]")):
+                        if(not(indicador) and not(aux=="}") and not(aux=="]")):
                             output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ aux)
-                            mantemToken()                        
+                            mantemToken()             
                     if(erronio):
                         output(int(linha), "SemanticoError", "Tipos diferentes")
                         mantemToken()  
                 else:
-                    if(expressao and not(tipo == "booleano")):
-                        output(int(linha), "SemanticoError", "Tipos diferentes")
-                        mantemToken()  
-                    else:
-                        #RESOLVER O PROBLEMA AQUI
-                        print("É expressão aritmética ou chamada de função")
+                    if(expressao): #and not(tipo == "booleano")):
+                        if(buffer.find("||")>0 or buffer.find("&&")>0 or buffer.find("==")>0 or buffer.find("!=")>0 or buffer.find(">=")>0 or buffer.find("<=")>0 or buffer.find("<")>0 or buffer.find(">")>0):
+                            if(tipo != "booleano"):
+                                output(int(linha), "SemanticoError", "Tipos diferentes")
+                                mantemToken()  
+                        else:
+                            if(not(tipo == "inteiro" or tipo == "real")):
+                                output(int(linha), "SemanticoError", "Tipos diferentes")
+                                mantemToken()                    
             elif(not(chamada=="")):
-                #RESOLVER O PROBLEMA AQUI
-                print("analisar a chamada de função")
+                if(tipo!=tipoChamada):
+                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                    mantemToken()
             vetorial = False
             fator = True
             expressao = False
@@ -3530,14 +3560,14 @@ def VETOR():
                         if(tabela[chave].get(g,"não foi")==aux):
                             indicador = True
                             if(not(tabela[chave].get("TIPO","não foi")==tipo)):
-                                output(int(linha), "SemanticoError", "Tipos diferentes")
+                                output(int(linha), "SemanticoError", "Tipos diferentes, lexema: " + aux)
                                 mantemToken()                                                   
                         i=i+1
                     if(not(indicador)):
                         output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ aux)
                         mantemToken()                        
                 if(erronio):
-                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                    output(int(linha), "SemanticoError", "Tipos diferentes, lexema: " + aux)
                     mantemToken()  
             elif(not(chamada=="")):
                 output(int(linha), "SemanticoError", "O valor deve ser explicito e com um so fator")
@@ -3650,6 +3680,7 @@ def EXPREXC():
             bufferExpressao = bufferExpressao + tuplas[2]
         proxToken()
         # Guardar flags e "zerar" elas
+        ultipoAux = ultipo
         expressaoAux = expressao 
         fatorAux = fator
         algebAux = algeb        
@@ -3661,7 +3692,7 @@ def EXPREXC():
         bufferExpressao = ""
         i = EXPRESSAOB()
         k = bufferExpressao.find("+-*/")
-        if(k<0):
+        if(bufferExpressao.find("||")>0 or bufferExpressao.find("&&")>0 or bufferExpressao.find("==")>0 or bufferExpressao.find("!=")>0 or bufferExpressao.find(">=")>0 or bufferExpressao.find("<=")>0 or bufferExpressao.find("<")>0 or bufferExpressao.find(">")>0):
             ultipo = "booleano"
         dentroParen = False
         bufferExpressao = ""
@@ -3669,11 +3700,24 @@ def EXPREXC():
             if(tuplas[2]==")" and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
                 proxToken()
-                expressao = expressaoAux
-                fator = fatorAux
-                algeb = algebAux
+                expressao = True #expressaoAux
+                #fator = fatorAux
+                algeb = algebAux  
                 # Volta flags guardadas
-                # Fazer a verificação de volta aqui
+                if(not(algeb=="")):
+                    if((dados[iterador-1][2]==")" or dados[iterador-1][2]==";") and verifexpress):
+                        if((algeb=="rel" or algeb=="ari") and ultipo!="booleano"): #and ultipo=="inteiro" or ultipo == "real" and ultipoAux=="inteiro" or ultipoAux=="real"):
+                            verifexpress = True
+                        elif(algeb=="rll" and ultipo==ultipoAux):
+                            verifexpress = True
+                        elif(algeb=="rll" and (ultipo=="inteiro" or ultipo=="real") and (ultipoAux=="real" or ultipoAux=="inteiro")):
+                            verifexpress = True
+                        elif(algeb=="log" and ultipo=="booleano" and ultipo==ultipoAux):
+                            verifexpress = True
+                        else:
+                            verifexpress = False
+                            output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
+                            mantemToken()
                 return EXPRESSAOCONTB()
             else:
                 return 1
@@ -3803,7 +3847,6 @@ def EXPRESSAOB():
                 algeb = algebAux            
                 #ultipo = ultipoAux   
                 # Volta flags guardadas
-                # SE FOR O ULTIMO CARACTER DA EXPRESSÃO TEM QUE FAZER A VERIFICAÇÃO COM O QUE TEM ANTES
                 if(not(algeb=="")):
                     if((dados[iterador-1][2]==")" or dados[iterador-1][2]==";") and verifexpress):
                         if((algeb=="rel" or algeb=="ari") and ultipo!="booleano"): #and ultipo=="inteiro" or ultipo == "real" and ultipoAux=="inteiro" or ultipoAux=="real"):
@@ -4618,3 +4661,4 @@ else:
         dentroParen = False
         verifexpress = True 
         bufferExpressao = ""
+        tipoChamada = ""

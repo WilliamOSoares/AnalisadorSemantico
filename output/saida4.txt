@@ -6,11 +6,8 @@
 56 SemanticoError Identificador nao instanciado: parcial
 56 SemanticoError Funcao nao instanciada: parcial
 57 SemanticoError Identificador nao instanciado: parcial
-57 SemanticoError Identificador nao instanciado: parcial
 57 SemanticoError Quantidade de parametros diferentes
 59 SemanticoError Identificador nao instanciado: a
-59 SemanticoError Identificador nao instanciado: a
-59 SemanticoError Identificador nao instanciado: b
 59 SemanticoError Identificador nao instanciado: b
 59 SemanticoError Quantidade de parametros diferentes
 60 SemanticoError Quantidade de parametros diferentes
