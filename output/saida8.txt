@@ -4,9 +4,7 @@
 28 SyntaxError  falso == c > 5 ;
 28 SyntaxError  i = falso
 28 SyntaxError  )
-22 SemanticoError Erro na expressao. Ponto do erro:  enquanto ( bandeira == c && a
-25 SemanticoError Erro na expressao. Ponto do erro:  se ( a >= w
+19 SemanticoError Erro na expressao. Ponto do erro:  se ( a > b >
+22 SemanticoError Erro na expressao. Ponto do erro:  enquanto ( bandeira == c
 25 SemanticoError Conteudo vazio
-31 SemanticoError Erro na expressao. Ponto do erro:  se ( bandeira == w > a
-31 SemanticoError Conteudo vazio
-34 SemanticoError Conteudo vazio
+31 SemanticoError Erro na expressao. Ponto do erro:  se ( bandeira == w

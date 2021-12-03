@@ -1486,7 +1486,7 @@ def CONTEUDO():
             atribu = False
             output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ tuplas[2])
             mantemToken()
-        if(dados[iterador][2] == '[' or dados[iterador][2] == '.' and linha == tuplas[0]):
+        if((dados[iterador][2] == '[' or dados[iterador][2] == '.') and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             proxToken()            
             i = ACESSOVAR()
@@ -1699,8 +1699,7 @@ def CONTEUDO():
                 proxToken()                
                 i = EXPATRIBUICAOB()
                 if(i==0): 
-                    if(tuplas[2]==";" and linha == tuplas[0]):
-                        buffer = ""
+                    if(tuplas[2]==";" and linha == tuplas[0]):                        
                         if(atribu):
                             if(not(vetorial) and chamada==""):
                                 if(fator): #and not(tipo == dados[iterador-2][1])):
@@ -1745,16 +1744,23 @@ def CONTEUDO():
                                         output(int(linha), "SemanticoError", "Tipos diferentes")
                                         mantemToken()  
                                 else:
-                                    if(expressao and not(tipo == "booleano")):
-                                        output(int(linha), "SemanticoError", "Tipos diferentes")
-                                        mantemToken()  
-                                    else:
-                                        print("É expressão aritmética ou chamada de função")
+                                    if(expressao): #and not(tipo == "booleano")):
+                                        if(buffer.find("||")>0 or buffer.find("&&")>0 or buffer.find("==")>0 or buffer.find("!=")>0 or buffer.find(">=")>0 or buffer.find("<=")>0 or buffer.find("<")>0 or buffer.find(">")>0):
+                                            if(tipo != "booleano"):
+                                                output(int(linha), "SemanticoError", "Tipos diferentes")
+                                                mantemToken()  
+                                        else:
+                                            if(not(tipo == "inteiro" or tipo == "real")):
+                                                output(int(linha), "SemanticoError", "Tipos diferentes")
+                                                mantemToken()
+                                    #else:
+                                        #print("É expressão aritmética ou chamada de função")
                             elif(not(chamada=="")):
                                 print("analisar a chamada de função")
                             chamada=""
                             vetorial = False
                             fator = True
+                        buffer = ""
                         proxToken() 
                         return CONTEUDO() 
                     else:
@@ -1916,7 +1922,7 @@ def ESCONT():
              return i
         else:
             return i
-    if(tuplas[1] == "CAR" or tuplas[1] == "CAD" and linha == tuplas[0]):
+    if((tuplas[1] == "CAR" or tuplas[1] == "CAD") and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
         i = ESFIM()
@@ -2276,7 +2282,7 @@ def ACESSOVAR():
             if(tuplas[2] == '[' and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
                 proxToken()
-                if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
+                if((tuplas[1] == 'NRO' or tuplas[1] == 'IDE') and linha == tuplas[0]):
                     buffer = buffer + " " + tuplas[2]
                     if(tuplas[1] == 'IDE'):
                         indicador = False
@@ -2314,7 +2320,7 @@ def ACESSOVAR():
     elif(tuplas[2] == '[' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
-        if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
+        if((tuplas[1] == 'NRO' or tuplas[1] == 'IDE') and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             if(tuplas[1] == 'IDE'):
                 indicador = False
@@ -2353,7 +2359,7 @@ def ACESSOVARCONT():
     if(tuplas[2] == '[' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
-        if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
+        if((tuplas[1] == 'NRO' or tuplas[1] == 'IDE') and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             if(tuplas[1] == 'IDE'):
                 indicador = False
@@ -2392,7 +2398,7 @@ def ACESSOVARCONTB():
     if(tuplas[2] == '[' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
-        if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
+        if((tuplas[1] == 'NRO' or tuplas[1] == 'IDE') and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             if(tuplas[1] == 'IDE'):
                 indicador = False
@@ -2514,7 +2520,19 @@ def FUNCAOINIT():
                                     if(indicadorb):
                                         indicador = True   
                             else:
-                                indicador = True          
+                                g = tabela[chave].get("ATRIBUTOS","não foi")
+                                if(len(g)==len(paran)):
+                                    indicadorb = True
+                                    for chave in range(len(g)):
+                                        if(chave==0):
+                                            if(not(g[chave]==paran[chave])):
+                                                indicadorb = False
+                                        elif(chave%2==0):
+                                            if(not(g[chave]==paran[chave])):
+                                                indicadorb = False
+                                    if(indicadorb):
+                                        indicador = True 
+                                #indicador = True          
                         i=i+1
                     if(indicador):
                         output(int(linha), "SemanticoError", "Identificador ja instanciado: "+ide)
@@ -2670,7 +2688,9 @@ def PARAN():
         return PARANCONT()
 
 def PARANCONT():
-    global tuplas, buffer, linha, tabela, ide, chamada, paran, tabela, expressao, fator, vetorial, ideExp
+    global tuplas, buffer, linha, tabela, ide, chamada, paran, tabela, expressao, fator, vetorial, ideExp, dados, iterador
+    #chamadaAux = chamada
+    #chamada = ""
     i = VALOR()
     if(not(vetorial) and chamada==""):
         if(fator): #and not(tipo == dados[iterador-2][1])):
@@ -2714,6 +2734,7 @@ def PARANCONT():
     vetorial = False
     fator = True
     expressao = False
+    #chamada = chamadaAux
     if(i==0): 
         if(tuplas[2]=="," and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
@@ -2743,6 +2764,8 @@ def PARANCONT():
                                 else:
                                     acertou=True
                                     achouErro=False
+                                    achouMaisUmErro = False
+                                    indicador = True
                             else:
                                 if(not(acertou)):
                                     achouErro = True
@@ -2782,6 +2805,7 @@ def RETORNO():
                         tipo = tabela[chave].get("TIPO","não foi")
                     i=i-1
                 Nerrou = True
+                #possivel erro
                 if(testando == dados[iterador-2][2]):
                     output(int(linha), "SemanticoError", "Impossivel retornar identificador da funcao")
                     mantemToken()  
@@ -2809,29 +2833,35 @@ def RETORNO():
                             if(not(tipo == "booleano")):
                                     erronio = True
                         else:
-                            aux = dados[iterador-2][2]
+                            #aux = dados[iterador-2][2]
                             indicador = False
                             i = 0
                             for chave in range(len(tabela)):
                                 g = "IDE"+str(i)
-                                if(tabela[chave].get(g,"não foi")==aux):
+                                if(tabela[chave].get(g,"não foi")==ideExp):
                                     indicador = True
                                     if(not(tabela[chave].get("TIPO","não foi")==tipo)):
                                         output(int(linha), "SemanticoError", "Tipos diferentes")
                                         mantemToken()                                                   
                                 i=i+1
                             if(not(indicador) and not(aux=="}") and not(aux=="]")):
-                                output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ aux)
+                                output(int(linha), "SemanticoError", "Identificador nao instanciado: "+ ideExp)
                                 mantemToken()                        
                         if(erronio):
                             output(int(linha), "SemanticoError", "Tipos diferentes")
                             mantemToken()  
                     else:
-                        if(expressao and not(tipo == "booleano")):
-                            output(int(linha), "SemanticoError", "Tipos diferentes")
-                            mantemToken()  
-                        else:
-                            print("É expressão aritmética ou chamada de função")
+                        if(expressao): #and not(tipo == "booleano")):
+                            if(buffer.find("||")>0 or buffer.find("&&")>0 or buffer.find("==")>0 or buffer.find("!=")>0 or buffer.find(">=")>0 or buffer.find("<=")>0 or buffer.find("<")>0 or buffer.find(">")>0):
+                                if(tipo != "booleano"):
+                                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                                    mantemToken()  
+                            else:
+                                if(not(tipo == "inteiro" or tipo == "real")):
+                                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                                    mantemToken() 
+                        #else:
+                        #   print("É expressão aritmética ou chamada de função")
                 elif(not(chamada=="")):
                     print("analisar a chamada de função")
                 vetorial = False
@@ -3119,7 +3149,7 @@ def VARALT():
         return 1 
 
 def VARCONT():
-    global tuplas, buffer, expressao, fator, vetorial, chamada,linha
+    global tuplas, buffer, expressao, fator, vetorial, chamada,linha, ultipo
     fator = True
     if(tuplas[2]== "," or tuplas[2]== ";"): #Conjunto first
         return VARFINAL()        
@@ -3171,8 +3201,10 @@ def VARCONT():
                         output(int(linha), "SemanticoError", "Tipos diferentes")
                         mantemToken()  
                     else:
+                        #RESOLVER O PROBLEMA AQUI
                         print("É expressão aritmética ou chamada de função")
             elif(not(chamada=="")):
+                #RESOLVER O PROBLEMA AQUI
                 print("analisar a chamada de função")
             vetorial = False
             fator = True
@@ -3255,7 +3287,7 @@ def VARFIM():
 
 def TIPO():
     global tuplas, buffer, linha, tipo
-    if(tuplas[2]== "inteiro" or tuplas[2]=="real" or tuplas[2]=="booleano" or tuplas[2]=="cadeia" or tuplas[2]=="char" and linha == tuplas[0]):
+    if((tuplas[2]== "inteiro" or tuplas[2]=="real" or tuplas[2]=="booleano" or tuplas[2]=="cadeia" or tuplas[2]=="char") and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         tipo = tuplas[2]
         proxToken()
@@ -3265,7 +3297,7 @@ def TIPO():
 
 def TIPOA():
     global tuplas, buffer, linha
-    if(tuplas[2]== "inteiro" or tuplas[2]=="real" or tuplas[2]=="booleano" or tuplas[2]=="cadeia" or tuplas[2]=="char" or tuplas[2]=="registro" and linha == tuplas[0]):
+    if((tuplas[2]== "inteiro" or tuplas[2]=="real" or tuplas[2]=="booleano" or tuplas[2]=="cadeia" or tuplas[2]=="char" or tuplas[2]=="registro") and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
         return 0
@@ -3281,7 +3313,7 @@ def VARINIT():
     elif(tuplas[2] == '[' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
-        if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
+        if((tuplas[1] == 'NRO' or tuplas[1] == 'IDE') and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             if(tuplas[1] == 'IDE'):
                 indicador = False
@@ -3330,7 +3362,7 @@ def VARINITCONT():
     elif(tuplas[2] == '[' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
-        if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
+        if((tuplas[1] == 'NRO' or tuplas[1] == 'IDE') and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             if(tuplas[1] == 'IDE'):
                 indicador = False
@@ -3391,7 +3423,7 @@ def VARINITCONTMATR():
     elif(tuplas[2] == '[' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
-        if(tuplas[1] == 'NRO' or tuplas[1] == 'IDE' and linha == tuplas[0]):
+        if((tuplas[1] == 'NRO' or tuplas[1] == 'IDE') and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             if(tuplas[1] == 'IDE'):
                 indicador = False
@@ -3534,7 +3566,7 @@ def VETORCONT():
 def VALOR():
     global tuplas, buffer, linha, iterador, dados,chamada
     #if(tuplas[1]== "NRO" or tuplas[1]=="IDE" or tuplas[1]=="CAR" or tuplas[1]=="CAD" or tuplas[2]=="verdadeiro" or tuplas[2]=="falso" and linha == tuplas[0]):
-    if(tuplas[1]=="CAR" or tuplas[1]=="CAD" and linha == tuplas[0]):
+    if((tuplas[1]=="CAR" or tuplas[1]=="CAD") and linha == tuplas[0]):
         #buffer = buffer + " " + tuplas[2]
         #proxToken()
         return EXPRESSAOB()#0
@@ -3544,7 +3576,7 @@ def VALOR():
             return CHAMADAFUNCAO()
         else:
             return EXPRESSAOB()
-    elif(tuplas[1]== "NRO" or tuplas[2]=="verdadeiro" or tuplas[2]=="falso" or tuplas[2]=="(" or tuplas[2]=="-" or tuplas[2]=="!" and linha == tuplas[0]):
+    elif((tuplas[1]== "NRO" or tuplas[2]=="verdadeiro" or tuplas[2]=="falso" or tuplas[2]=="(" or tuplas[2]=="-" or tuplas[2]=="!") and linha == tuplas[0]):
         return EXPRESSAOB()
     return 1
 
@@ -3558,7 +3590,7 @@ def NEGATIVO():
         else:
             chave = "real"
         if(not(fator) and verifexpress):
-            if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==chave):
+            if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo=="real")):
                 verifexpress = True
             else:
                 verifexpress = False
@@ -3582,7 +3614,7 @@ def NEGATIVO():
                 if(tabela[chave].get("TIPO","não foi")=="inteiro" or tabela[chave].get("TIPO","não foi")=="real"):
                     sup = tabela[chave].get("TIPO","não foi")
                     if(not(fator) and verifexpress):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
+                        if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo=="real") and (sup=="inteiro"or sup=="real")):
                             verifexpress = True
                         else:
                             verifexpress = False
@@ -3605,7 +3637,7 @@ def NEGATIVO():
 ############################################ EXPRESSOES ####################################################
 def EXPREXC():
     global tuplas, buffer, linha, algeb, ultipo, verifexpress, dentroParen, bufferExpressao, expressao, fator
-    if(tuplas[2]=="verdadeiro" or tuplas[2]=="falso" and linha == tuplas[0]):
+    if((tuplas[2]=="verdadeiro" or tuplas[2]=="falso") and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         if(dentroParen):
             bufferExpressao = bufferExpressao + tuplas[2]
@@ -3641,6 +3673,7 @@ def EXPREXC():
                 fator = fatorAux
                 algeb = algebAux
                 # Volta flags guardadas
+                # Fazer a verificação de volta aqui
                 return EXPRESSAOCONTB()
             else:
                 return 1
@@ -3676,32 +3709,31 @@ def EXPREXC():
 
 def EXPRESSAOCONTB():
     global tuplas, buffer, linha, fator, expressao, algeb, ultipo, verifexpress, dentroParen, bufferExpressao
-    if(tuplas[2]=="&&" or tuplas[2]=="||" or tuplas[2]=="==" or tuplas[2]=="!=" or tuplas[2]=="<=" or tuplas[2]==">=" or tuplas[2]=="<" or tuplas[2]==">" and linha == tuplas[0]):
+    if((tuplas[2]=="&&" or tuplas[2]=="||" or tuplas[2]=="==" or tuplas[2]=="!=" or tuplas[2]=="<=" or tuplas[2]==">=" or tuplas[2]=="<" or tuplas[2]==">") and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         if(dentroParen):
             bufferExpressao = bufferExpressao + tuplas[2]
         if(verifexpress):
             if(algeb==""):
-                if(tuplas[2]=="&&" or tuplas[2]=="||" and ultipo=="booleano"):
+                if((tuplas[2]=="&&" or tuplas[2]=="||") and ultipo=="booleano"):
                     verifexpress = True
                 elif(tuplas[2]=="==" or tuplas[2]=="!="):
                     verifexpress = True
-                elif(tuplas[2]=="<=" or tuplas[2]==">=" or tuplas[2]=="<" or tuplas[2]==">" and ultipo == "inteiro" or ultipo == "real"):
+                elif((tuplas[2]=="<=" or tuplas[2]==">=" or tuplas[2]=="<" or tuplas[2]==">") and (ultipo == "inteiro" or ultipo == "real")):
                     verifexpress = True
                 else:
                     verifexpress = False
                     output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
                     mantemToken()
             else:
-                if(tuplas[2]=="&&" or tuplas[2]=="||" and not(algeb=="ari")):
-                    if(algeb=="log" and not(ultipo == "booleano")):
-                        verifexpress = False
-                        output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
-                        mantemToken()
+                if((tuplas[2]=="&&" or tuplas[2]=="||") and not(algeb=="ari")):
+                    ultipo="booleano"
                     verifexpress = True
                 elif(tuplas[2]=="==" or tuplas[2]=="!="):
+                    if(algeb=="rel" or algeb=="rll"): #or algeb=="log"):
+                        ultipo="booleano" 
                     verifexpress = True
-                elif(tuplas[2]=="<=" or tuplas[2]==">=" or tuplas[2]=="<" or tuplas[2]==">" and ultipo == "inteiro" or ultipo == "real" and not(algeb=="ari") and not(algeb=="rel")):
+                elif((tuplas[2]=="<=" or tuplas[2]==">=" or tuplas[2]=="<" or tuplas[2]==">") and (ultipo == "inteiro" or ultipo == "real") and not(algeb=="ari") and not(algeb=="rel")):
                     verifexpress = True
                 else:
                     verifexpress = False
@@ -3722,18 +3754,23 @@ def EXPRESSAOCONTB():
 
 def EXPRESSAOB():
     global tuplas, buffer, linha, expressao, fator, ideExp, algeb, ultipo, verifexpress, bufferExpressao, dentroParen, bufferExpressao, dados, iterador
-    if(tuplas[2]=="verdadeiro" or tuplas[2]=="falso" and linha == tuplas[0]):
+    if((tuplas[2]=="verdadeiro" or tuplas[2]=="falso") and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
+        proxToken()
         if(dentroParen):
             bufferExpressao = bufferExpressao + tuplas[2]
         if(not(fator) and verifexpress):
-            if(algeb=="log" or algeb=="rll" and ultipo=="booleano"):
-                verifexpress = True
+            if(algeb=="log" or algeb=="rll"):
+                if((dados[iterador][2]==")" or dados[iterador][2]==";") and ultipo!="booleano"):
+                    verifexpress = False
+                    output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
+                    mantemToken()
+                else:
+                    verifexpress = True
             else:
                 verifexpress = False
                 output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
                 mantemToken()
-        proxToken()
         ultipo = "booleano"
         return EXPRESSAOCONTB()
     elif(tuplas[2]=="(" and linha == tuplas[0]):
@@ -3753,7 +3790,7 @@ def EXPRESSAOB():
         dentroParen = True
         bufferExpressao = ""
         i = EXPRESSAOB()
-        if(bufferExpressao.find("+")<0 and bufferExpressao.find("-")<0 and bufferExpressao.find("*")<0 and bufferExpressao.find("/")<0):
+        if(bufferExpressao.find("||")>0 or bufferExpressao.find("&&")>0 or bufferExpressao.find("==")>0 or bufferExpressao.find("!=")>0 or bufferExpressao.find(">=")>0 or bufferExpressao.find("<=")>0 or bufferExpressao.find("<")>0 or bufferExpressao.find(">")>0):
             ultipo = "booleano"
         dentroParen = False
         bufferExpressao = ""
@@ -3761,23 +3798,26 @@ def EXPRESSAOB():
             if(tuplas[2]==")" and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
                 proxToken()           
-                expressao = expressaoAux
-                fator = fatorAux
-                algeb = algebAux
+                expressao = True #expressaoAux
+                #fator = fatorAux
+                algeb = algebAux            
                 #ultipo = ultipoAux   
                 # Volta flags guardadas
                 # SE FOR O ULTIMO CARACTER DA EXPRESSÃO TEM QUE FAZER A VERIFICAÇÃO COM O QUE TEM ANTES
-                if(dados[iterador-1][2]==")" or dados[iterador-1][2]==";" and verifexpress):
-                    if(algeb=="rel" or algeb=="ari" and ultipo=="inteiro" or ultipo=="real" and ultipo==ultipoAux):
-                        verifexpress = True
-                    elif(algeb=="rll" and ultipo==ultipoAux):
-                        verifexpress = True
-                    elif(algeb=="log" and ultipo=="booleano" and ultipo==ultipoAux):
-                        verifexpress = True
-                    else:
-                        verifexpress = False
-                        output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
-                        mantemToken()
+                if(not(algeb=="")):
+                    if((dados[iterador-1][2]==")" or dados[iterador-1][2]==";") and verifexpress):
+                        if((algeb=="rel" or algeb=="ari") and ultipo!="booleano"): #and ultipo=="inteiro" or ultipo == "real" and ultipoAux=="inteiro" or ultipoAux=="real"):
+                            verifexpress = True
+                        elif(algeb=="rll" and ultipo==ultipoAux):
+                            verifexpress = True
+                        elif(algeb=="rll" and (ultipo=="inteiro" or ultipo=="real") and (ultipoAux=="real" or ultipoAux=="inteiro")):
+                            verifexpress = True
+                        elif(algeb=="log" and ultipo=="booleano" and ultipo==ultipoAux):
+                            verifexpress = True
+                        else:
+                            verifexpress = False
+                            output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
+                            mantemToken()
                 return EXPRESSAOCONTB()
             else:
                 return 1
@@ -3795,8 +3835,8 @@ def EXPRESSAOB():
         proxToken()
         i = NEGATIVO()
         if(i==0):
-            if(tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/" and linha == tuplas[0]):
-                algeb = "ari"
+            if((tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/") and linha == tuplas[0]):
+                #algeb = "ari"
                 fator = False
                 i = EXPARITMETICACONT()
                 if(i==0):
@@ -3816,7 +3856,7 @@ def EXPRESSAOB():
         else:
             chave = "real"
         if(not(fator) and verifexpress):
-            if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==chave):
+            if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo=="real") and (chave == "real" or chave=="inteiro")):
                 verifexpress = True
             else:
                 verifexpress = False
@@ -3828,7 +3868,7 @@ def EXPRESSAOB():
         else:
             ultipo = "real"
         proxToken()
-        if(tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/" and linha == tuplas[0]):
+        if((tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/") and linha == tuplas[0]):
             fator = False
             i = EXPARITMETICACONT()
             if(i==0):
@@ -3850,22 +3890,31 @@ def EXPRESSAOB():
                 errou = False
                 sup = tabela[chave].get("TIPO","não foi")
                 if(not(fator) and verifexpress):
-                    if(sup=="inteiro"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
-                            verifexpress = True
-                        else:
-                            verifexpress = False
-                            output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
-                            mantemToken()
-                    elif(sup=="real"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
-                            verifexpress = True
+                    if(sup=="inteiro" or sup=="real"):
+                        if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo=="real")):
+                            verifexpress = True 
+                        elif(algeb=="log"):
+                            if(dados[iterador][2]==")" or dados[iterador][2]==";"):   
+                                verifexpress = False
+                                output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
+                                mantemToken()
+                            else:
+                                verifexpress = True
                         else:
                             verifexpress = False
                             output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
                             mantemToken()
                     elif(sup=="booleano"):
-                        if(algeb=="log" or algeb=="rll" and ultipo=="booleano"):
+                        if(dados[iterador][2]==")" or dados[iterador][2]==";"):
+                            if((algeb=="log" or algeb=="rll") and ultipo=="booleano"):
+                                verifexpress = True
+                            else:
+                                verifexpress = False
+                                output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
+                                mantemToken()
+                        elif(algeb=="log"):
+                            verifexpress = True
+                        elif(algeb=="rll" and ultipo=="booleano"):
                             verifexpress = True
                         else:
                             verifexpress = False
@@ -3898,7 +3947,7 @@ def EXPRESSAOB():
         proxToken()
         i = ACESSOVAR()
         if(i==0):
-            if(tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/" and linha == tuplas[0]):
+            if((tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/") and linha == tuplas[0]):
                 fator = False
                 i = EXPARITMETICACONT()
                 if(i==0):
@@ -3908,7 +3957,7 @@ def EXPRESSAOB():
             else:
                 return EXPRESSAOCONTB()
         return i
-    elif(tuplas[1]=="CAD" or tuplas[1]=="CAR" and linha == tuplas[0]):
+    elif((tuplas[1]=="CAD" or tuplas[1]=="CAR") and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         if(dentroParen):
             bufferExpressao = bufferExpressao + tuplas[2]
@@ -3943,6 +3992,7 @@ def EXPARITMETICA():
         if(dentroParen):
             bufferExpressao = bufferExpressao + tuplas[2]
         proxToken()
+        #FAZER A VERIFICAÇÃO QUANDO ENTRA EM PARENTESES NA EXPRESSAO ARITIMETICA
         return EXPARITMETICAPAREN()
     elif(tuplas[2]=="-" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
@@ -3963,7 +4013,7 @@ def EXPARITMETICA():
         else:
             chave = "real"
         if(not(fator) and verifexpress):
-            if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==chave):
+            if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo == "real") and (chave=="inteiro" or chave=="real")):
                 verifexpress = True
             else:
                 verifexpress = False
@@ -3988,15 +4038,8 @@ def EXPARITMETICA():
                 errou = False
                 sup = tabela[chave].get("TIPO","não foi")
                 if(not(fator) and verifexpress):
-                    if(sup=="inteiro"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
-                            verifexpress = True
-                        else:
-                            verifexpress = False
-                            output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
-                            mantemToken()
-                    elif(sup=="real"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
+                    if(sup=="inteiro" or sup=="real"):
+                        if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo=="real")):
                             verifexpress = True
                         else:
                             verifexpress = False
@@ -4032,7 +4075,7 @@ def EXPARITMETICAPAREN():
         else:
             chave = "real"
         if(not(fator) and verifexpress):
-            if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==chave):
+            if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo == "real") and (chave=="inteiro" or chave=="real")):
                 verifexpress = True
             else:
                 verifexpress = False
@@ -4072,15 +4115,8 @@ def EXPARITMETICAPAREN():
                 errou = False
                 sup = tabela[chave].get("TIPO","não foi")
                 if(not(fator) and verifexpress):
-                    if(sup=="inteiro"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
-                            verifexpress = True
-                        else:
-                            verifexpress = False
-                            output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
-                            mantemToken()
-                    elif(sup=="real"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
+                    if(sup=="inteiro" or sup=="real"):
+                        if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo == "real")):
                             verifexpress = True
                         else:
                             verifexpress = False
@@ -4119,7 +4155,7 @@ def EXPARITMETICAPAREN():
 
 def EXPARITMETICACONT():
     global tuplas, buffer, linha, fator, algeb, ultipo, verifexpress, dentroParen, bufferExpressao
-    if(tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/" and linha == tuplas[0]):
+    if((tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/") and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         if(dentroParen):
             bufferExpressao = bufferExpressao + tuplas[2]
@@ -4130,7 +4166,8 @@ def EXPARITMETICACONT():
                 verifexpress = False
                 output(int(linha), "SemanticoError", "Erro na expressao. Tipos diferentes")
                 mantemToken()
-        algeb = "ari"
+        if(algeb=="log" or algeb=="ari" or algeb==""):
+            algeb = "ari"
         fator = False
         proxToken()
         return EXPARITMETICAB()
@@ -4164,7 +4201,7 @@ def EXPARITMETICAB():
         else:
             chave = "real"
         if(not(fator) and verifexpress):
-            if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==chave):
+            if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo == "real") and (chave=="inteiro" or chave=="real")):
                 verifexpress = True
             else:
                 verifexpress = False
@@ -4194,15 +4231,8 @@ def EXPARITMETICAB():
                 errou = False
                 sup = tabela[chave].get("TIPO","não foi")
                 if(not(fator) and verifexpress):
-                    if(sup=="inteiro"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
-                            verifexpress = True
-                        else:
-                            verifexpress = False
-                            output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
-                            mantemToken()
-                    elif(sup=="real"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
+                    if(sup=="inteiro" or sup=="real"):
+                        if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo == "real")):
                             verifexpress = True
                         else:
                             verifexpress = False
@@ -4238,7 +4268,7 @@ def EXPARITMETICABPAREN():
         else:
             chave = "real"
         if(not(fator) and verifexpress):
-            if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==chave):
+            if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo == "real") and (chave=="inteiro" or chave=="real")):
                 verifexpress = True
             else:
                 verifexpress = False
@@ -4280,15 +4310,8 @@ def EXPARITMETICABPAREN():
                 errou = False
                 sup = tabela[chave].get("TIPO","não foi")
                 if(not(fator) and verifexpress):
-                    if(sup=="inteiro"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
-                            verifexpress = True
-                        else:
-                            verifexpress = False
-                            output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
-                            mantemToken()
-                    elif(sup=="real"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
+                    if(sup=="inteiro" or sup=="real"):
+                        if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo == "real")):
                             verifexpress = True
                         else:
                             verifexpress = False
@@ -4331,7 +4354,7 @@ def EXPARITMETICABPAREN():
 
 def EXPARITMETICACONTB():
     global tuplas, buffer, linha, algeb, ultipo, verifexpress, fator, dentroParen, bufferExpressao
-    if(tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/" and linha == tuplas[0]):
+    if((tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/") and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         if(dentroParen):
             bufferExpressao = bufferExpressao + tuplas[2]
@@ -4358,7 +4381,7 @@ def EXPATRIBUICAO():
         proxToken()
         i = NEGATIVO()
         if(i==0):
-            if(tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/" and linha == tuplas[0]):
+            if((tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/") and linha == tuplas[0]):
                 return EXPARITMETICACONT()
             else:
                 return EXPATRIBUICAOCONT()
@@ -4373,7 +4396,7 @@ def EXPATRIBUICAO():
         else:
             chave = "real"
         if(not(fator) and verifexpress):
-            if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==chave):
+            if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo == "real")):
                 verifexpress = True
             else:
                 verifexpress = False
@@ -4385,7 +4408,7 @@ def EXPATRIBUICAO():
         else:
             ultipo = "real"
         proxToken()
-        if(tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/" and linha == tuplas[0]):
+        if((tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/") and linha == tuplas[0]):
             return EXPARITMETICACONT()
         else:
             return EXPATRIBUICAOCONT()
@@ -4401,15 +4424,8 @@ def EXPATRIBUICAO():
                 errou = False
                 sup = tabela[chave].get("TIPO","não foi")
                 if(not(fator) and verifexpress):
-                    if(sup=="inteiro"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
-                            verifexpress = True
-                        else:
-                            verifexpress = False
-                            output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
-                            mantemToken()
-                    elif(sup=="real"):
-                        if(algeb=="ari" or algeb=="rll" or algeb=="rel" and ultipo==sup):
+                    if(sup=="inteiro" or sup=="real"):
+                        if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo == "real")):
                             verifexpress = True
                         else:
                             verifexpress = False
@@ -4428,7 +4444,7 @@ def EXPATRIBUICAO():
         proxToken()
         i = ACESSOVAR()
         if(i==0):
-            if(tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/" and linha == tuplas[0]):
+            if((tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/") and linha == tuplas[0]):
                 return EXPARITMETICACONT()
             else:
                 return EXPATRIBUICAOCONT()
@@ -4458,7 +4474,7 @@ def EXPATRIBUICAOB():
         proxToken()
         i = ACESSOVAR()
         if(i==0):
-            if(tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/" and linha == tuplas[0]):
+            if((tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/") and linha == tuplas[0]):
                 i = EXPARITMETICACONT()
                 if(i==0):
                     return EXPRESSAOCONTB()

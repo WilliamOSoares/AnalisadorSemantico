@@ -4,6 +4,41 @@ funcao vazio salario(inteiro a, inteiro b, booleano c){
 
 funcao vazio salario(real d, real e, cadeia f, char g){
     escreva("salario 2");
+    variaveis{
+        booleano x;
+        inteiro h;
+        inteiro j;
+    }
+    salario(h,j,x);
+    salario(d,e,x);
+    dolar(d);
+}
+
+funcao real dolar(real brasil){
+    se(brasil == 5.50){
+        retorno brasil - 4.00;
+    }
+    retorno brasil;
+}
+
+funcao inteiro dolar(real americano){
+     variaveis{
+         inteiro aux = 5;
+     }
+     se(americano == 5.50){
+        retorno aux - 4;
+    }
+    retorno aux;
+}
+
+funcao inteiro dolar(inteiro t){
+     variaveis{
+         inteiro aux2 = 5;
+     }
+     se(americano == 5.50){
+        retorno aux2 - 4;
+    }
+    retorno aux2;
 }
 
 algoritmo{
@@ -15,7 +50,11 @@ algoritmo{
         booleano fator5;
         cadeia fator6;
         char fator7;
+        real return;
     }
     salario(fator1, fator2, fator5);
     salario(fator3, fator4, fator6, fator7);
+    return = dolar(fator4);
+    dolar(fator4);
+    dolar(fator2);
 }

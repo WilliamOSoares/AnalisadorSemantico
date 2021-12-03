@@ -1,1 +1,8 @@
-SUCESSO!
+13 SemanticoError Quantidade de parametros diferentes
+13 SemanticoError Parametros com tipos diferentes
+14 SemanticoError Identificador nao instanciado: dolar
+14 SemanticoError Funcao nao instanciada: dolar
+24 SemanticoError Identificador ja instanciado: dolar
+28 SemanticoError Identificador nao instanciado: americano
+31 SemanticoError Tipos diferentes
+38 SemanticoError Identificador nao instanciado: americano

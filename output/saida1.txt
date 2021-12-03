@@ -5,6 +5,7 @@
 03 SemanticoError Tipos diferentes
 04 SemanticoError Identificador nao instanciado: e
 04 SemanticoError Identificador nao instanciado: true
+04 SemanticoError Identificador nao instanciado: true
 04 SemanticoError Funcao nao instanciada: a
 04 SemanticoError O valor deve ser explicito e com um so fator
 07 SemanticoError Identificador ja instanciado: a
@@ -34,5 +35,6 @@
 48 SemanticoError Tipos diferentes
 59 SemanticoError Impossivel mudar valor de constantes: a
 60 SemanticoError Funcao nao instanciada: a
+69 SemanticoError Erro na expressao. Ponto do erro:  enquanto ( 2 > ( 2 > ( 2 > 2 )
 75 SemanticoError Identificador ja instanciado: a
 76 SemanticoError Identificador ja instanciado: a

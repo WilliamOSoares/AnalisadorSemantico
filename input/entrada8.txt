@@ -17,7 +17,7 @@ variaveis
 
 algoritmo{
     se(a>b>c){
-        escreva("TNCMOB");
+        escreva("teste");
     }
     enquanto(bandeira == c && a>c !=bandeira){
         a = falso + b;
@@ -29,9 +29,25 @@ algoritmo{
         escreva("erro");
     
     se(bandeira == w>a && i== falso || a>b>c>8 ){
-        
+        escreva("errro");
     }
     se(verdadeiro == falso == falso && falso != bandeira == falso){
-        
+        escreva("erro");
     }
+    para(w=1;w<5.5;w=w+1){
+        escreva(i);
+    }
+
+    se(5+5){
+        escreva("teste");
+    }
+    
+    enquanto(bandeira == verdadeiro || w == 5.5+8.896 || a != 9+6.0){
+        para(c = 0; c != 10; c = c -1){
+            se(w>=10.5 || w <= 10.5){
+                w = 56.60+55.89632479;
+            }
+        }
+    }
+
 }

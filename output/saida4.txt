@@ -2,10 +2,6 @@
 05 SemanticoError Tipos diferentes
 27 SemanticoError Tipos diferentes
 35 SemanticoError Funcao sem retorno
-46 SemanticoError Identificador ja instanciado: somar
-50 SemanticoError Identificador nao instanciado: num4
-50 SemanticoError Identificador nao instanciado: num5
-51 SemanticoError Identificador nao instanciado: num6
 52 SemanticoError Funcao sem retorno
 56 SemanticoError Identificador nao instanciado: parcial
 56 SemanticoError Funcao nao instanciada: parcial
@@ -21,6 +17,7 @@
 61 SemanticoError Quantidade de parametros diferentes
 62 SemanticoError Parametros com tipos diferentes
 63 SemanticoError Funcao nao instanciada: cont
-65 SemanticoError Quantidade de parametros diferentes
+66 SemanticoError Quantidade de parametros diferentes
 66 SemanticoError Parametros com tipos diferentes
 67 SemanticoError Quantidade de parametros diferentes
+67 SemanticoError Parametros com tipos diferentes

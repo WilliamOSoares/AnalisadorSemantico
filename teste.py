@@ -62,9 +62,11 @@ for chave in range(len(paran)):
 print(tabela)
 #print(g)
 #print(len(g)/2)
-bufferExpressao = "(5+5 || b)" 
-if(bufferExpressao.find("+")<0 and bufferExpressao.find("-")<0 and bufferExpressao.find("*")<0 and bufferExpressao.find("/")<0):
+bufferExpressao = "(5+5 > b)" 
+if(bufferExpressao.find("||")>0 or bufferExpressao.find("&&")>0 or bufferExpressao.find("==")>0 or bufferExpressao.find("!=")>0 or bufferExpressao.find(">=")>0 or bufferExpressao.find("<=")>0 or bufferExpressao.find("<")>0 or bufferExpressao.find(">")>0):
     print("booleano")
+    if("a"!="a"):
+        print("ad")
 else:
     print("real")
 '''

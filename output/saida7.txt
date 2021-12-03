@@ -1,1 +1,1 @@
-SUCESSO!
+33 SemanticoError Erro na expressao. Ponto do erro:  t = "texto" == 't'
