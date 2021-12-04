@@ -1,7 +1,6 @@
 26 SemanticoError Tipos diferentes
 55 SemanticoError Identificador ja instanciado: teste1
 56 SemanticoError Tipos diferentes
-70 SemanticoError Quantidade de parametros diferentes
 72 SemanticoError Identificador nao instanciado: somar
 72 SemanticoError Funcao nao instanciada: somar
 74 SemanticoError Parametros com tipos diferentes

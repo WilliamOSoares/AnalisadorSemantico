@@ -1,6 +1,10 @@
 % Duplicidade de identificadores locais
 
 constantes{
+    inteiro a[2];
+    real b[2][3];
+    booleano c[4][3][5];    
+    cadeia d;
     inteiro a = 2;
     inteiro a = 2;
     real b = 1.5;
@@ -14,6 +18,9 @@ constantes{
 }
 
 variaveis{
+    inteiro aa[2];
+    real ba[2][3];
+    booleano ca[4][3][5];    
     inteiro f;
     inteiro f;
     real g;

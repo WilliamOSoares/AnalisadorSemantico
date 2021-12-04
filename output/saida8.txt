@@ -1,6 +1,7 @@
 44 SyntaxError  se ( w [ w ] = 5 ) {
 52 SyntaxError Declaracoes Fora de Escopo:  }
 31 SemanticoError Tipos diferentes
+32 SemanticoError Variavel nao existe: xes
 32 SemanticoError Tipos diferentes
 35 SemanticoError Tipo diferente: real
 35 SemanticoError Tipos diferentes

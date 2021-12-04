@@ -77,3 +77,7 @@ for i in y:
         print(valor)
     #i=i+1
 '''
+print("(############################)")
+a = "teste1 ( 6.56484"
+b = "teste1 ( 6.56484 , 5 + 6"
+print(b[len(a):len(b)])

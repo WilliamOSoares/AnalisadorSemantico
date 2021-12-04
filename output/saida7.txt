@@ -1,7 +1,7 @@
 21 SemanticoError Funcao vazio com retorno
 50 SemanticoError Tipos diferentes
 52 SemanticoError Tipos diferentes
-55 SemanticoError Erro na expressao. Ponto do erro:  enquanto ( w != y / w && s
+55 SemanticoError Erro na expressao. Ponto do erro:  enquanto ( w != y / w && s == 'g'
 56 SemanticoError Erro na expressao. Ponto do erro:  se ( a > b <
 57 SemanticoError Erro na expressao. Ponto do erro:  se ( a >= c && bandeira <
 58 SemanticoError Erro na expressao. Ponto do erro:  se ( bandeira == falso && bandeira == "verdadeiro"

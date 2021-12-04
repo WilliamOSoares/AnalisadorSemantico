@@ -1499,7 +1499,8 @@ def CONTEUDO():
             if(i==0):
                 if(tuplas[2] == '=' and linha == tuplas[0]):
                     buffer = buffer + " " + tuplas[2]
-                    proxToken()                
+                    proxToken()            
+                    auxExpr = len(buffer)    
                     i = EXPATRIBUICAOB()
                     if(i==0): 
                         if(tuplas[2]==";" and linha == tuplas[0]):
@@ -1547,7 +1548,8 @@ def CONTEUDO():
                                             mantemToken()  
                                     else:
                                         if(expressao): #and not(tipo == "booleano")):
-                                            if(buffer.find("||")>0 or buffer.find("&&")>0 or buffer.find("==")>0 or buffer.find("!=")>0 or buffer.find(">=")>0 or buffer.find("<=")>0 or buffer.find("<")>0 or buffer.find(">")>0):
+                                            bufferA = buffer[auxExpr:len(buffer)]
+                                            if(bufferA.find("||")>0 or bufferA.find("&&")>0 or bufferA.find("==")>0 or bufferA.find("!=")>0 or bufferA.find(">=")>0 or bufferA.find("<=")>0 or bufferA.find("<")>0 or bufferA.find(">")>0):
                                                 if(tipo != "booleano"):
                                                     output(int(linha), "SemanticoError", "Tipos diferentes")
                                                     mantemToken()  
@@ -1708,7 +1710,8 @@ def CONTEUDO():
             proxToken()
             if(tuplas[2] == '=' and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
-                proxToken()                
+                proxToken()               
+                auxExpr = len(buffer) 
                 i = EXPATRIBUICAOB()
                 if(i==0): 
                     if(tuplas[2]==";" and linha == tuplas[0]):                        
@@ -1757,7 +1760,8 @@ def CONTEUDO():
                                         mantemToken()  
                                 else:
                                     if(expressao): #and not(tipo == "booleano")):
-                                        if(buffer.find("||")>0 or buffer.find("&&")>0 or buffer.find("==")>0 or buffer.find("!=")>0 or buffer.find(">=")>0 or buffer.find("<=")>0 or buffer.find("<")>0 or buffer.find(">")>0):
+                                        bufferA = buffer[auxExpr:len(buffer)]
+                                        if(bufferA.find("||")>0 or bufferA.find("&&")>0 or bufferA.find("==")>0 or bufferA.find("!=")>0 or bufferA.find(">=")>0 or bufferA.find("<=")>0 or bufferA.find("<")>0 or bufferA.find(">")>0):
                                             if(tipo != "booleano"):
                                                 output(int(linha), "SemanticoError", "Tipos diferentes")
                                                 mantemToken()  
@@ -1929,6 +1933,16 @@ def ESCONT():
     global tuplas, buffer, linha
     if(tuplas[1] == "IDE" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
+        indicador = False
+        i = 0
+        for chave in range(len(tabela)):
+            g = "IDE"+str(i)
+            if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                indicador = True                                      
+            i=i+1
+        if(not(indicador)):
+            output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+            mantemToken()
         proxToken()
         i = ACESSOVAR()
         if(i == 0):
@@ -1988,9 +2002,19 @@ def LEIA():
         return 1
 
 def LEIACONT():
-    global tuplas, buffer, linha
+    global tuplas, buffer, linha, tabela
     if(tuplas[1] == "IDE" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
+        indicador = False
+        i = 0
+        for chave in range(len(tabela)):
+            g = "IDE"+str(i)
+            if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                indicador = True                                      
+            i=i+1
+        if(not(indicador)):
+            output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+            mantemToken()
         proxToken()
         i = ACESSOVAR()
         if(i == 0):
@@ -2111,12 +2135,24 @@ def ENQUANTO():
 
 ############################################## Para ######################################
 def PARA():
-    global tuplas, buffer, linha
+    global tuplas, buffer, linha, tabela, tipo
     if(tuplas[2] == '(' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         proxToken()
         if(tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
+            indicador = False
+            i = 0
+            for chave in range(len(tabela)):
+                g = "IDE"+str(i)
+                if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                    indicador = True 
+                    tipo = tabela[chave].get("TIPO","não foi")                                     
+                i=i+1
+            if(not(indicador)):
+                tipo = "vazio"
+                output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+                mantemToken()
             proxToken()
             i = ACESSOVAR()
             if(i==0):
@@ -2154,9 +2190,21 @@ def PARACONT():
         return i
 
 def PARAFIM():
-    global tuplas, buffer, linha, expressao, fator, vetorial
+    global tuplas, buffer, linha, expressao, fator, vetorial, tipo, tabela
     if(tuplas[1] == 'IDE' and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
+        indicador = False
+        i = 0
+        for chave in range(len(tabela)):
+            g = "IDE"+str(i)
+            if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                indicador = True        
+                tipo = tabela[chave].get("TIPO","não foi")                               
+            i=i+1
+        if(not(indicador)):
+            tipo = "vazio"
+            output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+            mantemToken()
         proxToken()
         i = ACESSOVAR()        
         if(i==0):
@@ -2280,9 +2328,11 @@ def ACESSOVAR():
         if(tuplas[1] == 'IDE' and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             i=0
+            naoAchou = True
             for chave in range(len(tabela)):
                 g = "IDE"+str(i)
                 if(tabela[chave].get(g,"não foi")==tuplas[2]):
+                    naoAchou = False
                     if(not(tabela[chave].get("REGISTRO","não foi")==dados[iterador-3][2])):
                         aux = dados[iterador-3][2]
                         aux = aux+dados[iterador-2][2]
@@ -2291,7 +2341,10 @@ def ACESSOVAR():
                         mantemToken()
                     else:
                         tipo = tabela[chave].get("TIPO","não foi")
-                i=i+1            
+                i=i+1   
+            if(naoAchou):         
+                output(int(linha), "SemanticoError", "Variavel nao existe: "+ tuplas[2])
+                mantemToken()
             proxToken()
             if(tuplas[2] == '[' and linha == tuplas[0]):
                 buffer = buffer + " " + tuplas[2]
@@ -2708,6 +2761,7 @@ def PARANCONT():
     global tuplas, buffer, linha, tabela, ide, chamada, paran, tabela, expressao, fator, vetorial, ideExp, dados, iterador, tipoChamada
     chamadaAux = chamada
     chamada = ""
+    auxExpr = len(buffer)
     i = VALOR()
     if(not(vetorial) and chamada==""):
         if(fator): #and not(tipo == dados[iterador-2][1])):
@@ -2741,12 +2795,13 @@ def PARANCONT():
             if(erronio):
                 output(int(linha), "SemanticoError", "Tipos diferentes")
                 mantemToken()  
-        else:
+        else:            
             if(expressao): #and not(tipo == "booleano")):
-                if(buffer.find("||")>0 or buffer.find("&&")>0 or buffer.find("==")>0 or buffer.find("!=")>0 or buffer.find(">=")>0 or buffer.find("<=")>0 or buffer.find("<")>0 or buffer.find(">")>0):
+                bufferA = buffer[auxExpr:len(buffer)]
+                if(bufferA.find("||")>0 or bufferA.find("&&")>0 or bufferA.find("==")>0 or bufferA.find("!=")>0 or bufferA.find(">=")>0 or bufferA.find("<=")>0 or bufferA.find("<")>0 or bufferA.find(">")>0):
                     paran.append("booleano") 
                 else:
-                    if(buffer.find(".")>0):
+                    if(bufferA.find(".")>0):
                         paran.append("real")
                     else:
                         paran.append("inteiro")
@@ -3033,7 +3088,7 @@ def CONSTALT():
         buffer = buffer + " " + tuplas[2]
         ide = tuplas[2]
         proxToken()
-        i = VARINIT()
+        i = VARINITCONST()
         if(i == 0):
             if(not(vetorial) and chamada==""):
                 if(fator): #and not(tipo == dados[iterador-2][1])):
@@ -3180,6 +3235,7 @@ def VARCONT():
     if(tuplas[2]== "," or tuplas[2]== ";"): #Conjunto first
         return VARFINAL()        
     else:
+        auxExpr = len(buffer)
         i = VARINIT()        
         if(i == 0):
             if(not(vetorial) and chamada==""):
@@ -3224,7 +3280,8 @@ def VARCONT():
                         mantemToken()  
                 else:
                     if(expressao): #and not(tipo == "booleano")):
-                        if(buffer.find("||")>0 or buffer.find("&&")>0 or buffer.find("==")>0 or buffer.find("!=")>0 or buffer.find(">=")>0 or buffer.find("<=")>0 or buffer.find("<")>0 or buffer.find(">")>0):
+                        bufferA = buffer[auxExpr:len(buffer)]
+                        if(bufferA.find("||")>0 or bufferA.find("&&")>0 or bufferA.find("==")>0 or bufferA.find("!=")>0 or bufferA.find(">=")>0 or bufferA.find("<=")>0 or bufferA.find("<")>0 or bufferA.find(">")>0):
                             if(tipo != "booleano"):
                                 output(int(linha), "SemanticoError", "Tipos diferentes")
                                 mantemToken()  
@@ -3516,12 +3573,202 @@ def VARINITCONTMATR():
                     else:
                         return 1 
                 else:
-                    return 1
+                    return 0
             else:
                 return 1
         else:
             return 1
     return 0
+
+def VARINITCONST():
+    global tuplas, buffer, linha, tabela, veterror
+    if(tuplas[2] == '=' and linha == tuplas[0]):
+        buffer = buffer + " " + tuplas[2]
+        proxToken()
+        return VALOR()
+    elif(tuplas[2] == '[' and linha == tuplas[0]):
+        buffer = buffer + " " + tuplas[2]
+        proxToken()
+        if((tuplas[1] == 'NRO' or tuplas[1] == 'IDE') and linha == tuplas[0]):
+            buffer = buffer + " " + tuplas[2]
+            if(tuplas[1] == 'IDE'):
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                        indicador = True
+                        aux = tabela[chave].get("TIPO","não foi")
+                        if(not(aux=="inteiro")):
+                            output(int(linha), "SemanticoError", "Tipo diferente: "+aux)
+                            mantemToken()                                         
+                    i=i+1
+                if(not(indicador)):
+                    output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+                    mantemToken()
+            else:
+                x = tuplas[2].find(".")
+                if(x>=0):
+                    output(int(linha), "SemanticoError", "Tipo diferente: real")
+                    mantemToken()   
+            proxToken()
+            if(tuplas[2] == ']' and linha == tuplas[0]):
+                buffer = buffer + " " + tuplas[2]
+                proxToken()
+                i = VARINITCONTCONST()
+                veterror = True
+                return i
+            else:
+                return 1
+        else:
+            return 1
+    return 1
+
+def VARINITCONTCONST():
+    global tuplas, buffer, linha, tabela, veterror
+    if(tuplas[2] == '=' and linha == tuplas[0]):
+        buffer = buffer + " " + tuplas[2]
+        proxToken()
+        if(tuplas[2] == '{' and linha == tuplas[0]):
+            buffer = buffer + " " + tuplas[2]
+            proxToken()
+            return VETOR()
+        else:
+            return 1 
+    elif(tuplas[2] == '[' and linha == tuplas[0]):
+        buffer = buffer + " " + tuplas[2]
+        proxToken()
+        if((tuplas[1] == 'NRO' or tuplas[1] == 'IDE') and linha == tuplas[0]):
+            buffer = buffer + " " + tuplas[2]
+            if(tuplas[1] == 'IDE'):
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                        indicador = True
+                        aux = tabela[chave].get("TIPO","não foi")
+                        if(not(aux=="inteiro")):
+                            output(int(linha), "SemanticoError", "Tipo diferente: "+aux)
+                            mantemToken()                                         
+                    i=i+1
+                if(not(indicador)):
+                    output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+                    mantemToken()
+            else:
+                x = tuplas[2].find(".")
+                if(x>=0):
+                    output(int(linha), "SemanticoError", "Tipo diferente: real")
+                    mantemToken()  
+            proxToken()
+            if(tuplas[2] == ']' and linha == tuplas[0]):
+                buffer = buffer + " " + tuplas[2]
+                proxToken()
+                i = VARINITCONTMATRCONST()
+                veterror = True
+                return i
+            else:
+                return 1
+        else:
+            return 1
+    return 1
+
+def VARINITCONTMATRCONST():
+    global tuplas, buffer, linha, tabela, tipo, veterror
+    if(tuplas[2] == '=' and linha == tuplas[0]):
+        buffer = buffer + " " + tuplas[2]
+        proxToken()
+        if(tuplas[2] == '{' and linha == tuplas[0]):
+            buffer = buffer + " " + tuplas[2]
+            proxToken()
+            i = VETOR()
+            veterror = True
+            if(tuplas[2] == ',' and i ==0 and linha == tuplas[0]):
+                buffer = buffer + " " + tuplas[2]
+                proxToken()
+                if(tuplas[2] == '{'):
+                    buffer = buffer + " " + tuplas[2]
+                    proxToken()
+                    return VETOR()
+                else:
+                    return 1 
+            else:
+                return 1 
+        else:
+            return 1 
+    elif(tuplas[2] == '[' and linha == tuplas[0]):
+        buffer = buffer + " " + tuplas[2]
+        proxToken()
+        if((tuplas[1] == 'NRO' or tuplas[1] == 'IDE') and linha == tuplas[0]):
+            buffer = buffer + " " + tuplas[2]
+            if(tuplas[1] == 'IDE'):
+                indicador = False
+                i = 0
+                for chave in range(len(tabela)):
+                    g = "IDE"+str(i)
+                    if(tabela[chave].get(g,"não foi")== tuplas[2]):
+                        indicador = True
+                        aux = tabela[chave].get("TIPO","não foi")
+                        if(not(aux=="inteiro")):
+                            output(int(linha), "SemanticoError", "Tipo diferente: "+aux)
+                            mantemToken()                                         
+                    i=i+1
+                if(not(indicador)):
+                    output(int(linha), "SemanticoError", "Identificador nao instanciado: "+tuplas[2])
+                    mantemToken()
+            else:
+                x = tuplas[2].find(".")
+                if(x>=0):
+                    output(int(linha), "SemanticoError", "Tipo diferente: real")
+                    mantemToken()  
+            proxToken()
+            if(tuplas[2] == ']' and linha == tuplas[0]):
+                buffer = buffer + " " + tuplas[2]
+                proxToken()
+                if(tipo=="cadeia"):
+                    output(int(linha), "SemanticoError", "Impossivel declarar uma matriz 3D do tipo cadeia")
+                    mantemToken()
+                if(tuplas[2] == '=' and linha == tuplas[0]):
+                    buffer = buffer + " " + tuplas[2]
+                    proxToken()
+                    if(tuplas[2] == '{' and linha == tuplas[0]):
+                        buffer = buffer + " " + tuplas[2]
+                        proxToken()
+                        i = VETOR()
+                        veterror = True
+                        if(tuplas[2] == ',' and i ==0 and linha == tuplas[0]):
+                            buffer = buffer + " " + tuplas[2]
+                            proxToken()
+                            if(tuplas[2] == '{' and linha == tuplas[0]):
+                                buffer = buffer + " " + tuplas[2]
+                                proxToken()
+                                i = VETOR()
+                                veterror = True
+                                if(tuplas[2] == ',' and i ==0 and linha == tuplas[0]):
+                                    buffer = buffer + " " + tuplas[2]
+                                    proxToken()
+                                    if(tuplas[2] == '{' and linha == tuplas[0]):
+                                        buffer = buffer + " " + tuplas[2]
+                                        proxToken()
+                                        return VETOR()
+                                    else:
+                                        return 1 
+                                else:
+                                    return 1 
+                            else:
+                                return 1 
+                        else:
+                            return 1 
+                    else:
+                        return 1 
+                else:
+                    return 1
+            else:
+                return 1
+        else:
+            return 1
+    return 1
+
 def VETOR():
     global tuplas, buffer, expressao, fator, vetorial, tipo, chamada,linha, veterror
     vetorial = True
@@ -3901,6 +4148,13 @@ def EXPRESSAOB():
         if(not(fator) and verifexpress):
             if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo=="real") and (chave == "real" or chave=="inteiro")):
                 verifexpress = True
+            elif(algeb=="log"):
+                if(dados[iterador][2]==")" or dados[iterador][2]==";"):
+                    verifexpress = False
+                    output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
+                    mantemToken()
+                else:
+                    verifexpress = True
             else:
                 verifexpress = False
                 output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
@@ -3966,6 +4220,13 @@ def EXPRESSAOB():
                     elif(sup=="cadeia"):
                         if(algeb=="rll" and ultipo=="cadeia"):
                             verifexpress = True
+                        elif(algeb=="log"):
+                            if(dados[iterador][2]==")" or dados[iterador][2]==";"):
+                                verifexpress = False
+                                output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
+                                mantemToken()
+                            else:
+                                verifexpress = True
                         else:
                             verifexpress = False
                             output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
@@ -3973,6 +4234,13 @@ def EXPRESSAOB():
                     elif(sup=="char"):
                         if(algeb=="rll" and ultipo=="char"):
                             verifexpress = True
+                        elif(algeb=="log"):
+                            if(dados[iterador][2]==")" or dados[iterador][2]==";"):
+                                verifexpress = False
+                                output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
+                                mantemToken()
+                            else:
+                                verifexpress = True
                         else:
                             verifexpress = False
                             output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
@@ -4197,7 +4465,7 @@ def EXPARITMETICAPAREN():
         return 1
 
 def EXPARITMETICACONT():
-    global tuplas, buffer, linha, fator, algeb, ultipo, verifexpress, dentroParen, bufferExpressao
+    global tuplas, buffer, linha, fator, algeb, ultipo, verifexpress, dentroParen, bufferExpressao, expressao
     if((tuplas[2]=="-" or tuplas[2]=="+" or tuplas[2]=="*" or tuplas[2]=="/") and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         if(dentroParen):
@@ -4212,6 +4480,7 @@ def EXPARITMETICACONT():
         if(algeb=="log" or algeb=="ari" or algeb==""):
             algeb = "ari"
         fator = False
+        expressao = True
         proxToken()
         return EXPARITMETICAB()
     else:
@@ -4622,7 +4891,7 @@ else:
                 sucessoA = True
             erros.clear()
             buffer=""
-            print(tabela)
+            #print(tabela)
             erros = errosSeman
             if(not(len(erros)==0)):                
                 output(0,"ERRO","")

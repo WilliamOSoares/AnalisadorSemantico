@@ -19,3 +19,6 @@
 29 SemanticoError Identificador nao instanciado: m
 35 SemanticoError Identificador nao instanciado: n
 35 SemanticoError Identificador nao instanciado: o
+36 SemanticoError Identificador nao instanciado: p
+38 SemanticoError Identificador nao instanciado: q
+39 SemanticoError Identificador nao instanciado: i
