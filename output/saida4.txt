@@ -1,20 +1,21 @@
-03 SemanticoError Tipos diferentes
-05 SemanticoError Tipos diferentes
+31 SyntaxError  a = ( 1 + 1 )
+31 SyntaxError  * 5 ;
+04 SemanticoError Identificador nao instanciado: a
+05 SemanticoError Identificador nao instanciado: b
+06 SemanticoError Identificador nao instanciado: c
+06 SemanticoError Identificador nao instanciado: false
+07 SemanticoError Identificador nao instanciado: d
+08 SemanticoError Identificador nao instanciado: e
+12 SemanticoError Identificador nao instanciado: false
+21 SemanticoError Identificador nao instanciado: f
+22 SemanticoError Identificador nao instanciado: g
+23 SemanticoError Identificador nao instanciado: h
+24 SemanticoError Identificador nao instanciado: i
+25 SemanticoError Identificador nao instanciado: j
+26 SemanticoError Identificador nao instanciado: k
+27 SemanticoError Identificador nao instanciado: l
+27 SemanticoError Funcao nao instanciada: l
 27 SemanticoError Tipos diferentes
-35 SemanticoError Funcao sem retorno
-52 SemanticoError Funcao sem retorno
-56 SemanticoError Identificador nao instanciado: parcial
-56 SemanticoError Funcao nao instanciada: parcial
-57 SemanticoError Identificador nao instanciado: parcial
-57 SemanticoError Quantidade de parametros diferentes
-59 SemanticoError Identificador nao instanciado: a
-59 SemanticoError Identificador nao instanciado: b
-59 SemanticoError Quantidade de parametros diferentes
-60 SemanticoError Quantidade de parametros diferentes
-61 SemanticoError Quantidade de parametros diferentes
-62 SemanticoError Parametros com tipos diferentes
-63 SemanticoError Funcao nao instanciada: cont
-66 SemanticoError Quantidade de parametros diferentes
-66 SemanticoError Parametros com tipos diferentes
-67 SemanticoError Quantidade de parametros diferentes
-67 SemanticoError Parametros com tipos diferentes
+29 SemanticoError Identificador nao instanciado: m
+35 SemanticoError Identificador nao instanciado: n
+35 SemanticoError Identificador nao instanciado: o

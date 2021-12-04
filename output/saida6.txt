@@ -1,10 +1,9 @@
-31 SyntaxError  se ( a > )
-35 SyntaxError  se ( ( verdadeiro == x ) && )
-39 SyntaxError  se ( || ( c < w ) )
-59 SyntaxError  senao
-67 SyntaxError  } senao
-106 SyntaxError  enquanto ( a > 7
-107 SyntaxError  {
-17 SemanticoError Identificador nao instanciado: d
-21 SemanticoError Erro na expressao. Ponto do erro:  se ( ( verdadeiro == x
-35 SemanticoError Erro na expressao. Ponto do erro:  se ( ( verdadeiro == x
+26 SemanticoError Tipos diferentes
+55 SemanticoError Identificador ja instanciado: teste1
+56 SemanticoError Tipos diferentes
+70 SemanticoError Quantidade de parametros diferentes
+72 SemanticoError Identificador nao instanciado: somar
+72 SemanticoError Funcao nao instanciada: somar
+74 SemanticoError Parametros com tipos diferentes
+75 SemanticoError Quantidade de parametros diferentes
+81 SemanticoError Funcao vazio com retorno

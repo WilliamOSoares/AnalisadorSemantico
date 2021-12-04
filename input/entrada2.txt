@@ -1,46 +1,71 @@
-%TESTE DE VARIAVEIS QUE NÃO FORAM DECLARADAS E REPETIDAS;
+% Duplicidade de identificadores locais
 
 constantes{
     inteiro a = 2;
+    inteiro a = 2;
     real b = 1.5;
-    real c = z;                                  % Variavel inexistente z
+    real b = 1.5; 
+    booleano c = falso;   
+    booleano c = falso;   
+    cadeia d = "opa";    
+    cadeia d = "opa";
+    char e = 'e';
+    char e = 'e';                  
 }
+
 variaveis{
-    cadeia d;
-    char e;
-    booleano f = verdadeiro;
-    inteiro a = a;                               % Variavel ja existe
-    inteiro A;                                   % Eh para considerar como repetida?
-}
-algoritmo
-funcao vazio teste (inteiro Teste){
-    Teste = Teste + b;
-    retorno Teste;
-}
-
-funcao inteiro teste2 (real teste3){
-    retorno teste3;
+    inteiro f;
+    inteiro f;
+    real g;
+    real g; 
+    booleano h;   
+    booleano h;   
+    cadeia i;    
+    cadeia i;
+    char j;
+    char j;                                     
 }
 
-registro pessoa{
-    cadeia nome;
-    char genero;
-    inteiro idade;
-    real altura;
+funcao inteiro k (real l){
+    variaveis{
+        inteiro m;
+        inteiro m;
+        real l;
+        real l; 
+        booleano n;   
+        booleano n;   
+        cadeia o;    
+        cadeia o;
+        char p;
+        char p;                                     
+    }
+    retorno m;
+}
+
+registro q{
+    inteiro r;
+    inteiro r;
+    real s;
+    real s; 
+    booleano t;   
+    booleano t;   
+    cadeia u;    
+    cadeia u;
+    char v;
+    char v;
 }
 
 algoritmo{
-    pessoa.peso;                                   % Variavel inexistente
-    pessoa.nome = "mob";
-    teste2(2>3);
-    escreva(a);
-    leia(t);                                    % Variavel inexistente t
-    escreva(d);
-    se(d == "certo"){
-        escreva("acertou");
-    }
-    senao{
-        escreva(y);                             % Variavel inexistente y
-    }
-    leia(a.a[2]);                               % Variavel inexistente
+    variaveis{
+        inteiro w;
+        inteiro w;
+        real x;
+        real x; 
+        booleano y;   
+        booleano y;   
+        cadeia z;    
+        cadeia z;
+        char alfabeto;
+        char alfabeto;                                  
+    }                          
 }

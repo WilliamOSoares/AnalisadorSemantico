@@ -1,8 +1,26 @@
-15 SyntaxError Declaracoes Fora de Escopo:  algoritmo
-33 SyntaxError  pessoa . peso
-06 SemanticoError Identificador nao instanciado: z
-12 SemanticoError Identificador ja instanciado: a
-18 SemanticoError Funcao vazio com retorno
-22 SemanticoError Tipos diferentes
-35 SemanticoError Parametros com tipos diferentes
-45 SemanticoError Erro de acesso: a.a
+05 SemanticoError Identificador ja instanciado: a
+07 SemanticoError Identificador ja instanciado: b
+09 SemanticoError Identificador ja instanciado: c
+11 SemanticoError Identificador ja instanciado: d
+13 SemanticoError Identificador ja instanciado: e
+18 SemanticoError Identificador ja instanciado: f
+20 SemanticoError Identificador ja instanciado: g
+22 SemanticoError Identificador ja instanciado: h
+24 SemanticoError Identificador ja instanciado: i
+26 SemanticoError Identificador ja instanciado: j
+32 SemanticoError Identificador ja instanciado: m
+33 SemanticoError Identificador ja instanciado: l
+34 SemanticoError Identificador ja instanciado: l
+36 SemanticoError Identificador ja instanciado: n
+38 SemanticoError Identificador ja instanciado: o
+40 SemanticoError Identificador ja instanciado: p
+47 SemanticoError Identificador ja instanciado: r
+49 SemanticoError Identificador ja instanciado: s
+51 SemanticoError Identificador ja instanciado: t
+53 SemanticoError Identificador ja instanciado: u
+55 SemanticoError Identificador ja instanciado: v
+61 SemanticoError Identificador ja instanciado: w
+63 SemanticoError Identificador ja instanciado: x
+65 SemanticoError Identificador ja instanciado: y
+67 SemanticoError Identificador ja instanciado: z
+69 SemanticoError Identificador ja instanciado: alfabeto

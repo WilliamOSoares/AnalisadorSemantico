@@ -1,3 +1,4 @@
+%Verificação de tipos (em atribuições, retorno de funções, expressões...)
 constantes
 {
   inteiro  x = 1;
@@ -11,24 +12,65 @@ variaveis
    inteiro b;
    inteiro c;
    real w;
-   booleano t;
-   cadeia j;
-   cadeia h;
+   booleano bandeira;
+   inteiro i;
+   char ss;
 }
 
+funcao vazio test1(){
+    retorno w;                                   %funcao vazio com retorno
+}
+
+funcao inteiro test1(inteiro int){
+    retorno int / 9;
+}
+
+funcao inteiro test1(real float){
+    variaveis{
+        inteiro z = 5;
+    }
+    z = w + y;
+    retorno z;
+}
+
+funcao real test2(){
+    retorno 5.5;
+}
+
+
+funcao inteiro[] test4(){
+    variaveis{
+        inteiro vetor[5] = {1,2,3,4,5};
+    }
+    retorno vetor;
+}
+
+
 algoritmo{
-  t = a + b == (5+5);
-  c = b + 5;
-  w = 2.5 - 3.9;
-  b = x * 5;
-  w = y / w;
-  w = y/w+8.5-9.6587;
-  b = 8*9+9*20;
-  a = (5+6*(a+b)/5);
-  t = (b>5) == (5<=5);
-  t = j == h;
-  t = j != j;
-  t = "texto" == h;
-  t = "texto" == "texto2";
-  t = "texto" == 't';
+    a = test1();                   %tipos diferentes
+    b = test1(10);
+    c = test2();                   %Tipo diferentes
+    w = test2();
+
+    enquanto(w != y/w && s == 'g' || s == "diferenciado"){              %erro de tipo s == 'g'
+        se(a > b < 5 > 6){                                              %erro de expressao
+            se(a >= c && bandeira < "falso"){                           %erro de tipo bandeira < "falso"
+                se(bandeira == falso && bandeira == "verdadeiro"){      % erro de tipo bandeira == "verdadeiro"
+                    leia(w,b,c,bandeira);
+                    leia(bandeira);
+                }
+            }
+        }
+    }
+
+    a = s;                    %erro de tipo
+    b = a + s;                %erro de tipo
+    b = bandeira;             %erro de tipo
+
+    a = 5+5/9;
+    w = 5+5+10-9-8;    
+    
+    ss = s;                   %erro de tipo
+    ss = "erro";              %erro de tipo
+    bandeira = false;         %erro ide nao declaradass
 }

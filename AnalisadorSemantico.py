@@ -2171,7 +2171,7 @@ def PARAFIM():
                     buffer = buffer + " " + tuplas[2]
                     proxToken()
                     if(tuplas[2] == '{'):
-                        buffer = buffer + " " + tuplas[2]
+                        buffer = ""
                         proxToken()
                         expressao = False 
                         fator = True 

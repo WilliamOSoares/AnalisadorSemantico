@@ -1,31 +1,60 @@
-%DECLACAO E ATRIBUICAO COM TIPOS DIFERENTES E TESTES DE MATRIZ E VETOR COM INDICE DIFERENTE
+% Duplicidade de funções/procedimentos (sobrecarga)
 
-constantes{
-    inteiro cont = 6.5555;     %tipo diferente
-    real salario = 5.5555555;
-    char letra = "c";          %tipo diferente
+funcao inteiro contar(inteiro init, inteiro fim){
+    variaveis{
+        inteiro aux = 0;
+    }
+    enquanto(init<fim){
+        aux = aux + 1;
+    }
+    retorno aux;
 }
 
-registro a{
-    inteiro b;
+funcao inteiro diferente(){
+    variaveis{
+        real dif = 5.698;
+    }
+    retorno dif;
 }
 
-variaveis{
-    cadeia poli;
-    booleano bandeira = "falso";  %tipo diferente
-    inteiro parcial;
-    inteiro veto[5.55];        %indice difente
-    inteiro vetor[cont];        %indice difente
-    inteiro w[2];
-    a k;
+funcao real banana(cadeia acucar, booleano fome){
+    variaveis{
+        booleano comer = falso;
+    }
+    se(fome == verdadeiro){
+        comer = verdadeiro;
+    }
+}
+
+funcao vazio somar(inteiro num1, inteiro num2){
+    variaveis{
+        inteiro num3;
+    }
+    num3 = num1 + num2;
+    escreva(num3);
+}
+funcao inteiro somar(inteiro num4, inteiro num5, inteiro num6){
+    variaveis{
+        inteiro num7;
+    }
+    num7 = num4 + num5;
+    num7 = num7 + num6;
+    escreva(num7);
 }
 
 algoritmo{
-    poli = falso;     %tipo diferente
-    parcial = "5";      %tipo diferente
-    parcial = 2/0;
-    
-    se(poli == "falso"){
-        escreva("deu ruim");
-    }
+    parcial();
+    contar(5,parcial);  
+    contar(5,10);
+    contar(a,b);                  %parametros inexixtentes
+    contar(5,10,5);               %quantidade errada de parametros
+    contar(8);                    %quantidade errada de parametros
+    contar("teste", 9);           %parametros errados
+    cont(15,20);                  %funcao inexixtente
+    somar(10,20);
+    somar(50,60,70);
+    somar(falso, 5);              %parametros errados
+    somar(50,final, "parcial");   %parametros errados
+    banana("acucar",verdadeiro);
+    diferente();
 }

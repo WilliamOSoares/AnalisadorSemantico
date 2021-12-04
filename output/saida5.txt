@@ -1,8 +1,17 @@
-13 SemanticoError Quantidade de parametros diferentes
-13 SemanticoError Parametros com tipos diferentes
-14 SemanticoError Identificador nao instanciado: dolar
-14 SemanticoError Funcao nao instanciada: dolar
-24 SemanticoError Identificador ja instanciado: dolar
-28 SemanticoError Identificador nao instanciado: americano
-31 SemanticoError Tipos diferentes
-38 SemanticoError Identificador nao instanciado: americano
+12 SemanticoError Impossivel mudar valor de constantes: x
+13 SemanticoError Impossivel mudar valor de constantes: x
+14 SemanticoError Impossivel mudar valor de constantes: x
+14 SemanticoError Divisao explicita por ZERO
+15 SemanticoError Impossivel mudar valor de constantes: x
+16 SemanticoError Impossivel mudar valor de constantes: s
+17 SemanticoError Impossivel mudar valor de constantes: a
+18 SemanticoError Impossivel mudar valor de constantes: b
+18 SemanticoError Identificador nao instanciado: false
+19 SemanticoError Impossivel mudar valor de constantes: y
+22 SemanticoError Identificador ja instanciado: x
+23 SemanticoError Identificador ja instanciado: b
+27 SemanticoError Impossivel mudar valor de constantes: x
+30 SemanticoError Impossivel mudar valor de constantes: x
+32 SemanticoError Erro na expressao. Ponto do erro:  se ( f + 15 >
+35 SemanticoError Erro na expressao. Ponto do erro:  enquanto ( i + 15 >
+38 SemanticoError Erro na expressao. Ponto do erro:  para ( i = 0 ; i + 15 >

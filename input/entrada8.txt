@@ -1,53 +1,52 @@
+%Vetores/matrizes/estruturas  teste
+
 constantes
 {
   inteiro  x = 1;
   cadeia s = "teste";
   real y = 5.3;
+  inteiro vetor[2][2][2] = {3,5,8,9,9,84,5,5},{5,77,7,5},{5,55,5};
 }
 
 variaveis
 {
-   inteiro a;
-   inteiro b;
-   inteiro c;
-   real w;
+   inteiro a[5];
+   inteiro b[5][5][5] = {3,5,8,9,9,84,5,5},{5,77,7,5},{5,55,5};
+   inteiro c[6][6];
+   real w[5];
    booleano bandeira;
    inteiro i;
+   char ss;
+}
+
+registro pessoa{
+    cadeia nome;
+    inteiro datas[5];
+    char sexo;
+    real idade;
 }
 
 algoritmo{
-    se(a>b>c){
-        escreva("teste");
-    }
-    enquanto(bandeira == c && a>c !=bandeira){
-        a = falso + b;
-    }
-    se(a>=w || w>5){
+    pessoa.sexo = 'f';
+    pessoa.sexo = "f";                         %tipos diferentes
+    pessoa.xes = "feminino";                  %variaveis nao existe no registro
+    i[2] = 2;                                 %erro, não eh vetor
+    pessoa.datas[i] = 1;
+    w[w]= 5;                                  %erro indice não é inteiro;
 
+    se(vetor == a){
+        escreva("deu bom");
     }
-    para(i=falso;falso==c>5;i=falso)
-        escreva("erro");
-    
-    se(bandeira == w>a && i== falso || a>b>c>8 ){
-        escreva("errro");
+    enquanto(a[i] > 8 && a[9] != pessoa.datas[5]){
+        escreva("deu ruim");
     }
-    se(verdadeiro == falso == falso && falso != bandeira == falso){
-        escreva("erro");
-    }
-    para(w=1;w<5.5;w=w+1){
-        escreva(i);
-    }
-
-    se(5+5){
-        escreva("teste");
-    }
-    
-    enquanto(bandeira == verdadeiro || w == 5.5+8.896 || a != 9+6.0){
-        para(c = 0; c != 10; c = c -1){
-            se(w>=10.5 || w <= 10.5){
-                w = 56.60+55.89632479;
-            }
+    para(i = 0; w[i]> 5.0; i++){
+        se(w[w]= 5){                         %erro tipo diferente no indice
+            leia(w[w]);                      %erro tipo diferente no indice
+            escreva(w[w]);                   %erro tipo diferente no indice
+            escreva(a);
+            escreva(a[5]);
+            leia(a[6]);
         }
     }
-
 }

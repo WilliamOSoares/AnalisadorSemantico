@@ -1,79 +1,55 @@
+% Duplicidade de identificadores globais
+
 constantes{
-    inteiro a[2][2][2] = {a(),2},{2},{3,2,1};
-    real madrid = "teste";                          % Tipos diferentes
-    booleano t = a(a,a>4,a&&e,true,2+2);            % Funcao inexistente
+    inteiro a = 5;
+    inteiro b[2][2][2] = {8,2},{2},{3,2,1};
+    real madrid = 123.45;                          
+    booleano t = verdadeiro;   
+    char y = 'y';         
+    cadeia o = "a(a,a>4,a&&e,true,2+2)";
 }
 variaveis{
-    inteiro a,b,c;                                  % Variavel "a" já declarada
-    real sociedad[a] = {-1.1,4};                    % Nada de erro
-    inteiro rockstar[8.4] = {1,2};                    % Variavel não existe
+    inteiro e,f,g,a;                                  
+    real sociedad[a];                    
+    inteiro rockstar[8] = {1,2};                    
     real valladolid = 11.1;    
-    inteiro rockstarNorth[valladolid][a] = {1,2},{2.2};      % tipo diferentes
-    cadeia a = False;                               % Variavel "a" já declarada
-    cadeia tl[2][2][2] = {1,2,3},{1,2,3},{"aoba", "opa"};   % Cadeia 3D
+    inteiro rockstarNorth[2][a] = {1,2},{2.2};      
+    cadeia a = "False";                               
+    booleano t,u,w;
+    char h;
 }
 
-funcao vazio soma (inteiro e, inteiro f){
-    variaveis{
-        inteiro l,s,x;                                   
-    }
-	c = e + f;                                      % Variavel "f" não declarada
-    c = j;                                          % j não existe
-    c = "ah";                                       % Tipos diferentes
-    madrid = 2.1;                                   % Mudando valor de constante
-	escreva(c);
-    tl[0][1][2] = "erro";                           % Acesso 3D
-}
-
-funcao inteiro teste (inteiro valladolid){
-}
-
-funcao vazio soma (inteiro f, inteiro e){
-	c = e + f;                                      % Variavel "f" não declarada
-	escreva(c);
-    se(a>b){                                        % "a" e "b" dão de tamanhos diferentes
-        retorno a;
-    }
-    se(a>b){}                                       % Conteudo Vazio
-    retorno c;
-    leia(c);                                        % Warning/Aviso conteúdo nunca atingido
+registro pessoa{
+    cadeia nome;
+    char genero;
+    inteiro idade;
+    real altura;
 }
 
 algoritmo{
-    escreva(a);
-    leia(a.a[2]);                                   % Variavel inexistente
     constantes{
-        inteiro g[2][2][2] = {2,2},{2},{3,2,1};
-        cadeia k = "falso";
-        booleano h = a;    
+        inteiro a = 5;
+        inteiro b[2][2][2] = {8,2},{2},{3,2,1};
+        real madrid = 123.45;                          
+        booleano t = verdadeiro;   
+        char y = 'y';         
+        cadeia o = "a(a,a>4,a&&e,true,2+2)"; 
     }
     variaveis{
-        inteiro u,by,c_;
-        inteiro cj = 1;
-        real NArockstar = 11.1;
-        cadeia p = "teste";
+        inteiro e,f,g,a;                                  
+        real sociedad[a];                    
+        inteiro rockstar[8] = {1,2};                    
+        real valladolid = 11.1;    
+        inteiro rockstarNorth[2][a] = {1,2},{2.2};      
+        cadeia a = "False";                               
+        booleano t,u,w;
+        char h;
     }
-    
-    % OPA eae véi blz?
-    {# jajajaja #}
-    a = 's';                                        % Conversao impropria
-    a(5g);                                       % Funcao inexistente
-    se(a==a){                                       % Pode?
-        escreva(a);
-    }
-    se(b==b){
-        escreva(b);
-    } senao {
-        escreva(a);
-    }
-    enquanto(2>(2>(2>2))){                          % Passa ou fala que dá sempre falso?
-        escreva(c);
-    }
-    para(i=2+2; a==b; i++){                         % há algo de errado aqui?
-        escreva(d);
-    }
-    registro a {                                    % Variavel já existe
-        inteiro a;
-        real mallorca = 1.1;
+
+    registro pessoa{
+        cadeia nome;
+        char genero;
+        inteiro idade;
+        real altura;
     }
 }

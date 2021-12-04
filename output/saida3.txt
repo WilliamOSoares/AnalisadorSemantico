@@ -1,8 +1,20 @@
-20 SyntaxError  a k ;
-04 SemanticoError Tipos diferentes
-06 SemanticoError Tipos diferentes
-15 SemanticoError Tipos diferentes
-17 SemanticoError Tipo diferente: real
-24 SemanticoError Tipos diferentes
-25 SemanticoError Tipos diferentes
-26 SemanticoError Divisao explicita por ZERO
+17 SemanticoError Tipos diferentes
+25 SemanticoError Funcao sem retorno
+42 SemanticoError Funcao sem retorno
+46 SemanticoError Identificador nao instanciado: parcial
+46 SemanticoError Funcao nao instanciada: parcial
+47 SemanticoError Identificador nao instanciado: parcial
+47 SemanticoError Quantidade de parametros diferentes
+49 SemanticoError Identificador nao instanciado: a
+49 SemanticoError Identificador nao instanciado: b
+49 SemanticoError Quantidade de parametros diferentes
+50 SemanticoError Quantidade de parametros diferentes
+51 SemanticoError Quantidade de parametros diferentes
+52 SemanticoError Parametros com tipos diferentes
+53 SemanticoError Identificador nao instanciado: cont
+53 SemanticoError Funcao nao instanciada: cont
+56 SemanticoError Quantidade de parametros diferentes
+56 SemanticoError Parametros com tipos diferentes
+57 SemanticoError Identificador nao instanciado: final
+57 SemanticoError Quantidade de parametros diferentes
+57 SemanticoError Parametros com tipos diferentes

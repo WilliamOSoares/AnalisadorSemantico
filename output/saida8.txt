@@ -1,10 +1,10 @@
-23 SyntaxError  a = falso
-23 SyntaxError  + b ;
-28 SyntaxError  para ( i = falso ;
-28 SyntaxError  falso == c > 5 ;
-28 SyntaxError  i = falso
-28 SyntaxError  )
-19 SemanticoError Erro na expressao. Ponto do erro:  se ( a > b >
-22 SemanticoError Erro na expressao. Ponto do erro:  enquanto ( bandeira == c
-25 SemanticoError Conteudo vazio
-31 SemanticoError Erro na expressao. Ponto do erro:  se ( bandeira == w
+44 SyntaxError  se ( w [ w ] = 5 ) {
+52 SyntaxError Declaracoes Fora de Escopo:  }
+31 SemanticoError Tipos diferentes
+32 SemanticoError Tipos diferentes
+35 SemanticoError Tipo diferente: real
+35 SemanticoError Tipos diferentes
+40 SemanticoError Erro na expressao. Ponto do erro:  enquanto ( a [ i ] > 8 && a [ 9 ] != pessoa
+44 SemanticoError Tipo diferente: real
+45 SemanticoError Tipo diferente: real
+46 SemanticoError Tipo diferente: real

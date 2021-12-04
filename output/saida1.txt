@@ -1,36 +1,27 @@
-60 NMF 5g
-38 SyntaxError  leia ( c ) ;
-02 SemanticoError Funcao nao instanciada: a
-02 SemanticoError O valor deve ser explicito e com um so fator
-03 SemanticoError Tipos diferentes
-04 SemanticoError Identificador nao instanciado: e
-04 SemanticoError Identificador nao instanciado: true
-04 SemanticoError Funcao nao instanciada: a
-04 SemanticoError O valor deve ser explicito e com um so fator
-07 SemanticoError Identificador ja instanciado: a
-09 SemanticoError Tipo diferente: real
-11 SemanticoError Tipo diferente: real
-12 SemanticoError Identificador nao instanciado: False
 12 SemanticoError Identificador ja instanciado: a
-13 SemanticoError Impossivel declarar uma matriz 3D do tipo cadeia
-13 SemanticoError Tipos diferentes, lexema: 1
-21 SemanticoError Identificador nao instanciado: j
-22 SemanticoError Tipos diferentes
-23 SemanticoError Impossivel mudar valor de constantes: madrid
-25 SemanticoError Impossivel declarar uma matriz 3D do tipo cadeia
-28 SemanticoError Identificador do parametro ja existe: valladolid
-28 SemanticoError Conteudo vazio
-28 SemanticoError Funcao sem retorno
-31 SemanticoError Identificador ja instanciado: soma
-32 SemanticoError Identificador nao instanciado: e
-32 SemanticoError Identificador nao instanciado: f
-35 SemanticoError Funcao vazio com retorno
-37 SemanticoError Conteudo vazio
-38 SemanticoError Funcao vazio com retorno
-44 SemanticoError Erro de acesso: a.a
-48 SemanticoError Tipos diferentes
-59 SemanticoError Impossivel mudar valor de constantes: a
-60 SemanticoError Funcao nao instanciada: a
-69 SemanticoError Erro na expressao. Ponto do erro:  enquanto ( 2 > ( 2 > ( 2 > 2 )
-75 SemanticoError Identificador ja instanciado: a
-76 SemanticoError Identificador ja instanciado: a
+17 SemanticoError Identificador ja instanciado: a
+18 SemanticoError Identificador ja instanciado: t
+31 SemanticoError Identificador ja instanciado: a
+32 SemanticoError Identificador ja instanciado: b
+33 SemanticoError Identificador ja instanciado: madrid
+34 SemanticoError Identificador ja instanciado: t
+35 SemanticoError Identificador ja instanciado: y
+36 SemanticoError Identificador ja instanciado: o
+39 SemanticoError Identificador ja instanciado: e
+39 SemanticoError Identificador ja instanciado: f
+39 SemanticoError Identificador ja instanciado: g
+39 SemanticoError Identificador ja instanciado: a
+40 SemanticoError Identificador ja instanciado: sociedad
+41 SemanticoError Identificador ja instanciado: rockstar
+42 SemanticoError Identificador ja instanciado: valladolid
+43 SemanticoError Identificador ja instanciado: rockstarNorth
+44 SemanticoError Identificador ja instanciado: a
+45 SemanticoError Identificador ja instanciado: t
+45 SemanticoError Identificador ja instanciado: u
+45 SemanticoError Identificador ja instanciado: w
+46 SemanticoError Identificador ja instanciado: h
+49 SemanticoError Identificador ja instanciado: pessoa
+50 SemanticoError Identificador ja instanciado: nome
+51 SemanticoError Identificador ja instanciado: genero
+52 SemanticoError Identificador ja instanciado: idade
+53 SemanticoError Identificador ja instanciado: altura

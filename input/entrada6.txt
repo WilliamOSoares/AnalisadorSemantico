@@ -1,3 +1,4 @@
+%CHAMDA DE FUNCAO TESTES
 constantes
 {
   inteiro  x = 1;
@@ -11,116 +12,77 @@ variaveis
    inteiro b;
    inteiro c;
    real w;
+   booleano bandeira;
+   inteiro i;
+}
+
+funcao real teste1(inteiro int, real float){
+    variaveis{
+        inteiro aux;
+        inteiro j;
+    }
+    para(j = 0; j<0; j = j+1){
+        se(j == 5){
+            retorno aux;                          %retorno diferente
+        }
+    }
+    retorno float;
+}
+
+funcao real teste1(real flutuante, inteiro interado){
+
+    se(flutuante == 5.0 && interado == 5/9){
+        retorno flutuante;
+    }
+    %falta o retorno
+}
+
+funcao cadeia teste2(){
+    retorno "aprovado";
+}
+
+funcao cadeia teste2(booleano flag){
+    flag = falso;
+    se(flag == verdadeiro){
+        retorno "aprovado";
+    }
+    enquanto(flag){
+        flag = verdadeiro;
+    }
+    retorno "reprovado";
+}
+
+funcao inteiro teste1(real flu, inteiro intera){   %funcao ja existe
+   retorno 1;
+}
+
+funcao real teste1(real realidade, inteiro metade, char sexo){
+    para(realidade = realidade + 5; realidade == 5.55; realidade = realidade + 5.59){
+        se(sexo == 'f'){
+            escreva("feminino");
+        }
+        retorno realidade;
+    }
 }
 
 algoritmo{
-    se ( a > d[1] ) 
-    {
-    a = b;
-    }
-    se ( (verdadeiro == x) && (falso == y) ) 
-    {
-    a = b;
-    }
-    se ( (a < b) || (c < w) ) 
-    {
-    a = b;
-    }
-    
-    
-    se ( a > )                         %falta varaivel para comparacao
-    
-    a = b;
-    
-    se ( (verdadeiro == x) && )        %falta outro termo para comparacao
-    
-    a = b;
-    
-    se (  || (c < w) )                 %falta outro termo para comparacao
-    
-    a = b;
-    
+    teste1(a, 6.654545465656546565646656546546546465464654654656546565656565656546565465465465656565);
+    teste1(6.56484, 5+6);
+    teste1(6, w);                             
+    somar();                                   %funcao inexistente
+    teste2();
+    teste2('t');
+    teste2(a,falso,w,bandeira);                %Quantidade de paramentros diferente
 
-    
-    se ( a > c ) 
-    {
-        w = 5.4;
-    }
-    senao
-    {
-        w = 2.4;
-    }
-
-    
-    se ( a > c ) 
-    {
-        w = 5.4;
-                                        %falta chave
-    senao
-                                        %falta chave
-        w = 2.4;
-    
-
-
-    se ( a > c ) 
-    {
-        w = 5.4;
-    }
-    senao
-    
-        w = 2.4;
-                                        %falta chave
-
-    
-    se ( a > c ) 
-    {
-    w = 5.4;
-    }
-    senao
-    {
-        se ( a > c ) 
-        {
-        w = 5.4;
-        }
-        senao
-        {
-            w = 2.4;
+    enquanto(5 == w){
+        para(a = 0; b>5; b = b+5){
+            se(5+9/9 == w){
+                escreva('m');
+                retorno w;                     % retorno errado
+            }
+            senao{
+                escreva('f');
+            }
         }
     }
-
-
-    enquanto (a > 7)
-    {
-    a = 2;
-    se ( a > 2 )
-        {
-        w = 5.4;
-    }
-    senao
-    {
-        w = 2.4;
-    }
-    }
-
-
-    enquanto (a > 7                         %falta parentesse
-    {
-    a = 2;
-    se ( a > 2 )
-        {
-        w = 5.4;
-    }
-    senao
-    {
-        w = 2.4;
-    }
-    }
-
-
-    enquanto (a > 7)
-    {
-    a = 2;                                   %Falta uma chave
-    }
-
-
 }
