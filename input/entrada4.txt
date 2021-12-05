@@ -29,7 +29,7 @@ algoritmo{
         se(m && c){
             b = 3.5 + 2 * (1 - 5);
             a = (1+1)*5;
-            c = (1+1)*5==6;
+            c = (1+1)>5&&-a==-2;
         }
     }
     enquanto(verdadeiro){

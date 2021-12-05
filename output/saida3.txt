@@ -1,6 +1,6 @@
 17 SemanticoError Tipos diferentes
-25 SemanticoError Funcao sem retorno
-42 SemanticoError Funcao sem retorno
+26 SemanticoError Funcao sem retorno
+43 SemanticoError Funcao sem retorno
 46 SemanticoError Identificador nao instanciado: parcial
 46 SemanticoError Funcao nao instanciada: parcial
 47 SemanticoError Identificador nao instanciado: parcial

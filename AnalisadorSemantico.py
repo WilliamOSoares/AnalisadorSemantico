@@ -41,6 +41,7 @@ dentroParen = False # se false não tá dentro do parenteses, se for True, te de
 verifexpress = True # Se true verifica expressão, se false já tem erro
 bufferExpressao = ""
 tipoChamada = ""
+seSenao = "" #verifica retorno de se e senao, se é pra retorna e entra no se e tem retorno vira "se", se tem se e entra no senao "senao", se teve retorno nos 2 vira "ok"
 
 # Abertura do arquivo
 def input():
@@ -711,7 +712,7 @@ def mantemToken():
 ########################################### Analise Sintatica ###############################################
 
 def START():
-    global tuplas, buffer, linha, escopo, tipo, ide, tabela, retorno, retornado
+    global tuplas, buffer, linha, escopo, tipo, ide, tabela, retorno, retornado, seSenao
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -738,8 +739,10 @@ def START():
             mantemToken()
         buffer = ""
         if(retorno and not(retornado)):
-            output(int(linha), "SemanticoError", "Funcao sem retorno")
-            mantemToken()
+            if(seSenao != "OK"):
+                output(int(linha)+1, "SemanticoError", "Funcao sem retorno")
+                mantemToken()
+                seSenao=""
         retorno = False
         retornado = False
         START()
@@ -814,7 +817,7 @@ def START():
         return 0
 
 def A():
-    global tuplas, buffer, linha, escopo, tipo, ide, retorno, retornado
+    global tuplas, buffer, linha, escopo, tipo, ide, retorno, retornado, seSenao
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -841,8 +844,10 @@ def A():
             mantemToken()
         buffer = ""
         if(retorno and not(retornado)):
-            output(int(linha), "SemanticoError", "Funcao sem retorno")
-            mantemToken()
+            if(seSenao != "OK"):
+                output(int(linha)+1, "SemanticoError", "Funcao sem retorno")
+                mantemToken()
+                seSenao=""
         retorno = False
         retornado = False
         A()
@@ -905,7 +910,7 @@ def A():
         mantemToken()
         return 0
 def B():
-    global tuplas, buffer, linha, escopo, tipo, ide, retorno, retornado
+    global tuplas, buffer, linha, escopo, tipo, ide, retorno, retornado, seSenao
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -932,8 +937,10 @@ def B():
             mantemToken()
         buffer = ""
         if(retorno and not(retornado)):
-            output(int(linha), "SemanticoError", "Funcao sem retorno")
-            mantemToken()
+            if(seSenao != "OK"):
+                output(int(linha)+1, "SemanticoError", "Funcao sem retorno")
+                mantemToken()
+                seSenao=""
         retorno = False
         retornado = False
         B()
@@ -996,7 +1003,7 @@ def B():
         mantemToken()
         return 0
 def C():
-    global tuplas, buffer, linha, escopo, tipo, ide, retorno, retornado
+    global tuplas, buffer, linha, escopo, tipo, ide, retorno, retornado, seSenao
     escopo = "global"
     if(tuplas[2] == "algoritmo"):
         buffer = buffer + " " + tuplas[2]
@@ -1023,8 +1030,10 @@ def C():
             mantemToken()
         buffer = ""
         if(retorno and not(retornado)):
-            output(int(linha), "SemanticoError", "Funcao sem retorno")
-            mantemToken()
+            if(seSenao != "OK"):
+                output(int(linha)+1, "SemanticoError", "Funcao sem retorno")
+                mantemToken()
+                seSenao=""
         retorno = False
         retornado = False
         C()
@@ -1105,7 +1114,7 @@ def ALGORITMO():
     return 0
         
 def CONTEUDO():
-    global tuplas, iterador, dados, buffer, linha, tipo, ide, tabela, atribu, chamada, vetorial, fator, expressao, verifexpress, ultipo, algeb, dentroParen, bufferExpressao, tipoChamada
+    global tuplas, iterador, dados, buffer, linha, tipo, ide, tabela, atribu, chamada, vetorial, fator, expressao, verifexpress, ultipo, algeb, dentroParen, bufferExpressao, tipoChamada, retorno, retornado, seSenao
     atribu=True
     vetorial = False 
     expressao = False 
@@ -1240,8 +1249,14 @@ def CONTEUDO():
     elif(tuplas[2] == "se"): 
         buffer = buffer + " " + tuplas[2]
         linha = tuplas[0]
-        proxToken()            
+        proxToken()     
+        retornoAux = retorno
+        retornadoAux = retornado
+        if(retorno and seSenao!="OK"):
+            seSenao = "SE"
         i = SE()
+        retorno = retornoAux
+        retornado = retornadoAux
         if(i == 1):    
             errado = False
             if(not(len(buffer)==0)):          
@@ -1287,8 +1302,12 @@ def CONTEUDO():
     elif(tuplas[2] == "enquanto"): 
         buffer = buffer + " " + tuplas[2]
         linha = tuplas[0]
-        proxToken()            
+        proxToken()   
+        retornoAux = retorno
+        retornadoAux = retornado
         i = ENQUANTO()
+        retorno = retornoAux
+        retornado = retornadoAux
         if(i == 1):    
             errado = False
             if(not(len(buffer)==0)):          
@@ -1334,8 +1353,12 @@ def CONTEUDO():
     elif(tuplas[2] == "para"): 
         buffer = buffer + " " + tuplas[2]
         linha = tuplas[0]
-        proxToken()            
+        proxToken()       
+        retornoAux = retorno
+        retornadoAux = retornado     
         i = PARA()
+        retorno = retornoAux
+        retornado = retornadoAux
         if(i == 1):    
             errado = False
             if(not(len(buffer)==0)):          
@@ -1446,6 +1469,7 @@ def CONTEUDO():
             buffer = ""
             if(tuplas[2] == "}"):
                 buffer = ""
+                linha = tuplas[0]
                 proxToken()
                 return 0
             else:
@@ -2079,7 +2103,7 @@ def SE():
         return 1
 
 def SENAO():
-    global tuplas, buffer, linha, expressao, fator, vetorial
+    global tuplas, buffer, linha, expressao, fator, vetorial, seSenao
     if(tuplas[2] == 'senao'):
         buffer = buffer + " " + tuplas[2]
         proxToken()
@@ -2089,6 +2113,8 @@ def SENAO():
             expressao = False 
             fator = True 
             vetorial = False 
+            if(seSenao=="SE"):
+                seSenao =""
             return CONTEUDO()
         else:
             expressao = False 
@@ -2867,12 +2893,16 @@ def PARANCONT():
         return 1
 
 def RETORNO():
-    global tuplas, buffer, linha, retorno, retornado, expressao, fator, vetorial, chamada, linha, tabela, tipo, dados, iterador, tipoChamada
+    global tuplas, buffer, linha, retorno, retornado, expressao, fator, vetorial, chamada, linha, tabela, tipo, dados, iterador, tipoChamada, seSenao
     i = VALOR()
     if(i==0): 
         if(tuplas[2]==";" and linha == tuplas[0]):
             buffer = buffer + " " + tuplas[2]
             if(retorno):
+                if(seSenao == "SE" and seSenao!="OK"):
+                    seSenao = "SENAO"
+                elif(seSenao == "SENAO" and seSenao!="OK"):
+                    seSenao = "OK"
                 retornado = True
                 i = len(tabela)-1
                 primeiro = True
@@ -3164,7 +3194,7 @@ def VARIAVEIS():
         buffer = buffer + " " + tuplas[2]
         proxToken()
         i = VAR()
-        if(i == 1):    
+        if(i == 1):
             errado = False
             if(not(len(buffer)==0)):      
                 errado = True
@@ -3858,7 +3888,7 @@ def VALOR():
     return 1
 
 def NEGATIVO():
-    global tuplas, buffer, linha, ultipo, verifexpress, fator, algeb
+    global tuplas, buffer, linha, ultipo, verifexpress, fator, algeb, dados, iterador
     if(tuplas[1]== "NRO" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         y = tuplas[2].find(".")
@@ -3870,9 +3900,10 @@ def NEGATIVO():
             if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo=="real")):
                 verifexpress = True
             else:
-                verifexpress = False
-                output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
-                mantemToken()
+                if(dados[iterador][2]==")" or dados[iterador][2]==";"):
+                    verifexpress = False
+                    output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
+                    mantemToken()
         x = tuplas[2].find(".")
         if(x<0):
             ultipo = "inteiro"
@@ -3894,9 +3925,10 @@ def NEGATIVO():
                         if((algeb=="ari" or algeb=="rll" or algeb=="rel") and (ultipo=="inteiro" or ultipo=="real") and (sup=="inteiro"or sup=="real")):
                             verifexpress = True
                         else:
-                            verifexpress = False
-                            output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
-                            mantemToken()
+                            if(dados[iterador][2]==")" or dados[iterador][2]==";"):
+                                verifexpress = False
+                                output(int(linha), "SemanticoError", "Erro na expressao. Ponto do erro: "+ buffer)
+                                mantemToken()
                     ultipo = tabela[chave].get("TIPO","não foi")
                 else:
                     verifexpress = False
@@ -4861,7 +4893,8 @@ try:
     shutil.rmtree("output")
     os.mkdir("output")        
 except:    
-    print("Erro na manipulação da pasta output!")
+    print("Erro na manipulação da pasta output! Por favor crie a pasta output manualmente")
+    endRead=True
 pastas = os.listdir()
 for x in pastas:
 	if(x == "input"):
@@ -4871,6 +4904,7 @@ if(flag):
 else:    
     while(not(endRead)):
         entrada = input()
+        flagSintax = False
         if(not(entrada=="")):
             flagSintax = True
             while 1:
