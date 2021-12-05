@@ -4766,6 +4766,7 @@ def EXPATRIBUICAO():
 
 def EXPATRIBUICAOB():
     global tuplas, buffer, linha, ide, chamada, algeb, ultipo, verifexpress, dentroParen, bufferExpressao
+    auxExpr = len(buffer)
     if(tuplas[1]=="IDE" and linha == tuplas[0]):
         buffer = buffer + " " + tuplas[2]
         if(dentroParen):
@@ -4802,7 +4803,21 @@ def EXPATRIBUICAOB():
                 return EXPRESSAOCONTB()
         return i
     else:
-        return EXPRESSAOB()
+        i = EXPRESSAOB()
+        if(i==0):
+            bufferA = buffer[auxExpr:len(buffer)]
+            if(bufferA.find("||")>0 or bufferA.find("&&")>0 or bufferA.find("==")>0 or bufferA.find("!=")>0 or bufferA.find(">=")>0 or bufferA.find("<=")>0 or bufferA.find("<")>0 or bufferA.find(">")>0):
+                verifexpress=True 
+            else:
+                if((tuplas[2]=="*" or tuplas[2]=="/" or tuplas[2]=="+" or tuplas[2]=="-") and linha == tuplas[0]):
+                    algeb="ari"
+                    i == EXPARITMETICACONT()
+                    if(i==0):
+                        if((tuplas[2]=="&&" or tuplas[2]=="||" or tuplas[2]=="==" or tuplas[2]=="!=" or tuplas[2]=="<=" or tuplas[2]==">=" or tuplas[2]=="<" or tuplas[2]==">") and linha == tuplas[0]):
+                            return EXPRESSAOCONTB()
+                        else:
+                            return 0
+        return i
 
 def EXPATRIBUICAOCONT():    
     global tuplas, buffer, linha, algeb, ultipo, verifexpress, dentroParen, bufferExpressao

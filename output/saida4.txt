@@ -1,5 +1,3 @@
-31 SyntaxError  a = ( 1 + 1 )
-31 SyntaxError  * 5 ;
 04 SemanticoError Identificador nao instanciado: a
 05 SemanticoError Identificador nao instanciado: b
 06 SemanticoError Identificador nao instanciado: c
@@ -17,8 +15,8 @@
 27 SemanticoError Funcao nao instanciada: l
 27 SemanticoError Tipos diferentes
 29 SemanticoError Identificador nao instanciado: m
-35 SemanticoError Identificador nao instanciado: n
-35 SemanticoError Identificador nao instanciado: o
-36 SemanticoError Identificador nao instanciado: p
-38 SemanticoError Identificador nao instanciado: q
-39 SemanticoError Identificador nao instanciado: i
+36 SemanticoError Identificador nao instanciado: n
+36 SemanticoError Identificador nao instanciado: o
+37 SemanticoError Identificador nao instanciado: p
+39 SemanticoError Identificador nao instanciado: q
+40 SemanticoError Identificador nao instanciado: i
