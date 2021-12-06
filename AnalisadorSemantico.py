@@ -1578,9 +1578,14 @@ def CONTEUDO():
                                                     output(int(linha), "SemanticoError", "Tipos diferentes")
                                                     mantemToken()  
                                             else:
-                                                if(not(tipo == "inteiro" or tipo == "real")):
-                                                    output(int(linha), "SemanticoError", "Tipos diferentes")
-                                                    mantemToken()
+                                                if(bufferA.find(".")>0):
+                                                    if(tipo != "real"):
+                                                        output(int(linha), "SemanticoError", "Tipos diferentes")
+                                                        mantemToken()
+                                                else:
+                                                    if(tipo != "inteiro"):
+                                                        output(int(linha), "SemanticoError", "Tipos diferentes")
+                                                        mantemToken()
                                 elif(not(chamada=="")):
                                     if(tipo!=tipoChamada):
                                         output(int(linha), "SemanticoError", "Tipos diferentes")
@@ -1790,9 +1795,14 @@ def CONTEUDO():
                                                 output(int(linha), "SemanticoError", "Tipos diferentes")
                                                 mantemToken()  
                                         else:
-                                            if(not(tipo == "inteiro" or tipo == "real")):
-                                                output(int(linha), "SemanticoError", "Tipos diferentes")
-                                                mantemToken()
+                                            if(bufferA.find(".")>0):
+                                                if(tipo != "real"):
+                                                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                                                    mantemToken()
+                                            else:
+                                                if(tipo != "inteiro"):
+                                                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                                                    mantemToken()
                                     #else:
                                         #print("É expressão aritmética ou chamada de função")
                             elif(not(chamada=="")):
@@ -2894,6 +2904,7 @@ def PARANCONT():
 
 def RETORNO():
     global tuplas, buffer, linha, retorno, retornado, expressao, fator, vetorial, chamada, linha, tabela, tipo, dados, iterador, tipoChamada, seSenao
+    auxExpr = len(buffer)
     i = VALOR()
     if(i==0): 
         if(tuplas[2]==";" and linha == tuplas[0]):
@@ -2961,14 +2972,20 @@ def RETORNO():
                             mantemToken()  
                     else:
                         if(expressao): #and not(tipo == "booleano")):
-                            if(buffer.find("||")>0 or buffer.find("&&")>0 or buffer.find("==")>0 or buffer.find("!=")>0 or buffer.find(">=")>0 or buffer.find("<=")>0 or buffer.find("<")>0 or buffer.find(">")>0):
+                            bufferA = buffer[auxExpr:len(buffer)]
+                            if(bufferA.find("||")>0 or bufferA.find("&&")>0 or bufferA.find("==")>0 or bufferA.find("!=")>0 or bufferA.find(">=")>0 or bufferA.find("<=")>0 or bufferA.find("<")>0 or bufferA.find(">")>0):
                                 if(tipo != "booleano"):
                                     output(int(linha), "SemanticoError", "Tipos diferentes")
                                     mantemToken()  
                             else:
-                                if(not(tipo == "inteiro" or tipo == "real")):
-                                    output(int(linha), "SemanticoError", "Tipos diferentes")
-                                    mantemToken() 
+                                if(bufferA.find(".")>0):
+                                    if(tipo != "real"):
+                                        output(int(linha), "SemanticoError", "Tipos diferentes")
+                                        mantemToken()
+                                else:
+                                    if(tipo != "inteiro"):
+                                        output(int(linha), "SemanticoError", "Tipos diferentes")
+                                        mantemToken()
                         #else:
                         #   print("É expressão aritmética ou chamada de função")
                 elif(not(chamada=="")):
@@ -3316,9 +3333,14 @@ def VARCONT():
                                 output(int(linha), "SemanticoError", "Tipos diferentes")
                                 mantemToken()  
                         else:
-                            if(not(tipo == "inteiro" or tipo == "real")):
-                                output(int(linha), "SemanticoError", "Tipos diferentes")
-                                mantemToken()                    
+                            if(bufferA.find(".")>0):
+                                if(tipo != "real"):
+                                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                                    mantemToken()
+                            else:
+                                if(tipo != "inteiro"):
+                                    output(int(linha), "SemanticoError", "Tipos diferentes")
+                                    mantemToken()                   
             elif(not(chamada=="")):
                 if(tipo!=tipoChamada):
                     output(int(linha), "SemanticoError", "Tipos diferentes")

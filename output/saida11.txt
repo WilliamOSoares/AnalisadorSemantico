@@ -1,0 +1,31 @@
+19 SyntaxError  variaveis {
+20 SyntaxError  filhos [ 10 ] ;
+22 SyntaxError Declaracoes Fora de Escopo:  }
+30 SyntaxError  registro meu_reg reg ;
+35 SyntaxError  leia ( reg . filhos [ '0' ] ) ;
+06 SemanticoError Identificador do parametro ja existe: a
+06 SemanticoError Identificador do parametro ja existe: b
+08 SemanticoError Identificador ja instanciado: soma
+10 SemanticoError Impossivel mudar valor de constantes: soma
+14 SemanticoError Conteudo vazio
+32 SemanticoError Impossivel mudar valor de constantes: soma
+33 SemanticoError Tipo diferente: real
+35 SemanticoError Identificador nao instanciado: reg
+35 SemanticoError Variavel nao existe: filhos
+36 SemanticoError Identificador nao instanciado: reg
+36 SemanticoError Variavel nao existe: filhos
+38 SemanticoError Erro na expressao. Ponto do erro:  se ( 4 + 3 - 1 * 2 / 4 >=
+39 SemanticoError Tipo diferente: real
+39 SemanticoError Tipos diferentes
+41 SemanticoError Identificador nao instanciado: ans
+42 SemanticoError Identificador nao instanciado: ans
+42 SemanticoError Identificador nao instanciado: false
+49 SemanticoError Erro na expressao. Ponto do erro:  se ( a &&
+73 SemanticoError Impossivel mudar valor de constantes: a
+74 SemanticoError Impossivel mudar valor de constantes: b
+75 SemanticoError Identificador nao instanciado: c
+76 SemanticoError Identificador nao instanciado: d
+76 SemanticoError Identificador nao instanciado: c
+80 SemanticoError Identificador nao instanciado: outra_funcao
+80 SemanticoError Funcao nao instanciada: outra_funcao
+81 SemanticoError Funcao vazio com retorno

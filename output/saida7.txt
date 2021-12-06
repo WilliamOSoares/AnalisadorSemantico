@@ -8,6 +8,7 @@
 66 SemanticoError Tipos diferentes
 67 SemanticoError Erro na expressao. Ponto do erro:  b = a + s
 68 SemanticoError Tipos diferentes
+71 SemanticoError Tipos diferentes
 73 SemanticoError Tipos diferentes
 74 SemanticoError Tipos diferentes
 75 SemanticoError Identificador nao instanciado: false

@@ -1,0 +1,50 @@
+% teste de funções
+
+funcao booleano divisivel(inteiro n){
+    retorno (n/2) == 0;
+}
+% sobrecarga de função
+funcao inteiro divisivel(inteiro n, inteiro m){
+    variaveis{
+        real r;
+    }
+    retorno 2+r+1;
+}
+
+funcao cadeia string(cadeia a){
+    variaveis{
+        char c;
+    }
+    retorno c;
+}
+
+funcao char caracter(cadeia a){
+    variaveis{
+        cadeia c;
+    }
+    retorno c;
+}
+
+funcao vazio faznada(inteiro n){
+    retorno n;
+}
+
+funcao vazio faznada(){
+    retorno;
+} 
+
+funcao real faznada(real n){
+    n = n;
+}
+
+algoritmo {
+    variaveis{
+        inteiro n, m, a, ans;
+    }
+    leia(n);
+    ans = divisivel(n);
+    ans = divisivel(n,a);
+
+    ans = soma(n);
+    escreva(ans);
+}

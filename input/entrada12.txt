@@ -1,0 +1,17 @@
+% teste de expressões
+algoritmo {
+    variaveis {
+        inteiro a=0, ans;
+        real b;
+        booleano c;
+        char d;
+        cadeia e;   
+    }
+    ans = b/0;
+    a = b + 3.2;
+    b = a + 2;
+    c = a > b;
+    c = a || b;
+    ans = a * 2 + b;
+    
+}

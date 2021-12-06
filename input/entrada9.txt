@@ -1,0 +1,19 @@
+% teste de declaração e atribuição de variaveis
+variaveis {
+	real a = 1.2;
+	inteiro vetorc[a] = {2.2, 2}; 
+}
+algoritmo {	
+	variaveis {
+		inteiro b = 12.2;
+		inteiro pontos[10];
+		inteiro i = 0;
+		real j = 1.2;
+	}
+	i = 1.2;
+	c[j] = 1;
+	para (i=0; i<10; i++){
+		pontos[i] = '2';
+	}
+	
+}

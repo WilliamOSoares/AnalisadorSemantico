@@ -1,0 +1,82 @@
+constantes {
+    inteiro soma = 10;
+    inteiro a = 1, b = 2;
+}
+
+funcao inteiro minha_funcao(inteiro a, inteiro b) {
+    variaveis {
+        inteiro soma = 0;
+    }
+    soma = a + b;
+    retorno soma;
+}
+
+funcao inteiro minha_funcao() {
+
+}
+
+registro meu_reg {
+    variaveis {
+        inteiro filhos[10];
+    }
+}
+
+algoritmo {
+    variaveis {
+        real j=2.2;
+        inteiro i;
+        inteiro pontos[10];
+        inteiro vetor[1][1][1];
+        registro meu_reg reg; 
+    }
+    soma = i+j;
+    escreva(vetor[j]);
+    escreva(vetor[0][0][0]);
+    leia(reg.filhos['0']);
+    escreva(reg.filhos[0]);
+
+    se (4+3-1*2/4 >= a) {
+        pontos[j] = 2.3; 
+    } 
+    se (ans){
+        ans = false;
+    } senao {
+        se (a == 2) {
+            escreva("yes2");
+        }
+    }
+
+    se (a && b){
+        escreva("yes1");
+    } senao {
+        se (a == 2 || b == 2) {
+            escreva("yes2");
+        }
+    }
+
+    para(i=0; i<10; i++){
+        escreva("loop crescente");
+    }
+    para(i=10; i>=0; i--){
+        escreva("loop decrescente");
+    }
+    para(i=a;i;i=falso){
+        escreva("loop com booleano");
+    }
+
+    enquanto(verdadeiro){
+        escreva("loop infinito");
+    }
+    enquanto((4+3-1*2/4)){
+        escreva("loop infinito");
+    }
+    a = 2+2;
+    b = a+2;
+    c = a+b;
+    d = a + b + c; 
+
+    i = minha_funcao(a,b);
+
+    i = outra_funcao();
+    retorno 0;
+}
