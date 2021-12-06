@@ -1,7 +1,0 @@
-04 SemanticoError Tipo diferente: real
-04 SemanticoError Tipos diferentes, lexema: 2.2
-08 SemanticoError Tipos diferentes
-13 SemanticoError Tipos diferentes
-14 SemanticoError Identificador nao instanciado: c
-14 SemanticoError Tipo diferente: real
-16 SemanticoError Tipos diferentes

@@ -4078,7 +4078,7 @@ def EXPRESSAOCONTB():
                     if(algeb=="rel" or algeb=="rll"): #or algeb=="log"):
                         ultipo="booleano" 
                     verifexpress = True
-                elif((tuplas[2]=="<=" or tuplas[2]==">=" or tuplas[2]=="<" or tuplas[2]==">") and (ultipo == "inteiro" or ultipo == "real") and not(algeb=="ari") and not(algeb=="rel")):
+                elif((tuplas[2]=="<=" or tuplas[2]==">=" or tuplas[2]=="<" or tuplas[2]==">") and (ultipo == "inteiro" or ultipo == "real") and not(algeb=="rel")): 
                     verifexpress = True
                 else:
                     verifexpress = False

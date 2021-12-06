@@ -12,6 +12,3 @@
 23 SemanticoError Identificador ja instanciado: b
 27 SemanticoError Impossivel mudar valor de constantes: x
 30 SemanticoError Impossivel mudar valor de constantes: x
-32 SemanticoError Erro na expressao. Ponto do erro:  se ( f + 15 >
-35 SemanticoError Erro na expressao. Ponto do erro:  enquanto ( i + 15 >
-38 SemanticoError Erro na expressao. Ponto do erro:  para ( i = 0 ; i + 15 >

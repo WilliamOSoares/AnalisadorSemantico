@@ -1,7 +1,0 @@
-33 SyntaxError  retorno ;
-18 SemanticoError Tipos diferentes
-25 SemanticoError Tipos diferentes
-29 SemanticoError Funcao vazio com retorno
-45 SemanticoError Tipos diferentes
-48 SemanticoError Identificador nao instanciado: soma
-48 SemanticoError Funcao nao instanciada: soma

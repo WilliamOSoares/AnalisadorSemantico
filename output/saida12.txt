@@ -1,4 +1,0 @@
-10 SemanticoError Divisao explicita por ZERO
-11 SemanticoError Tipos diferentes
-12 SemanticoError Tipos diferentes
-14 SemanticoError Erro na expressao. Ponto do erro:  c = a ||
